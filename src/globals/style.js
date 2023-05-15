@@ -3,7 +3,8 @@ module.exports = {
         bgColor:"#ff4242",
         color1:"white",
         text1:"red",
-        text2:"gray"
+        text2:"gray",
+        text3:"black"
     },
     titles : {
         title1 :30,
@@ -24,5 +25,17 @@ module.exports = {
         borderBottomColor : '#E0e0E0',
         borderBottomWidth : 1,
         marginVertical : 20
+    },
+    veg:{
+        backgroundColor:"green",
+        width:20,
+        height:20,
+        borderRadius:5,
+    },
+    nonVeg:{
+        backgroundColor:"red",
+        width:20,
+        height:20,
+        borderRadius:5,
     }
 }

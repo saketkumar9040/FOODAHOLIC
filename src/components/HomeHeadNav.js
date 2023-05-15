@@ -51,8 +51,9 @@ const styles = StyleSheet.create({
   middleContainer: {
     flexDirection: "row",
     width: "55%",
+    marginLeft:30,
     alignItems: "center",
-    justifyContent: "space-between",
+    // justifyContent: "space-between",
   },
   myText: {
     color: colors.color1,

@@ -10,31 +10,27 @@ import {
 const Categories = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.head}>Categories</Text>
+      <Text style={styles.head}>{"Categories"+" >>>"}</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <View style={styles.card}>
-          <FontAwesome5 name="hamburger" size={45} color="white" />
-          <Text style={styles.foodText}>Burger</Text>
+          <MaterialCommunityIcons name="food-apple-outline" size={35} color="white" />
+          <Text style={styles.foodText}>starters</Text>
         </View>
         <View style={styles.card}>
-          <FontAwesome5 name="pizza-slice" size={45} color="white" />
-          <Text style={styles.foodText}>Pizza</Text>
+          <MaterialCommunityIcons name="food-variant" size={35} color="white" />
+          <Text style={styles.foodText}>Breakfast</Text>
         </View>
         <View style={styles.card}>
-          <MaterialCommunityIcons name="noodles" size={45} color="white" />
-          <Text style={styles.foodText}>Noodles</Text>
+          <MaterialIcons name="lunch-dining" size={35} color="white" />
+          <Text style={styles.foodText}>Lunch</Text>
         </View>
         <View style={styles.card}>
-          <MaterialIcons name="emoji-food-beverage" size={45} color="white" />
-          <Text style={styles.foodText}>Beverage</Text>
+          <MaterialIcons name="dinner-dining" size={35} color="white" />
+          <Text style={styles.foodText}>Dinner</Text>
         </View>
         <View style={styles.card}>
-          <MaterialCommunityIcons name="food-turkey" size={45} color="white" />
-          <Text style={styles.foodText}>Chicken</Text>
-        </View>
-        <View style={styles.card}>
-          <MaterialIcons name="icecream" size={45} color="white" />
-          <Text style={styles.foodText}>Icecream</Text>
+          <FontAwesome5 name="glass-cheers" size={35} color="white" />
+          <Text style={styles.foodText}>Liquid</Text>
         </View>
       </ScrollView>
     </View>
@@ -45,30 +41,27 @@ export default Categories;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
-    width: "95%",
-    borderRadius: 10,
-    alignItems: "center",
+    marginTop: 6,
+    width: "100%",
+    // alignItems: "center",
   },
   head: {
     color: colors.color1,
-    fontSize: 20,
-    fontWeight: 400,
-    padding: 5,
-    marginBottom: 18,
-    borderBottomColor: colors.color1,
-    borderBottomWidth: 2,
-    borderTopColor:colors.color1,
-    borderTopWidth:2,
+    fontSize: 23,
+    fontWeight: 500,
+    marginBottom: 10,
+    marginLeft:20,
   },
   card:{
     margin:10,
+    marginLeft:20,
     alignItems:"center",
     justifyContent:"center"
   },
   foodText: {
     color: colors.color1,
-    fontWeight:600,
+    fontSize:13,
+    fontWeight:300,
   },
 
 });

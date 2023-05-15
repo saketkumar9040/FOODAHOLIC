@@ -1,10 +1,42 @@
 import { StyleSheet, Text, View } from "react-native";
-import RootNavigation from "./src/RootNavigation.js";
+import "expo-dev-client";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import WelcomeScreen from "./src/screens/WelcomeScreen.js";
+import LoginScreen from "./src/screens/LoginScreen.js";
+import SignUpScreen from "./src/screens/SignUpScreen.js";
+import HomeScreen from "./src/screens/HomeScreen.js";
 
 export default function App() {
+  const Stack = createNativeStackNavigator();
   return (
-   
-     <RootNavigation/>
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{ animation: "none" }}
+        initialRouteName="welcomeScreen"
+      >
+        <Stack.Screen
+          name="welcomeScreen"
+          component={WelcomeScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="loginScreen"
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="signUpScreen"
+          component={SignUpScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="homeScreen"
+          component={HomeScreen}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 

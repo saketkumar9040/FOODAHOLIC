@@ -1,6 +1,6 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import React from "react";
-import Swiper from "react-native-swiper";
+import Swiper from "react-native-swiper/src";
 import { colors } from "../globals/style";
 import { AntDesign } from '@expo/vector-icons';
 
@@ -44,8 +44,8 @@ export default OfferSliders;
 const styles = StyleSheet.create({
   offerSlides: {
     width: "100%",
-    height: 240,
-    marginTop: 14,
+    height: 200,
+    marginTop: 2,
     backgroundColor:colors.bgColor,
     alignItems: "center",
     justifyContent: "center",
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   },
   slide: {
     width: "100%",
-    height: 240,
+    height: 200,
     padding:8,
     justifyContent:"center",
     alignItems:"center",
@@ -65,8 +65,7 @@ const styles = StyleSheet.create({
     height:"100%",
     borderWidth:10,
     borderRadius:20,
-
-    
+ 
   },
   button:{
     backgroundColor:colors.color1,

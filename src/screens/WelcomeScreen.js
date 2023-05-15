@@ -49,13 +49,13 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     height: "30%",
-    width: "80%",
+    width: "95%",
     margin: 20,
     alignItems: "center",
     justifyContent: "center",
   },
   logoImage: {
-    width: "80%",
+    width: "70%",
     height: "100%",
   },
   title: {
