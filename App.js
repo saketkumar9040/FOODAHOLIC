@@ -7,6 +7,7 @@ import LoginScreen from "./src/screens/LoginScreen.js";
 import SignUpScreen from "./src/screens/SignUpScreen.js";
 import HomeScreen from "./src/screens/HomeScreen.js";
 
+
 export default function App() {
   const Stack = createNativeStackNavigator();
   return (

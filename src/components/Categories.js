@@ -13,7 +13,7 @@ const Categories = () => {
       <Text style={styles.head}>{"Categories"+" >>>"}</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <View style={styles.card}>
-          <MaterialCommunityIcons name="food-apple-outline" size={35} color="white" />
+          <MaterialCommunityIcons name="food-apple" size={35} color="white" />
           <Text style={styles.foodText}>starters</Text>
         </View>
         <View style={styles.card}>
