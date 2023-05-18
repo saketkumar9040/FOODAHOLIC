@@ -9,7 +9,7 @@ import {
 import React, { useState } from "react";
 import * as NavigationBar from "expo-navigation-bar";
 import { titles, colors, hr80 } from "../globals/style";
-import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
+import { AntDesign, Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import foodImage from "../../assets/foodImage.png";
 
@@ -18,6 +18,7 @@ import { firebase } from "../firebase/FirebaseConfig";
 const SignUpScreen = ({ navigation }) => {
   NavigationBar.setBackgroundColorAsync("#ff4242");
 
+  const [nameFocus, setNameFocus] = useState(false);
   const [emailFocus, setEmailFocus] = useState(false);
   const [phoneFocus, setPhoneFocus] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
@@ -25,6 +26,7 @@ const SignUpScreen = ({ navigation }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   //  TAKING FORM DATA
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
@@ -35,6 +37,10 @@ const SignUpScreen = ({ navigation }) => {
   const [successmsg, setSuccessmsg] = useState(null);
 
   const handleSignUp = () => {
+    if (!name) {
+      setCustomError("Name cannot be Empty");
+      return;
+    }
     if (!email) {
       setCustomError("Email cannot be Empty");
       return;
@@ -60,6 +66,7 @@ const SignUpScreen = ({ navigation }) => {
           const userRef = firebase.firestore().collection("UserData");
           await userRef
             .add({
+              name:name,
               email: email,
               phone: phone,
               password: password,
@@ -111,6 +118,27 @@ const SignUpScreen = ({ navigation }) => {
       </View>
         {customError !== "" &&<Text style={styles.errorMsg}>{customError}</Text>}
       <View style={styles.inputContainer}>
+        <AntDesign
+          name="user"
+          size={24}
+          color={nameFocus === true ? colors.text1 : colors.text2}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="name"
+          onFocus={() => {
+            setNameFocus(true);
+            setEmailFocus(false);
+            setPhoneFocus(false);
+            setPasswordFocus(false);
+            setReEnterPasswordFocus(false);
+            setShowPassword(false);
+            setCustomError("");
+          }}
+          onChangeText={(text) => setName(text)}
+        />
+      </View>
+      <View style={styles.inputContainer}>
         <MaterialCommunityIcons
           name="email-outline"
           size={24}
@@ -121,6 +149,7 @@ const SignUpScreen = ({ navigation }) => {
           placeholder="E-mail"
           keyboardType="email-address"
           onFocus={() => {
+            setNameFocus(false);
             setEmailFocus(true);
             setPhoneFocus(false);
             setPasswordFocus(false);
@@ -142,6 +171,7 @@ const SignUpScreen = ({ navigation }) => {
           placeholder="Phone"
           keyboardType="number-pad"
           onFocus={() => {
+            setNameFocus(false);
             setEmailFocus(false);
             setPhoneFocus(true);
             setPasswordFocus(false);
@@ -162,6 +192,7 @@ const SignUpScreen = ({ navigation }) => {
           style={styles.input}
           placeholder="Password"
           onFocus={() => {
+            setNameFocus(false);
             setEmailFocus(false);
             setPhoneFocus(false);
             setPasswordFocus(true);
@@ -189,6 +220,7 @@ const SignUpScreen = ({ navigation }) => {
           style={styles.input}
           placeholder="Re-Enter Password"
           onFocus={() => {
+            setNameFocus(false);
             setEmailFocus(false);
             setPhoneFocus(false);
             setPasswordFocus(false);

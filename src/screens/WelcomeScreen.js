@@ -1,19 +1,53 @@
 import { StatusBar } from "expo-status-bar";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as NavigationBar from "expo-navigation-bar";
 import logo from "../../assets/logo.png";
 import { colors, hr80 } from "../globals/style.js";
 
-const WelcomeScreen = ({navigation}) => {
+import { firebase } from "../firebase/FirebaseConfig";
+
+const WelcomeScreen = ({ navigation }) => {
+
+  NavigationBar.setBackgroundColorAsync("#ff4242");
+
+  const [userLogged,setUserLogged] = useState(null);
+
+  useEffect(() => {
+     const checkLogin = async() => {
+       await firebase.auth().onAuthStateChanged((user)=>{
+          if(user){
+            // console.log(user)
+            setUserLogged(user);
+          }
+          else{
+            setUserLogged(null);
+            console.log("No user is Logged In !!!!")
+          }
+        })
+     }
+     checkLogin();
+  }, []);
+
+  const handleLogout = () => {
+     firebase.auth().signOut()
+     .then(()=>{
+      setUserLogged(null);
+      console.log("Logged Out Successfully")
+     })
+     .catch((error)=>{
+      console.log(error.message)
+     })
+  };
   
-    NavigationBar.setBackgroundColorAsync("#ff4242");
-  
+console.log(JSON.stringify(userLogged));
   return (
     <View style={styles.welcomeScreenContainer}>
-      <Text style={{fontSize:20,color:colors.color1,}}>Welcome </Text>
-      <Text style={{fontSize:20,color:colors.color1,}}>to</Text>
+      
+      <Text style={{ fontSize: 20, color: colors.color1 }}>Welcome </Text>
+      <Text style={{ fontSize: 20, color: colors.color1 }}>to</Text>
       <Text style={styles.title}>FOODAHOLIC</Text>
+      {userLogged !== null && <View ><Text style={styles.loggedName}>{userLogged.name}</Text></View>}
       <View style={styles.logoContainer}>
         <Image source={logo} style={styles.logoImage} />
       </View>
@@ -23,14 +57,35 @@ const WelcomeScreen = ({navigation}) => {
         kill the MONSTER
       </Text>
       <View style={hr80} />
+    { userLogged ===null ?
       <View style={styles.buttonContainer}>
-        <TouchableOpacity>
-          <Text style={styles.button} onPress={()=>navigation.navigate("signUpScreen")}>Sign Up</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={()=>navigation.navigate("loginScreen")}>
-          <Text style={styles.button}>Log In</Text>
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity>
+        <Text
+          style={styles.button}
+          onPress={() => navigation.navigate("signUpScreen")}
+        >
+          Sign Up
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate("loginScreen")}>
+        <Text style={styles.button}>Log In</Text>
+      </TouchableOpacity>
+    </View>
+  :
+  <View style={styles.buttonContainer}>
+  <TouchableOpacity onPress={() => navigation.navigate("homeScreen")}>
+    <Text style={styles.button}>Go to Home</Text>
+  </TouchableOpacity>
+  <TouchableOpacity>
+    <Text
+      style={styles.button}
+      onPress={() => handleLogout()}
+    >
+      Log Out
+    </Text>
+  </TouchableOpacity>
+</View>
+  }   
       <StatusBar style="light" />
     </View>
   );
@@ -63,7 +118,7 @@ const styles = StyleSheet.create({
     color: colors.color1,
     textAlign: "center",
     marginVertical: 10,
-    fontWeight: "700"
+    fontWeight: "700",
   },
   text: {
     fontSize: 13,
@@ -88,4 +143,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 26,
     elevation: 15,
   },
+  loggedName:{
+    color:colors.color1,
+    fontSize:25,
+    fontWeight:600,
+
+  }
 });
