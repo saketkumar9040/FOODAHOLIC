@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import * as NavigationBar from "expo-navigation-bar";
-import { titles, colors, hr80 } from "../globals/style";
+import { colors, hr80 } from "../globals/style";
 import { AntDesign, Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import foodImage from "../../assets/foodImage.png";
@@ -63,6 +63,8 @@ const SignUpScreen = ({ navigation }) => {
         .auth()
         .createUserWithEmailAndPassword(email, password)
         .then(async (userCredentials) => {
+          // console.log(userCredentials)
+         if(userCredentials?.user?.uid){
           const userRef = firebase.firestore().collection("UserData");
           await userRef
             .add({
@@ -70,17 +72,18 @@ const SignUpScreen = ({ navigation }) => {
               email: email,
               phone: phone,
               password: password,
-              // uid: userCredentials?.user?.uid,
+              uid: userCredentials?.user?.uid,
             })
             .then(() => {
               console.log("Data added to firestore");
+              // console.log("User created successfully", userCredentials.user.uid);
+              console.log("User created successfully");
               setSuccessmsg("User created successfully")
             })
             .catch((error) => {
               console.log("firestore error", error.message);
             });
-            ("Congrats", "userCreatedSuccessfully");
-          console.log("User created successfully", userCredentials.user.uid);
+         }
         })
         .catch((error) => {
           // Alert.alert("ERROR",error.message);
@@ -279,7 +282,7 @@ const SignUpScreen = ({ navigation }) => {
       </TouchableOpacity>
    </View>
    }
-   </View>
+   </View >
   );
 };
 

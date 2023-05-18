@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
@@ -8,13 +8,16 @@ import { colors } from "../globals/style";
 const HomeHeadNav = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <FontAwesome
+     <TouchableOpacity>
+     <FontAwesome
         name="th-list"
         size={30}
         color="white"
         style={styles.myIcon}
       />
-      <View style={styles.middleContainer}>
+     </TouchableOpacity>
+  <TouchableOpacity>
+        <View style={styles.middleContainer}>
         <Text style={styles.myText}>FOODAHOLIC</Text>
         <Ionicons
           name="fast-food-outline"
@@ -23,12 +26,16 @@ const HomeHeadNav = ({ navigation }) => {
           style={styles.myIcon}
         />
       </View>
-      <FontAwesome5
-        name="user-circle"
-        size={30}
-        color="white"
-        style={styles.myIcon}
-      />
+  </TouchableOpacity>
+      <TouchableOpacity >
+        <FontAwesome5
+          name="user-circle"
+          size={30}
+          color="white"
+          style={styles.myIcon}
+          onPress={()=>navigation.navigate("userProfileScreen")}
+        />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -50,14 +57,15 @@ const styles = StyleSheet.create({
   },
   middleContainer: {
     flexDirection: "row",
-    width: "55%",
-    marginLeft:30,
+    // width: "55%",
+    // marginLeft: 30,
     alignItems: "center",
-    // justifyContent: "space-between",
+    justifyContent:"center",
   },
   myText: {
     color: colors.color1,
     fontSize: 20,
-    fontWeight:800,
+    marginRight:8,
+    fontWeight: 800,
   },
 });

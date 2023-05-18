@@ -18,6 +18,7 @@ import vehicleImage from "../../assets/vehicleImage.png";
 import { firebase } from "../firebase/FirebaseConfig";
 
 const LoginScreen = ({ navigation }) => {
+  
   NavigationBar.setBackgroundColorAsync("#ff4242");
 
   const [emailFocus, setEmailFocus] = useState(false);

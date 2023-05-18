@@ -37,5 +37,25 @@ module.exports = {
         width:20,
         height:20,
         borderRadius:5,
-    }
+    },
+    navBtn:{
+        backgroundColor:"#ff4242",
+        width:50,
+        height:50,
+        alignItems:"center",
+        justifyContent:'center',
+        elevation:10,
+        borderRadius:50,
+        borderTopLefRadius:0,
+
+    },
+    navBtnin:{
+        color:"white"
+    },
+    navBtnOut:{
+        position:"absolute",
+        top:0,
+        left:0,
+        zIndex:10,
+    },
 }

@@ -19,7 +19,7 @@ import { AntDesign, FontAwesome5 } from "@expo/vector-icons";
 import { firebase } from "../firebase/FirebaseConfig.js";
 import CardSlider from "../components/CardSlider";
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
   NavigationBar.setBackgroundColorAsync("#ff4242");
 
   const [foodData, setFoodData] = useState([]);
@@ -42,56 +42,64 @@ const HomeScreen = () => {
   const [search, setSearch] = useState("");
 
   return (
-    <ScrollView style={styles.container}>
-      <StatusBar
-        barStyle="light-content"
-        hidden={false}
-        backgroundColor="#ff4242"
-        translucent={false}
-      />
-      <HomeHeadNav />
-      <View style={styles.searchContainer}>
-        <FontAwesome5 name="search" size={24} color="white" />
-        <TextInput
-          style={styles.searchText}
-          placeholder="Search your's favourite food"
-          placeholderTextColor={colors.color1}
-          onChangeText={(text) => {
-            setSearch(text);
-          }}
+    <>
+      <HomeHeadNav navigation={navigation}/>
+      <ScrollView style={styles.container}>
+        <StatusBar
+          barStyle="light-content"
+          hidden={false}
+          backgroundColor="#ff4242"
+          translucent={false}
         />
-      </View>
-      {search != "" && (
-        <View style={styles.searchResultContainer}>
-          <FlatList
-            style={styles.searchResultInner}
-            data={foodData}
-            renderItem={({ item }) => {
-              if (item.foodName.toLowerCase().includes(search.toLowerCase())) {
-                return (
-                  <View style={styles.searchResult}>
-                    {/* <AntDesign name="arrowright" size={24} color="white" /> */}
-                    <Image
-                      source={{ uri: item.foodImageUrl }}
-                      style={styles.searchResultImage}
-                    />
-                    <View>
-                    <Text style={styles.searchResultText}>{item.foodName}</Text>
-                    <Text style={styles.searchResultPlace}>{item.restaurantAddressStreet}</Text>
-                    </View>
-                  </View>
-                );
-              }
+        <View style={styles.searchContainer}>
+          <FontAwesome5 name="search" size={24} color="white" />
+          <TextInput
+            style={styles.searchText}
+            placeholder="Search your's favourite food"
+            placeholderTextColor={colors.color1}
+            onChangeText={(text) => {
+              setSearch(text);
             }}
           />
         </View>
-      )}
-      <Categories />
-      <OfferSliders />
-      <CardSlider title={"Today's Special"} data={foodData} />
-      <CardSlider title={"Non Veg Lover's"} data={nonVegData} />
-      <CardSlider title={"Veg Hunger"} data={vegData} />
-    </ScrollView>
+        {search != "" && (
+          <View style={styles.searchResultContainer}>
+            <FlatList
+              style={styles.searchResultInner}
+              data={foodData}
+              renderItem={({ item }) => {
+                if (
+                  item.foodName.toLowerCase().includes(search.toLowerCase())
+                ) {
+                  return (
+                    <View style={styles.searchResult}>
+                      {/* <AntDesign name="arrowright" size={24} color="white" /> */}
+                      <Image
+                        source={{ uri: item.foodImageUrl }}
+                        style={styles.searchResultImage}
+                      />
+                      <View>
+                        <Text style={styles.searchResultText}>
+                          {item.foodName}
+                        </Text>
+                        <Text style={styles.searchResultPlace}>
+                          {item.restaurantAddressStreet}
+                        </Text>
+                      </View>
+                    </View>
+                  );
+                }
+              }}
+            />
+          </View>
+        )}
+        <Categories />
+        <OfferSliders />
+        <CardSlider title={"Today's Special"} data={foodData} navigation={navigation} />
+        <CardSlider title={"Non Veg Lover's"} data={nonVegData}  navigation={navigation}/>
+        <CardSlider title={"Veg Hunger"} data={vegData}  navigation={navigation}/>
+      </ScrollView>
+    </>
   );
 };
 
@@ -136,20 +144,20 @@ const styles = StyleSheet.create({
   searchResultText: {
     marginLeft: 20,
     fontSize: 18,
-    fontWeight:500,
+    fontWeight: 500,
     color: colors.color1,
   },
-  searchResultPlace:{
+  searchResultPlace: {
     marginLeft: 20,
     fontSize: 12,
-    color:colors.color1,
+    color: colors.color1,
   },
   searchResultImage: {
     marginLeft: 15,
     height: 55,
     width: 55,
-    borderRadius:10,
-    borderWidth:3,
-    borderColor:colors.color1,
+    borderRadius: 10,
+    borderWidth: 3,
+    borderColor: colors.color1,
   },
 });

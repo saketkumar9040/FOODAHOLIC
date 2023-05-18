@@ -2,7 +2,7 @@ import { FlatList, StyleSheet, Text, View, Image } from "react-native";
 import React from "react";
 import {colors, nonVeg, veg } from "../globals/style";
 
-const CardSlider = ({ title, data }) => {
+const CardSlider = ({ title, data,navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.cardOuterHead}>{title + " >>>"}</Text>

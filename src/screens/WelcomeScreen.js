@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity, } from "react-native";
 import React, { useEffect, useState } from "react";
 import * as NavigationBar from "expo-navigation-bar";
 import logo from "../../assets/logo.png";
@@ -39,15 +39,14 @@ const WelcomeScreen = ({ navigation }) => {
       console.log(error.message)
      })
   };
-  
-console.log(JSON.stringify(userLogged));
+// console.log(JSON.stringify(userLogged));
   return (
-    <View style={styles.welcomeScreenContainer}>
+    <View style={styles.welcomeScreenContainer} >
       
       <Text style={{ fontSize: 20, color: colors.color1 }}>Welcome </Text>
       <Text style={{ fontSize: 20, color: colors.color1 }}>to</Text>
       <Text style={styles.title}>FOODAHOLIC</Text>
-      {userLogged !== null && <View ><Text style={styles.loggedName}>{userLogged.name}</Text></View>}
+      {userLogged !== null && <View ><Text style={styles.loggedName}>{userLogged.email}</Text></View>}
       <View style={styles.logoContainer}>
         <Image source={logo} style={styles.logoImage} />
       </View>
