@@ -1,8 +1,14 @@
-import { FlatList, StyleSheet, Text, View, Image } from "react-native";
+import { FlatList, StyleSheet, Text, View, Image,TouchableOpacity } from "react-native";
 import React from "react";
 import {colors, nonVeg, veg } from "../globals/style";
 
 const CardSlider = ({ title, data,navigation }) => {
+
+  const openProductPage=(item)=>{
+    // console.log(item)
+    navigation.navigate("productScreen",item)
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.cardOuterHead}>{title + " >>>"}</Text>
@@ -12,7 +18,8 @@ const CardSlider = ({ title, data,navigation }) => {
         style={styles.cardsout}
         data={data}
         renderItem={({ item }) => (
-          <View style={styles.card}>
+        <TouchableOpacity key={item.index} onPress={()=>openProductPage(item)}>
+            <View style={styles.card}>
             <View style={styles.s1}>
               <Image
                 source={{ uri: item.foodImageUrl }}
@@ -32,6 +39,7 @@ const CardSlider = ({ title, data,navigation }) => {
                 </Text>
             </View>
           </View>
+        </TouchableOpacity>
         )}
       />
     </View>

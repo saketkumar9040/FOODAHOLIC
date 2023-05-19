@@ -13,12 +13,11 @@ module.exports = {
     button1 : {
         width:"80%",
         height : 50,
-        backgroundColor : "red",
-        borderRadius : 10,
+        backgroundColor : "#ff4242",
+        borderRadius : 20,
         alignItems :"center",
         justifyContent: "center",
         elevation :10,
-        color : "white"
     },
     hr80 : {
         width : '80%',
@@ -30,13 +29,13 @@ module.exports = {
         backgroundColor:"green",
         width:20,
         height:20,
-        borderRadius:5,
+        borderRadius:20,
     },
     nonVeg:{
         backgroundColor:"red",
         width:20,
         height:20,
-        borderRadius:5,
+        borderRadius:20,
     },
     navBtn:{
         backgroundColor:"#ff4242",

@@ -7,6 +7,7 @@ import LoginScreen from "./src/screens/LoginScreen.js";
 import SignUpScreen from "./src/screens/SignUpScreen.js";
 import HomeScreen from "./src/screens/HomeScreen.js";
 import UserProfileScreen from "./src/screens/UserProfileScreen.js";
+import ProductScreen from "./src/screens/ProductScreen.js";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -39,6 +40,11 @@ export default function App() {
         <Stack.Screen
           name="userProfileScreen"
           component={UserProfileScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="productScreen"
+          component={ProductScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
