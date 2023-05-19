@@ -38,23 +38,28 @@ module.exports = {
         borderRadius:20,
     },
     navBtn:{
-        backgroundColor:"#ff4242",
+        backgroundColor:"white",
         width:50,
-        height:50,
+        height:60,
         alignItems:"center",
         justifyContent:'center',
         elevation:10,
-        borderRadius:50,
-        borderTopLefRadius:0,
-
-    },
-    navBtnin:{
-        color:"white"
-    },
-    navBtnOut:{
+        // borderRadius:50,
+        borderTopRightRadius:20,
+        borderBottomRightRadius:20,
         position:"absolute",
-        top:0,
+        top:10,
         left:0,
         zIndex:10,
     },
+    navBtnin:{
+        color:"#ff4242",  
+        
+    },
+    // navBtnOut:{
+    //     position:"absolute",
+    //     top:0,
+    //     left:0,
+    //     zIndex:10,
+    // },
 }

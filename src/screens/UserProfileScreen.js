@@ -11,7 +11,7 @@ import { StatusBar } from "expo-status-bar";
 import * as NavigationBar from "expo-navigation-bar";
 import { colors, navBtn, navBtnin } from "../globals/style";
 import { firebase } from "../firebase/FirebaseConfig";
-import { AntDesign, Feather } from "@expo/vector-icons";
+import { AntDesign, Feather, FontAwesome } from "@expo/vector-icons";
 
 const UserProfileScreen = ({ navigation }) => {
   NavigationBar.setBackgroundColorAsync("#ff4242");
@@ -55,7 +55,7 @@ const UserProfileScreen = ({ navigation }) => {
     })();
   }, [userLoggedUid]);
 
-  console.log(userData);
+  // console.log(userData);
 
   const handleChange = () => {
     console.log("have to change name and address");
@@ -70,8 +70,8 @@ const UserProfileScreen = ({ navigation }) => {
         style={styles.navContainer}
         onPress={() => navigation.navigate("homeScreen")}
       >
-        <View style={navBtn}>
-          <AntDesign name="back" size={24} color="black" style={navBtnin} />
+        <View style={styles.navBtn}>
+          <FontAwesome name="arrow-left" size={28} color="white" />
         </View>
       </TouchableOpacity>
       <View style={styles.imageContainer}>
@@ -85,7 +85,8 @@ const UserProfileScreen = ({ navigation }) => {
           <Text style={styles.changeAvatar}>Change Pic</Text>
         </TouchableOpacity>
       </View>
-      <View style={{backgroundColor:colors.bgColor,width:"100%",height:"100%",alignItems:"center"}}>
+      <ScrollView style={{backgroundColor:colors.bgColor,width:"100%",height:"100%"}}>
+        <View style={{flex:1,alignItems:"center",justifyContent:"center"}}>
       <View style={styles.inputContainer}>
         <Text style={styles.input}>{userData?.name}</Text>
         <TouchableOpacity>
@@ -117,6 +118,7 @@ const UserProfileScreen = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       </View>
+      </ScrollView>
       <StatusBar style="dark" />
     </View>
   );
@@ -174,6 +176,8 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     paddingVertical: 12,
     justifyContent: "center",
+    alignItems:"center",
+    justifyContent:"center"
   },
   input: {
     fontSize: 20,
@@ -182,4 +186,14 @@ const styles = StyleSheet.create({
     fontWeight: 500,
     width: "80%",
   },
+  navBtn:{
+    backgroundColor:colors.bgColor,
+    width:50,
+    height:60,
+    alignItems:"center",
+    justifyContent:'center',
+    elevation:10,
+    borderTopRightRadius:20,
+    borderBottomRightRadius:20,  
+  }
 });
