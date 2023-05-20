@@ -51,7 +51,7 @@ const ProductScreen = ({ navigation, route }) => {
   return (
     <>
     <ScrollView style={styles.Productcontainer}>
-      <StatusBar style="light" translucent={false} />
+      <StatusBar style="dark"  />
 
       <View style={styles.imageContainer}>
         <View style={navBtn}>
@@ -143,19 +143,11 @@ const ProductScreen = ({ navigation, route }) => {
 export default ProductScreen;
 
 const styles = StyleSheet.create({
-  navContainer: {
-    flexDirection: "row",
-    width: "100%",
-    height: "8%",
-    // marginTop: 2,
-    marginLeft: 5,
-    alignItems: "center",
-    // marginBottom: 10,
-    backgroundColor: colors.color1,
-  },
+
   Productcontainer: {
     flex: 1,
     backgroundColor: colors.color1,
+    marginBottom:40,
   },
   imageContainer: {
     width: "100%",
@@ -229,22 +221,22 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    marginVertical: 5,
-  
+    backgroundColor:colors.color1,
     position:"absolute",
     bottom: 0,
+    
   },
   button: {
     width: "40%",
     height: 50,
     marginHorizontal: 15,
+    marginVertical:5,
     backgroundColor: colors.color1,
     borderRadius: 10,
     alignItems: "center",
     borderColor:colors.bgColor,
     borderWidth:5,
     justifyContent: "center",
-    elevation: 5,
   },
   buttonText: {
     color: colors.bgColor,
