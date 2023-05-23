@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
         width:"100%",
         height:200,
         borderRadius:10,
+        marginBottom:10,
     },
     s2:{
         flexDirection:"row",
@@ -87,13 +88,15 @@ const styles = StyleSheet.create({
         alignItems:"center",  
     },
     cardName:{
-        fontSize:14,
+        fontSize:16,
+        fontWeight:500,
         color:colors.text3,
         marginHorizontal:5,
         width:150,
     },
     cardPrice:{
         fontSize:15,
+        fontWeight:500,
         color:colors.text1,
         marginRight:10,
     },
@@ -115,6 +118,7 @@ const styles = StyleSheet.create({
         paddingHorizontal:10,
         paddingVertical:5,
         fontSize:15,
+        fontWeight:600,
         width:"90%",
         textAlign:"center",
         borderRadius:40,

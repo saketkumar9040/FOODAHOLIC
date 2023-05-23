@@ -47,7 +47,7 @@ module.exports = {
         borderTopRightRadius:20,
         borderBottomRightRadius:20,
         position:"absolute",
-        top:30,
+        top:40,
         left:0,
         zIndex:10,
     },
