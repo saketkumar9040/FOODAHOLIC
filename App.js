@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import "expo-dev-client";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -8,9 +8,13 @@ import SignUpScreen from "./src/screens/SignUpScreen.js";
 import HomeScreen from "./src/screens/HomeScreen.js";
 import UserProfileScreen from "./src/screens/UserProfileScreen.js";
 import ProductScreen from "./src/screens/ProductScreen.js";
+import CartScreen from "./src/screens/CartScreen.js";
+
 
 export default function App() {
   const Stack = createNativeStackNavigator();
+
+
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -47,6 +51,11 @@ export default function App() {
           component={ProductScreen}
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="cartScreen"
+          component={CartScreen}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -55,7 +64,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#ff4242",
     alignItems: "center",
     justifyContent: "center",
   },

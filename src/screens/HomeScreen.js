@@ -18,6 +18,7 @@ import { colors } from "../globals/style";
 import { AntDesign, FontAwesome5 } from "@expo/vector-icons";
 import { firebase } from "../firebase/FirebaseConfig.js";
 import CardSlider from "../components/CardSlider";
+import BottomNav from "../components/BottomNav";
 
 const HomeScreen = ({navigation}) => {
   NavigationBar.setBackgroundColorAsync("#ff4242");
@@ -99,6 +100,7 @@ const HomeScreen = ({navigation}) => {
         <CardSlider title={"Non Veg Lover's"} data={nonVegData}  navigation={navigation}/>
         <CardSlider title={"Veg Hunger"} data={vegData}  navigation={navigation}/>
       </ScrollView>
+      <BottomNav navigation={navigation}/>
     </>
   );
 };
