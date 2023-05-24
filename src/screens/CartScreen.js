@@ -10,7 +10,8 @@ import React, { useEffect, useState } from "react";
 import BottomNav from "../components/BottomNav";
 import { colors } from "../globals/style";
 import { firebase } from "../firebase/FirebaseConfig";
-import { FontAwesome ,AntDesign } from "@expo/vector-icons";
+import { FontAwesome, AntDesign } from "@expo/vector-icons";
+import { button1 } from "../globals/style";
 
 const CartScreen = ({ navigation }) => {
   const [cartData, setCartData] = useState(null);
@@ -40,26 +41,63 @@ const CartScreen = ({ navigation }) => {
     getCartData();
   }, []);
 
+  useEffect(() => {
+    if (cartData !== null) {
+      const allfoodPrice = cartData.cart;
+      // console.log(allfoodPrice)
+      let allItemPrice = 0;
+      let allAddOnPrice = 0;
+      allfoodPrice.map((item) => {
+        allItemPrice =
+          allItemPrice +
+          parseInt(item.data.price) * parseInt(item.foodQuantity);
+        if (parseInt(item.addOnQuantity) > 0) {
+          allAddOnPrice =
+            allAddOnPrice +
+            parseInt(item.data.foodAddOnPrice) * parseInt(item.addOnQuantity);
+        }
+      });
+      setTotalPrice(allItemPrice + allAddOnPrice);
+    }
+  }, [cartData]);
   // console.log(JSON.stringify(cartData));
+
+  const deleteHandler = (item) => {
+    const docRef = firebase
+      .firestore()
+      .collection("CartData")
+      .doc(firebase.auth().currentUser.uid);
+      docRef.update({
+        cart: firebase.firestore.FieldValue.arrayRemove(item)
+      })
+      getCartData();
+  };
 
   return (
     <>
       <View style={styles.cartContainerOut}>
-        <View style={styles.navBtn}>
-          <TouchableOpacity onPress={() => navigation.navigate("homeScreen")}>
-            <FontAwesome
-              name="arrow-left"
-              size={30}
-              color="black"
-              style={styles.navBtnin}
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.container1}>
-          <View style={styles.container1In}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <View style={styles.navBtn}>
+            <TouchableOpacity onPress={() => navigation.navigate("homeScreen")}>
+              <FontAwesome
+                name="arrow-left"
+                size={30}
+                color="black"
+                style={styles.navBtnin}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.containerTop}>
             <Text style={styles.cartText}>Your Cart</Text>
             <FontAwesome name="shopping-cart" size={40} color="white" />
           </View>
+        </View>
+        <View style={styles.container1}>
           {cartData === null ? (
             <Text style={styles.cartText1}> Your Cart Is Empty😓.</Text>
           ) : (
@@ -88,20 +126,38 @@ const CartScreen = ({ navigation }) => {
                             {item.addOnQuantity}&nbsp;{item.data.foodAddOn}
                           </Text>
                           <Text style={styles.text3}>
-                          ₹ {item.data.foodAddOnPrice}/each
+                            ₹ {item.data.foodAddOnPrice}/each
                           </Text>
                         </View>
                       )}
-                      <View style={styles.c3}>
+
+                      <TouchableOpacity
+                        style={styles.c3}
+                        onPress={() => deleteHandler(item)}
+                      >
                         <Text style={styles.text1}>Delete</Text>
-                        <AntDesign name="delete" size={26} color="red" style={styles.deleteButton}/>
-                      </View>
+                        <AntDesign
+                          name="delete"
+                          size={26}
+                          color="red"
+                          style={styles.deleteButton}
+                        />
+                      </TouchableOpacity>
                     </View>
                   </View>
                 );
               }}
             ></FlatList>
           )}
+          <View style={styles.checkoutButtons}>
+            <View style={styles.totalPriceContainer}>
+              <Text style={styles.totalText1}>Total</Text>
+              <Text style={styles.totalText2}>₹{totalPrice}/-</Text>
+            </View>
+            <TouchableOpacity style={styles.button1}>
+              <Text style={styles.buttonText}>Place Order</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
       <BottomNav navigation={navigation} />
@@ -136,10 +192,11 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
   },
-  container1In: {
+  containerTop: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
+    marginHorizontal: 80,
   },
   cartText: {
     fontSize: 30,
@@ -181,58 +238,100 @@ const styles = StyleSheet.create({
     height: "95%",
     borderRadius: 10,
   },
-  cardDataIn:{
-    flexDirection:"column",
-    margin:5,
-    width:"50%",
-    alignItems:"center",
-    justifyContent:"center",
+  cardDataIn: {
+    flexDirection: "column",
+    margin: 5,
+    width: "50%",
+    alignItems: "center",
+    justifyContent: "center",
   },
-  c1:{
-    flexDirection:"row",
-    justifyContent:"space-between",
-    width:"100%",
-    padding:5,
+  c1: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    padding: 5,
   },
-  c2:{
-    backgroundColor:colors.bgColor,
-    borderRadius:10,
-    width:"100%",
-    alignItems:"center",
-    justifyContent:"space-between",
-    padding:5,
-    flexDirection:'row',
+  c2: {
+    backgroundColor: colors.bgColor,
+    borderRadius: 10,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: 5,
+    flexDirection: "row",
   },
-  text1:{
-    fontSize:18,
-    color:colors.bgColor,
-    width:"60%",
-    fontWeight:"bold",
+  text1: {
+    fontSize: 18,
+    color: colors.bgColor,
+    width: "60%",
+    fontWeight: "bold",
   },
-  text2:{
-    fontSize:16,
-    color:"#00b200",
+  text2: {
+    fontSize: 16,
+    color: "#00b200",
     // width:"40%",
-    fontWeight:600,
+    fontWeight: 600,
   },
-  text3:{
-    fontSize:16,
-    width:"40%",
-    color:colors.color1,
-
+  text3: {
+    fontSize: 16,
+    width: "40%",
+    color: colors.color1,
   },
-  deleteButton:{
-    color:colors.bgColor
+  deleteButton: {
+    color: colors.bgColor,
   },
-  c3:{
-    flexDirection:"row",
-    justifyContent:"center",
-    alignItems:"center",
-    width:"60%",
-    borderRadius:10,
-    borderColor:colors.bgColor,
-    borderWidth:4,
-    marginVertical:10,
-    padding:5,
-  }
+  c3: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "60%",
+    borderRadius: 10,
+    borderColor: colors.bgColor,
+    borderWidth: 4,
+    marginVertical: 10,
+    padding: 5,
+  },
+  checkoutButtons: {
+    width: "90%",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 5,
+    flexDirection: "row",
+    marginBottom: 80,
+    marginHorizontal: 20,
+  },
+  button1: {
+    width: "50%",
+    height: 50,
+    backgroundColor: colors.color1,
+    borderRadius: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    elevation: 5,
+  },
+  buttonText: {
+    color: colors.bgColor,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    fontSize: 20,
+    fontWeight: 700,
+  },
+  totalPriceContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  totalText1: {
+    fontSize: 25,
+    color: colors.color1,
+    marginHorizontal: 5,
+    fontWeight: 600,
+  },
+  totalText2: {
+    fontSize: 22,
+    color: "#00b200",
+    fontWeight: 800,
+    padding: 6,
+    backgroundColor: colors.color1,
+    borderRadius: 20,
+  },
 });

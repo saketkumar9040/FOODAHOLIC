@@ -11,7 +11,7 @@ module.exports = {
         buttonText:20
     },
     button1 : {
-        width:"80%",
+        width:"50%",
         height : 50,
         backgroundColor : "#ff4242",
         borderRadius : 20,

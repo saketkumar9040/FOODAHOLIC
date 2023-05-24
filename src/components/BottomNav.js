@@ -35,6 +35,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     paddingTop:2,
     backgroundColor: colors.bgColor,
+    position:"absolute",
+    bottom:0,
     // borderTopColor:colors.color1,
     // borderTopWidth:0.5,
   },
@@ -52,6 +54,7 @@ const styles = StyleSheet.create({
     elevation:10,
   },
   icon:{
+    borderRadius:60,
     elevation:10,
   }
 });
