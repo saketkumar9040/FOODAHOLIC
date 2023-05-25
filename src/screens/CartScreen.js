@@ -11,22 +11,21 @@ import BottomNav from "../components/BottomNav";
 import { colors } from "../globals/style";
 import { firebase } from "../firebase/FirebaseConfig";
 import { FontAwesome, AntDesign } from "@expo/vector-icons";
-import { button1 } from "../globals/style";
 
 const CartScreen = ({ navigation }) => {
   const [cartData, setCartData] = useState(null);
   const [totalPrice, setTotalPrice] = useState("0");
 
-  const getCartData = async () => {
-    const docRef = await firebase
+  const getCartData =  () => {
+    const docRef =  firebase
       .firestore()
       .collection("CartData")
       .doc(firebase.auth().currentUser.uid);
     docRef
       .get()
-      .then((doc) => {
+      .then(async(doc) => {
         if (doc.exists) {
-          setCartData(doc.data());
+         await setCartData(doc.data());
           //   console.log(JSON.stringify(doc.data()));
         } else {
           console.log("No Such Document");
@@ -67,10 +66,10 @@ const CartScreen = ({ navigation }) => {
       .firestore()
       .collection("CartData")
       .doc(firebase.auth().currentUser.uid);
-      docRef.update({
-        cart: firebase.firestore.FieldValue.arrayRemove(item)
-      })
-      getCartData();
+    docRef.update({
+      cart: firebase.firestore.FieldValue.arrayRemove(item),
+    });
+    getCartData();
   };
 
   return (
@@ -87,8 +86,7 @@ const CartScreen = ({ navigation }) => {
               <FontAwesome
                 name="arrow-left"
                 size={30}
-                color="black"
-                style={styles.navBtnin}
+                color={colors.bgColor}  
               />
             </TouchableOpacity>
           </View>
@@ -154,7 +152,7 @@ const CartScreen = ({ navigation }) => {
               <Text style={styles.totalText1}>Total</Text>
               <Text style={styles.totalText2}>₹{totalPrice}/-</Text>
             </View>
-            <TouchableOpacity style={styles.button1}>
+            <TouchableOpacity style={styles.button1} onPress={() => navigation.navigate("placeOrderScreen",{cartData,totalPrice})}>
               <Text style={styles.buttonText}>Place Order</Text>
             </TouchableOpacity>
           </View>

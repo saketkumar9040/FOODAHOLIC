@@ -9,7 +9,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import * as NavigationBar from "expo-navigation-bar";
-import { colors, navBtn, navBtnin } from "../globals/style";
+import { colors } from "../globals/style";
 import { firebase } from "../firebase/FirebaseConfig";
 import { AntDesign, Feather, FontAwesome } from "@expo/vector-icons";
 

@@ -9,6 +9,7 @@ import HomeScreen from "./src/screens/HomeScreen.js";
 import UserProfileScreen from "./src/screens/UserProfileScreen.js";
 import ProductScreen from "./src/screens/ProductScreen.js";
 import CartScreen from "./src/screens/CartScreen.js";
+import PlaceOrderScreen from "./src/screens/PlaceOrderScreen.js";
 
 
 export default function App() {
@@ -54,6 +55,11 @@ export default function App() {
         <Stack.Screen
           name="cartScreen"
           component={CartScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="placeOrderScreen"
+          component={PlaceOrderScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

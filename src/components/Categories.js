@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   foodText: {
     color: colors.color1,
     fontSize:13,
-    fontWeight:300,
+    fontWeight:500,
   },
 
 });

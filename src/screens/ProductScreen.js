@@ -176,7 +176,7 @@ const ProductScreen = ({ navigation, route }) => {
             <View
               style={{ flexDirection: "row", justifyContent: "space-between" }}
             >
-              <Text style={styles.foodQuantityText}>{data.foodAddOn}</Text>
+              <Text style={styles.foodAddOnText}>{data.foodAddOn}</Text>
               <Text style={styles.addOnPrice}>
                 ₹ {data.foodAddOnPrice}/-
               </Text>
@@ -394,6 +394,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 700,
     marginBottom: 10,
+  },
+  foodAddOnText:{
+    color: colors.bgColor,
+    fontSize: 20,
+    fontWeight: 700,
+    width:"60%",
   },
   addOnPrice: {
     color: "#00b200",

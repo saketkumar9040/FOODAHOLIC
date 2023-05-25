@@ -4,7 +4,8 @@ module.exports = {
         color1:"white",
         text1:"red",
         text2:"gray",
-        text3:"black"
+        text3:"black",
+        price:"#00b200"
     },
     titles : {
         title1 :30,
