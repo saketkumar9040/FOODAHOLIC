@@ -5,11 +5,14 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ScrollView,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { colors } from "../globals/style";
 import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import { firebase } from "../firebase/FirebaseConfig";
+
+import RazorpayCheckout from "react-native-razorpay";
 
 const PlaceOrderScreen = ({ navigation, route }) => {
   // console.log(route.params.cartData)
@@ -66,8 +69,39 @@ const PlaceOrderScreen = ({ navigation, route }) => {
   // console.log(userData);
 
   const payNow = () => {
-    alert("payment successful");
-    return;
+  
+    var options = {
+      description: "Payment for food order",
+      image:
+        "https://firebasestorage.googleapis.com/v0/b/foodaholic-fd71f.appspot.com/o/a%2F1685183929065icon.jpg?alt=media&token=19fa9861-c7a1-4ce7-adc5-b599ff79d47b",
+      currency: "INR",
+      key: "rzp_test_mJjiqOgGZVu111",
+      amount: totalCost * 100,
+      name: "Foodaholilc",
+      order_id: "", //Replace this with an order_id created using Orders API.
+      prefill: {
+        email: "saketk89@gmail.com",
+        contact: "8986677227",
+        name: "Saket Kumar",
+      },
+      theme: { color: "#ff4242" },
+    };
+    
+    RazorpayCheckout.open(options)
+      .then((data) => {
+        // handle success
+        alert(`Success: ${data.razorpay_payment_id}`);
+      })
+      .catch((error) => {
+        // handle failure
+        console.log(error);
+        
+        if(error.description == `{"error":{"code":"BAD_REQUEST_ERROR","description":"Payment processing cancelled by user","source":"customer","step":"payment_authentication","reason":"payment_cancelled","metadata":{}}}`){
+          alert("Payment cancelled by the User")
+          return;
+        }
+        alert(`Error: ${error.code} | ${error.description}`);
+      });
   };
 
   return (
@@ -76,8 +110,7 @@ const PlaceOrderScreen = ({ navigation, route }) => {
         style={{
           flexDirection: "row",
           alignItems: "center",
-          position: "relative",
-          top: 0,
+          justifyContent: "center",
         }}
       >
         <View style={styles.navBtn}>
@@ -179,10 +212,7 @@ const PlaceOrderScreen = ({ navigation, route }) => {
           <Text style={styles.orderTotalText}>Order Total</Text>
           <Text style={styles.itemPrice}>₹{totalCost}/-</Text>
         </View>
-        <TouchableOpacity
-          style={styles.button1}
-          onPress={() => payNow()}
-        >
+        <TouchableOpacity style={styles.button1} onPress={() => payNow()}>
           <Text style={styles.buttonText}>PAY</Text>
         </TouchableOpacity>
       </View>
@@ -196,8 +226,6 @@ const styles = StyleSheet.create({
   placeOrderContainer: {
     width: "100%",
     height: "100%",
-    alignItems: "center",
-    // justifyContent: "center",
     backgroundColor: colors.color1,
     paddingTop: 10,
   },
@@ -219,33 +247,34 @@ const styles = StyleSheet.create({
   },
   cartText: {
     width: "70%",
-    fontSize: 30,
-    fontWeight: 600,
+    fontSize: 26,
+    fontWeight: 500,
     color: colors.bgColor,
     textAlign: "center",
   },
   container1: {
-    width: "95%",
+    width: "100%",
+    height: "37%",
     marginTop: 10,
-    padding: 2,
     elevation: -10,
-    // backgroundColor: "cornsilk",
+    // alignItems:"center",
+    // // justifyContent:"center",
+    // // backgroundColor: "cornsilk",
     borderRadius: 20,
     borderWidth: 5,
     borderColor: colors.bgColor,
   },
   cartList: {
     width: "100%",
-    height: "30%",
   },
   cartImage: {
-    width: 70,
-    height: 70,
-    borderRadius: 15,
-    marginRight: 10,
-    marginTop: 10,
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    marginTop: 7,
   },
   row: {
+    width: "100%",
     flexDirection: "row",
     alignItems: "center",
     marginVertical: 5,
@@ -253,19 +282,22 @@ const styles = StyleSheet.create({
   },
   rowOut: {
     flexDirection: "column",
-    margin: 10,
+    margin: 5,
     elevation: 10,
     backgroundColor: colors.bgColor,
-    padding: 10,
-    borderRadius: 18,
-  },
-  rowLeft: {
+    padding: 3,
+    borderRadius: 70,
     alignItems: "center",
     justifyContent: "center",
   },
-  // rowRight:{
-  //   flexDirection:"row"
-  // },
+  rowLeft: {
+    width: "50%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  rowRight: {
+    // flexDirection:"row",
+  },
   quantity: {
     width: 40,
     height: 30,
@@ -316,7 +348,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     borderRadius: 18,
     position: "absolute",
-    bottom: 0,
+    bottom: 5,
   },
   finalPriceText: {
     flexDirection: "column",
@@ -364,7 +396,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
   },
   addressText: {
-    width:"50%",
+    width: "50%",
     fontSize: 20,
     color: colors.color1,
     fontWeight: 600,

@@ -76,9 +76,11 @@ const CartScreen = ({ navigation }) => {
     <>
       <View style={styles.cartContainerOut}>
         <View
-          style={{
+           style={{
+            width:"100%",
             flexDirection: "row",
             alignItems: "center",
+            marginTop:10,
           }}
         >
           <View style={styles.navBtn}>
@@ -100,6 +102,8 @@ const CartScreen = ({ navigation }) => {
             <Text style={styles.cartText1}> Your Cart Is Empty😓.</Text>
           ) : (
             <FlatList
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
               style={styles.cartList}
               data={cartData.cart}
               renderItem={({ item }) => {
@@ -172,7 +176,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.bgColor,
   },
   navBtn: {
-    backgroundColor: "white",
+    backgroundColor: colors.color1,
     width: 50,
     height: 60,
     alignItems: "center",
@@ -180,11 +184,6 @@ const styles = StyleSheet.create({
     elevation: 10,
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
-    marginBottom: 20,
-    top: 20,
-  },
-  navBtnin: {
-    color: "#ff4242",
   },
   container1: {
     flex: 1,
@@ -194,13 +193,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginHorizontal: 80,
+    marginHorizontal: 70,
   },
   cartText: {
-    fontSize: 30,
-    fontWeight: 600,
+    // width: "70%",
+    fontSize: 26,
+    fontWeight: 500,
     color: colors.color1,
-    marginRight: 10,
+    textAlign: "center",
   },
   cartText1: {
     fontSize: 30,
@@ -259,9 +259,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   text1: {
-    fontSize: 18,
+    fontSize: 16,
     color: colors.bgColor,
-    width: "60%",
+    width: "50%",
     fontWeight: "bold",
   },
   text2: {
@@ -282,7 +282,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    width: "60%",
+    width: "80%",
     borderRadius: 10,
     borderColor: colors.bgColor,
     borderWidth: 4,
@@ -299,7 +299,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   button1: {
-    width: "50%",
+    width: "45%",
     height: 50,
     backgroundColor: colors.color1,
     borderRadius: 15,
@@ -315,6 +315,7 @@ const styles = StyleSheet.create({
     fontWeight: 700,
   },
   totalPriceContainer: {
+    width:"45%",
     flexDirection: "row",
     alignItems: "center",
   },
