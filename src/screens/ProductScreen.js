@@ -8,13 +8,14 @@ import {
   TextInput,
 } from "react-native";
 import React, { useState } from "react";
-import { colors, hr80, navBtn, navBtnin, nonVeg, veg } from "../globals/style";
-import { AntDesign, Entypo, FontAwesome } from "@expo/vector-icons";
+import { colors, navBtn, navBtnin, nonVeg, veg } from "../globals/style";
+import { Entypo, FontAwesome } from "@expo/vector-icons";
 import { firebase } from "../firebase/FirebaseConfig";
 import { StatusBar } from "expo-status-bar";
+
 const ProductScreen = ({ navigation, route }) => {
   const data = route.params;
-  // console.log(data);
+  console.log(data);
   if (route.params === undefined) {
     navigation.navigate("homeScreen");
   }
@@ -217,7 +218,10 @@ const ProductScreen = ({ navigation, route }) => {
           <Text style={styles.buttonText}>Add to Cart</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Buy Now</Text>
+          <Text style={styles.buttonText} onPress={()=>{
+            addToCart();
+            navigation.navigate("placeOrderScreen")
+          }}>Buy Now</Text>
         </TouchableOpacity>
       </View>
       </View>

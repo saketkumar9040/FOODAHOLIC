@@ -69,7 +69,6 @@ const PlaceOrderScreen = ({ navigation, route }) => {
   // console.log(userData);
 
   const payNow = () => {
-  
     var options = {
       description: "Payment for food order",
       image:
@@ -86,7 +85,7 @@ const PlaceOrderScreen = ({ navigation, route }) => {
       },
       theme: { color: "#ff4242" },
     };
-    
+
     RazorpayCheckout.open(options)
       .then((data) => {
         // handle success
@@ -95,9 +94,12 @@ const PlaceOrderScreen = ({ navigation, route }) => {
       .catch((error) => {
         // handle failure
         console.log(error);
-        
-        if(error.description == `{"error":{"code":"BAD_REQUEST_ERROR","description":"Payment processing cancelled by user","source":"customer","step":"payment_authentication","reason":"payment_cancelled","metadata":{}}}`){
-          alert("Payment cancelled by the User")
+
+        if (
+          error.description ==
+          `{"error":{"code":"BAD_REQUEST_ERROR","description":"Payment processing cancelled by user","source":"customer","step":"payment_authentication","reason":"payment_cancelled","metadata":{}}}`
+        ) {
+          alert("Payment cancelled by the User");
           return;
         }
         alert(`Error: ${error.code} | ${error.description}`);
