@@ -19,8 +19,8 @@ const CartScreen = ({ navigation }) => {
   const [totalPrice, setTotalPrice] = useState("0");
   // const [createOrderData, setCreateOrderData] = useState(null);
 
-  const getCartData = () => {
-    const docRef = firebase
+  const getCartData = async() => {
+    const docRef =await firebase
       .firestore()
       .collection("CartData")
       .doc(firebase.auth().currentUser.uid);
@@ -41,7 +41,7 @@ const CartScreen = ({ navigation }) => {
 
   useEffect(() => {
     getCartData();
-  }, []);
+  }, [cartData]);
 
   useEffect(() => {
     if (cartData !== null) {
@@ -76,45 +76,7 @@ const CartScreen = ({ navigation }) => {
   };
 
   const orderHandler = async() => {
-    
-  //   let instance = new Razorpay({
-  //     key_id: "rzp_test_mJjiqOgGZVu111",
-  //     key_secret: "7YXcj7HVjQzuKLiGFxA42QBa",
-  //   });
 
-  //  await instance.orders
-  //     .create({
-  //       amount: totalPrice * 100,
-  //       currency: "INR",
-  //       receipt: "receipt#1",
-  //       payment_capture: true,
-  //       notes: {
-  //         orderType: "Pre",
-  //       },
-  //     })
-  //     .then((data) => {
-  //       console.log(data);
-  //       // setCreateOrderData(data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //       alert(error);
-  //     });
-
-//   fetch("https://api.razorpay.com/v1/orders", {
-//   method: "POST",
-//   headers: {
-//     Accept: "application/json",
-//     "Content-Type": "application/json",
-//   },
-//   body: JSON.stringify({
-//     amount: totalPrice * 100,
-//     currency: "INR",
-//   }),
-// })
-//   .then((response) => response.json())
-//   .then((order) => console.log(order));
-    
     navigation.navigate("placeOrderScreen", {
       cartData,
       totalPrice,
@@ -143,9 +105,10 @@ const CartScreen = ({ navigation }) => {
           </View>
         </View>
         <View style={styles.container1}>
-          {cartData === null ? (
+          {cartData === null || totalPrice =="0" ? (
             <Text style={styles.cartText1}> Your Cart Is Empty😓.</Text>
           ) : (
+            <>
             <FlatList
               showsHorizontalScrollIndicator={false}
               showsVerticalScrollIndicator={false}
@@ -195,7 +158,7 @@ const CartScreen = ({ navigation }) => {
                 );
               }}
             ></FlatList>
-          )}
+          
           <View style={styles.checkoutButtons}>
             <View style={styles.totalPriceContainer}>
               <Text style={styles.totalText1}>Total</Text>
@@ -208,6 +171,7 @@ const CartScreen = ({ navigation }) => {
               <Text style={styles.buttonText}>Place Order</Text>
             </TouchableOpacity>
           </View>
+          </>)}
         </View>
       </View>
       <BottomNav navigation={navigation} />
