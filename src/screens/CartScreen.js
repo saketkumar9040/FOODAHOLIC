@@ -12,20 +12,23 @@ import { colors } from "../globals/style";
 import { firebase } from "../firebase/FirebaseConfig";
 import { FontAwesome, AntDesign } from "@expo/vector-icons";
 
+import Razorpay from "react-native-razorpay";
+
 const CartScreen = ({ navigation }) => {
   const [cartData, setCartData] = useState(null);
   const [totalPrice, setTotalPrice] = useState("0");
+  // const [createOrderData, setCreateOrderData] = useState(null);
 
-  const getCartData =  () => {
-    const docRef =  firebase
+  const getCartData = () => {
+    const docRef = firebase
       .firestore()
       .collection("CartData")
       .doc(firebase.auth().currentUser.uid);
     docRef
       .get()
-      .then(async(doc) => {
+      .then(async (doc) => {
         if (doc.exists) {
-         await setCartData(doc.data());
+          await setCartData(doc.data());
           //   console.log(JSON.stringify(doc.data()));
         } else {
           console.log("No Such Document");
@@ -72,24 +75,66 @@ const CartScreen = ({ navigation }) => {
     getCartData();
   };
 
+  const orderHandler = async() => {
+    
+  //   let instance = new Razorpay({
+  //     key_id: "rzp_test_mJjiqOgGZVu111",
+  //     key_secret: "7YXcj7HVjQzuKLiGFxA42QBa",
+  //   });
+
+  //  await instance.orders
+  //     .create({
+  //       amount: totalPrice * 100,
+  //       currency: "INR",
+  //       receipt: "receipt#1",
+  //       payment_capture: true,
+  //       notes: {
+  //         orderType: "Pre",
+  //       },
+  //     })
+  //     .then((data) => {
+  //       console.log(data);
+  //       // setCreateOrderData(data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //       alert(error);
+  //     });
+
+//   fetch("https://api.razorpay.com/v1/orders", {
+//   method: "POST",
+//   headers: {
+//     Accept: "application/json",
+//     "Content-Type": "application/json",
+//   },
+//   body: JSON.stringify({
+//     amount: totalPrice * 100,
+//     currency: "INR",
+//   }),
+// })
+//   .then((response) => response.json())
+//   .then((order) => console.log(order));
+    
+    navigation.navigate("placeOrderScreen", {
+      cartData,
+      totalPrice,
+    });
+  };
+
   return (
     <>
       <View style={styles.cartContainerOut}>
         <View
-           style={{
-            width:"100%",
+          style={{
+            width: "100%",
             flexDirection: "row",
             alignItems: "center",
-            marginTop:10,
+            marginTop: 10,
           }}
         >
           <View style={styles.navBtn}>
             <TouchableOpacity onPress={() => navigation.navigate("homeScreen")}>
-              <FontAwesome
-                name="arrow-left"
-                size={30}
-                color={colors.bgColor}  
-              />
+              <FontAwesome name="arrow-left" size={30} color={colors.bgColor} />
             </TouchableOpacity>
           </View>
           <View style={styles.containerTop}>
@@ -102,8 +147,8 @@ const CartScreen = ({ navigation }) => {
             <Text style={styles.cartText1}> Your Cart Is Empty😓.</Text>
           ) : (
             <FlatList
-            showsHorizontalScrollIndicator={false}
-            showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={false}
               style={styles.cartList}
               data={cartData.cart}
               renderItem={({ item }) => {
@@ -156,7 +201,10 @@ const CartScreen = ({ navigation }) => {
               <Text style={styles.totalText1}>Total</Text>
               <Text style={styles.totalText2}>₹{totalPrice}/-</Text>
             </View>
-            <TouchableOpacity style={styles.button1} onPress={() => navigation.navigate("placeOrderScreen",{cartData,totalPrice})}>
+            <TouchableOpacity
+              style={styles.button1}
+              onPress={() => orderHandler()}
+            >
               <Text style={styles.buttonText}>Place Order</Text>
             </TouchableOpacity>
           </View>
@@ -315,7 +363,7 @@ const styles = StyleSheet.create({
     fontWeight: 700,
   },
   totalPriceContainer: {
-    width:"45%",
+    width: "45%",
     flexDirection: "row",
     alignItems: "center",
   },

@@ -11,13 +11,14 @@ import React, { useEffect, useState } from "react";
 import { colors } from "../globals/style";
 import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import { firebase } from "../firebase/FirebaseConfig";
+import razorpayIcon from "../../assets/razorpayIcon.png"
 
 import RazorpayCheckout from "react-native-razorpay";
 
 const PlaceOrderScreen = ({ navigation, route }) => {
   // console.log(route.params.cartData)
 
-  let { cartData, totalPrice } = route.params;
+  let { cartData, totalPrice ,createOrderData} = route.params;
 
   const [totalCost, setTotalCost] = useState("0");
   const [orderData, setOrderData] = useState([]);
@@ -71,12 +72,11 @@ const PlaceOrderScreen = ({ navigation, route }) => {
   const payNow = () => {
     var options = {
       description: "Payment for food order",
-      image:
-        "https://firebasestorage.googleapis.com/v0/b/foodaholic-fd71f.appspot.com/o/a%2F1685183929065icon.jpg?alt=media&token=19fa9861-c7a1-4ce7-adc5-b599ff79d47b",
+      image: "https://i.ibb.co/vzQKX5N/razorpay-Icon.png" ,
       currency: "INR",
       key: "rzp_test_mJjiqOgGZVu111",
       amount: totalCost * 100,
-      name: "Foodaholilc",
+      name: "Foodaholic",
       order_id: "", //Replace this with an order_id created using Orders API.
       prefill: {
         email: "saketk89@gmail.com",
@@ -90,6 +90,7 @@ const PlaceOrderScreen = ({ navigation, route }) => {
       .then((data) => {
         // handle success
         alert(`Success: ${data.razorpay_payment_id}`);
+        console.log(data)
       })
       .catch((error) => {
         // handle failure
