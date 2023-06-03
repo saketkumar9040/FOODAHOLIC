@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React from "react";
 import { colors } from "../globals/style";
 import { FontAwesome5, FontAwesome } from "@expo/vector-icons";
 
@@ -17,7 +17,7 @@ const BottomNav = ({navigation}) => {
         <FontAwesome5 name="shopping-cart" size={30} color="white" onPress={()=>navigation.navigate("cartScreen")}/>
       </TouchableOpacity>
       <TouchableOpacity  style={styles.icon}>
-        <FontAwesome5 name="map-marked-alt" size={30} color="white" onPress={()=>navigation.navigate("")}/>
+        <FontAwesome5 name="map-marked-alt" size={30} color="white" onPress={()=>navigation.navigate("trackOrderScreen")}/>
       </TouchableOpacity>
     </View>
   );

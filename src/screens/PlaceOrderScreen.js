@@ -11,7 +11,6 @@ import React, { useEffect, useState } from "react";
 import { colors } from "../globals/style";
 import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import { firebase } from "../firebase/FirebaseConfig";
-import razorpayIcon from "../../assets/razorpayIcon.png"
 
 import RazorpayCheckout from "react-native-razorpay";
 
@@ -89,8 +88,54 @@ const PlaceOrderScreen = ({ navigation, route }) => {
     RazorpayCheckout.open(options)
       .then((data) => {
         // handle success
-        alert(`Success: ${data.razorpay_payment_id}`);
-        console.log(data)
+        const docRef = firebase.firestore().collection('UserOrders').doc(data.razorpay_payment_id);
+        docRef.set({
+            orderid: docRef.id,
+            orderdata: orderData.cart,
+            orderstatus: 'pending',
+            ordercost: totalCost,
+            orderdate: firebase.firestore.FieldValue.serverTimestamp(),
+            orderaddress: userData.address,
+            orderphone: userData.phone,
+            ordername: userData.name,
+            orderuseruid: userLoggedUid,
+            orderpayment: 'online',
+            paymenttotal: totalCost
+        })
+        alert(`Order Placed Successfully: ${data.razorpay_payment_id}`);
+        // console.log(data)
+        const emptyCart = (async() =>{
+         const docRef =await firebase
+        .firestore()
+        .collection("CartData")
+        .doc(firebase.auth().currentUser.uid);
+        docRef
+        .delete()
+        .then(async()=> {
+           await setOrderData([]);
+            console.log("cart updated to Empty State after order placed successfully")
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+        })();
+
+        // const getCartData = (async() => {
+        //   const docRef =await firebase
+        //     .firestore()
+        //     .collection("CartData")
+        //     .doc(firebase.auth().currentUser.uid);
+        //   docRef
+        //     .get()
+        //     .then(async () => {
+        //         await setOrderData([]);
+        //     })
+        //     .catch((error) => {
+        //       console.log(error.message);
+        //     });
+        // })();
+
+        navigation.navigate("trackOrderScreen")
       })
       .catch((error) => {
         // handle failure
@@ -359,9 +404,9 @@ const styles = StyleSheet.create({
   },
   button1: {
     width: "50%",
-    height: 50,
+    height: 40,
     backgroundColor: colors.color1,
-    borderRadius: 15,
+    borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
     elevation: 5,

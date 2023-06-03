@@ -106,7 +106,15 @@ const CartScreen = ({ navigation }) => {
         </View>
         <View style={styles.container1}>
           {cartData === null || totalPrice =="0" ? (
-            <Text style={styles.cartText1}> Your Cart Is Empty😓.</Text>
+            <View style={{flex:1,alignItems:"center"}}>
+            <Text style={styles.cartText1}> Your Cart Is Empty. Add some food 😋</Text>
+            <TouchableOpacity
+            style={styles.button1}
+            onPress={() => navigation.navigate("homeScreen")}
+          >
+            <Text style={styles.buttonText}>Go Home</Text>
+          </TouchableOpacity>
+          </View>
           ) : (
             <>
             <FlatList
@@ -217,7 +225,7 @@ const styles = StyleSheet.create({
   cartText1: {
     fontSize: 30,
     textAlign: "center",
-    fontWeight: 300,
+    fontWeight: 700,
     marginVertical: 20,
     elevation: 10,
     backgroundColor: colors.color1,
