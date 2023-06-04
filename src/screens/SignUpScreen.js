@@ -5,11 +5,12 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  ScrollView,
 } from "react-native";
 import React, { useState } from "react";
 import * as NavigationBar from "expo-navigation-bar";
 import { colors, hr80 } from "../globals/style";
-import { AntDesign, Feather, MaterialCommunityIcons } from "@expo/vector-icons";
+import { AntDesign, Feather, MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import foodImage from "../../assets/foodImage.png";
 
@@ -30,12 +31,14 @@ const SignUpScreen = ({ navigation }) => {
   const [passwordFocus, setPasswordFocus] = useState(false);
   const [reEnterpasswordFocus, setReEnterPasswordFocus] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [addressFocus, setaddressFocus] = useState(false);
 
   //  TAKING FORM DATA
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const [address, setAddress] = useState("");
   const [reEnterPassword, setReEnterPassword] = useState("");
 
   //   ERROR & SUCCESS MESSAGE
@@ -78,6 +81,7 @@ const SignUpScreen = ({ navigation }) => {
               email: email,
               phone: phone,
               password: password,
+              address:address,
               uid: userCredentials?.user?.uid,
             })
             .then(() => {
@@ -119,12 +123,15 @@ const SignUpScreen = ({ navigation }) => {
   };
 
   return (
-   <View style={styles.loginContainer}>
+   
+   <>
     {successmsg === null ?
-       <View style={styles.loginContainer}>
-      <View style={styles.imageContainer}>
+     <View style={styles.loginContainer}>
+      {/* <View style={styles.imageContainer}>
         <Image source={foodImage} style={styles.foodImage} />
-      </View>
+      </View> */}
+       <Text style={{marginTop:50,marginBottom:40,fontSize:40,fontWeight:700,color:colors.color1}}>Sign Up</Text>
+     
         {customError !== "" &&<Text style={styles.errorMsg}>{customError}</Text>}
       <View style={styles.inputContainer}>
         <AntDesign
@@ -142,6 +149,7 @@ const SignUpScreen = ({ navigation }) => {
             setPasswordFocus(false);
             setReEnterPasswordFocus(false);
             setShowPassword(false);
+            setaddressFocus(false);
             setCustomError("");
           }}
           onChangeText={(text) => setName(text)}
@@ -164,6 +172,7 @@ const SignUpScreen = ({ navigation }) => {
             setPasswordFocus(false);
             setReEnterPasswordFocus(false);
             setShowPassword(false);
+            setaddressFocus(false);
             setCustomError("")
           }}
           onChangeText={(text) => setEmail(text)}
@@ -186,6 +195,7 @@ const SignUpScreen = ({ navigation }) => {
             setPasswordFocus(false);
             setReEnterPasswordFocus(false);
             setShowPassword(false);
+            setaddressFocus(false);
             setCustomError("")
           }}
           onChangeText={(text) => setPhone(text)}
@@ -207,6 +217,7 @@ const SignUpScreen = ({ navigation }) => {
             setPasswordFocus(true);
             setReEnterPasswordFocus(false);
             setShowPassword(false);
+            setaddressFocus(false);
             setCustomError("")
           }}
           secureTextEntry={showPassword === false ? true : false}
@@ -235,6 +246,7 @@ const SignUpScreen = ({ navigation }) => {
             setPasswordFocus(false);
             setReEnterPasswordFocus(true);
             setShowPassword(false);
+            setaddressFocus(false);
             setCustomError("")
           }}
           onChangeText={(text) => setReEnterPassword(text)}
@@ -247,6 +259,27 @@ const SignUpScreen = ({ navigation }) => {
           onPress={() => setShowPassword(!showPassword)}
         />
       </View>
+      
+      <View style={styles.inputContainer}>
+        <FontAwesome5 name="home" size={24} color={addressFocus === true ? colors.text1 : colors.text2} />
+        <TextInput
+          style={styles.input}
+          placeholder="Enter Address"
+          onFocus={() => {
+            setNameFocus(false);
+            setEmailFocus(false);
+            setPhoneFocus(false);
+            setPasswordFocus(false);
+            setReEnterPasswordFocus(false);
+            setShowPassword(false);
+            setaddressFocus(true);
+            setCustomError("")
+          }}
+          onChangeText={(text) => setAddress(text)}
+        />
+      </View>
+    
+     
       <TouchableOpacity
         style={{ width: "50%", marginTop: 7 }}
         onPress={() => handleSignUp()}
@@ -267,6 +300,7 @@ const SignUpScreen = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       <StatusBar style="light" />
+   
     </View>
    :
    <View style={styles.loginContainer1}>
@@ -286,9 +320,10 @@ const SignUpScreen = ({ navigation }) => {
       >
         <Text style={styles.button}>Go Back</Text>
       </TouchableOpacity>
+      {/* </ScrollView> */}
    </View>
    }
-   </View >
+   </ >
   );
 };
 
@@ -298,6 +333,7 @@ const styles = StyleSheet.create({
   loginContainer: {
     flex: 1,
     width: "100%",
+    height:"100%",
     backgroundColor: "#ff4242",
     alignItems: "center",
   },
@@ -306,20 +342,20 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "#ff4242",
     alignItems: "center",
-    marginTop:60,
+    // marginTop:60,
   },
   imageContainer: {
     height: "30%",
     width: "80%",
-    marginTop:40,
     alignItems: "center",
     justifyContent: "center",
+    marginTop:60,
   },
   foodImage: {
     width: "100%",
     height: "100%",
     backgroundColor: "#ff4242",
-    resizeMode: "contain",
+    resizeMode: "stretch",
   },
   inputContainer: {
     flexDirection: "row",
@@ -329,6 +365,9 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     paddingHorizontal: 15,
     paddingVertical: 12,
+    alignItems:"center",
+    alignSelf:"center",
+
   },
   input: {
     fontSize: 15,

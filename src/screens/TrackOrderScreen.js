@@ -50,13 +50,13 @@ const TrackOrderScreen = ({ navigation }) => {
         <ScrollView style={styles.containerIn}>
           <View style={styles.headContainer}>
           <Text style={styles.head}>
-            TRACK-ORDERS
-            <MaterialIcons name="delivery-dining" size={40} color="white" />
+          TRACK-ORDERS
           </Text>
+             <MaterialIcons name="delivery-dining" size={40} color="white" />
           </View>
           {orders
             .sort((a, b) => {
-              b.orderdate.seconds - a.orderdate.seconds;
+              b?.orderdate.seconds - a?.orderdate.seconds;
             })
             .map((item, index) => {
               return (
@@ -216,12 +216,12 @@ const styles = StyleSheet.create({
     flex:1,
     flexDirection:"row",
     alignItems:"center",
+    justifyContent:"center",
     
   },
   head: {
     fontSize: 25,
     color: colors.color1,
-    textAlign: "center",
-    marginVertical: 20,
+    marginRight:10,
   },
 });
