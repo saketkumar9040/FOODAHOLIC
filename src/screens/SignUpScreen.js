@@ -15,6 +15,12 @@ import foodImage from "../../assets/foodImage.png";
 
 import { firebase } from "../firebase/FirebaseConfig";
 
+// import {
+//   GoogleSignin,
+//   GoogleSigninButton,
+//   statusCodes,
+// } from '@react-native-google-signin/google-signin';
+
 const SignUpScreen = ({ navigation }) => {
   NavigationBar.setBackgroundColorAsync("#ff4242");
 

@@ -17,7 +17,7 @@ import RazorpayCheckout from "react-native-razorpay";
 const PlaceOrderScreen = ({ navigation, route }) => {
   // console.log(route.params.cartData)
 
-  let { cartData, totalPrice ,createOrderData} = route.params;
+  let { cartData, totalPrice ,createOrderData} = route?.params;
 
   const [totalCost, setTotalCost] = useState("0");
   const [orderData, setOrderData] = useState([]);
@@ -65,6 +65,7 @@ const PlaceOrderScreen = ({ navigation, route }) => {
       }
     })();
   }, [userLoggedUid]);
+ console.log(firebase.auth().currentUser.uid) 
 
   // console.log(userData);
 
@@ -100,7 +101,7 @@ const PlaceOrderScreen = ({ navigation, route }) => {
             ordername: userData.name,
             orderuseruid: userLoggedUid,
             orderpayment: 'online',
-            paymenttotal: totalCost
+            paymenttotal: totalCost,
         })
         alert(`Order Placed Successfully: ${data.razorpay_payment_id}`);
         // console.log(data)
@@ -112,13 +113,14 @@ const PlaceOrderScreen = ({ navigation, route }) => {
         docRef
         .delete()
         .then(async()=> {
-           await setOrderData([]);
             console.log("cart updated to Empty State after order placed successfully")
         })
         .catch((error) => {
           console.log(error.message);
         });
-        })();
+      })();
+      navigation.navigate("trackOrderScreen");
+      
 
         // const getCartData = (async() => {
         //   const docRef =await firebase
@@ -135,7 +137,6 @@ const PlaceOrderScreen = ({ navigation, route }) => {
         //     });
         // })();
 
-        navigation.navigate("trackOrderScreen")
       })
       .catch((error) => {
         // handle failure

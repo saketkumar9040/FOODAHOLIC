@@ -12,10 +12,10 @@ const TrackOrderScreen = ({ navigation }) => {
     const orderRef = firebase
       .firestore()
       .collection("UserOrders")
-      .where("orderUserUid", "==", firebase.auth().currentUser.uid);
+      .where("orderuseruid", "==", firebase.auth().currentUser.uid);
 
     orderRef.onSnapshot((snapshot) =>
-      setOrders(snapshot?.docs.map((doc) => doc.data()))
+      setOrders(snapshot.docs.map((doc) => doc.data()))
     );
   };
 
@@ -23,7 +23,7 @@ const TrackOrderScreen = ({ navigation }) => {
     getOrders();
   }, []);
 
-  //   console.log(orders)
+    console.log(orders)
 
   return (
     <>

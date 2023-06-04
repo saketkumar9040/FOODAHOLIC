@@ -5,16 +5,19 @@ import {
   TouchableOpacity,
   FlatList,
   Image,
+  SafeAreaView,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import BottomNav from "../components/BottomNav";
 import { colors } from "../globals/style";
 import { firebase } from "../firebase/FirebaseConfig";
 import { FontAwesome, AntDesign } from "@expo/vector-icons";
+import { StatusBar } from "expo-status-bar";
 
-import Razorpay from "react-native-razorpay";
+const CartScreen = ({ navigation,route }) => {
 
-const CartScreen = ({ navigation }) => {
+  const {cart} = route.params;
+  console.log(route.params);
   const [cartData, setCartData] = useState(null);
   const [totalPrice, setTotalPrice] = useState("0");
   // const [createOrderData, setCreateOrderData] = useState(null);
@@ -41,7 +44,7 @@ const CartScreen = ({ navigation }) => {
 
   useEffect(() => {
     getCartData();
-  }, [cartData]);
+  }, []);
 
   useEffect(() => {
     if (cartData !== null) {
@@ -85,13 +88,14 @@ const CartScreen = ({ navigation }) => {
 
   return (
     <>
-      <View style={styles.cartContainerOut}>
+    <StatusBar style="light" />
+      <SafeAreaView style={styles.cartContainerOut}>
         <View
           style={{
             width: "100%",
             flexDirection: "row",
             alignItems: "center",
-            marginTop: 10,
+            justifyContent:"center",
           }}
         >
           <View style={styles.navBtn}>
@@ -181,7 +185,7 @@ const CartScreen = ({ navigation }) => {
           </View>
           </>)}
         </View>
-      </View>
+      </SafeAreaView>
       <BottomNav navigation={navigation} />
     </>
   );
@@ -194,6 +198,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     backgroundColor: colors.bgColor,
+    marginTop:50,
   },
   navBtn: {
     backgroundColor: colors.color1,

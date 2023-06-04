@@ -23,6 +23,8 @@ const ProductScreen = ({ navigation, route }) => {
   const [foodQuantity, setFoodQuantity] = useState("1");
   const [addOnQuantity, setAddOnQuantity] = useState("0");
 
+  const [cart,setCart]=useState([]);
+
   const addToCart = async () => {
     const docRef = await firebase
       .firestore()
@@ -67,10 +69,30 @@ const ProductScreen = ({ navigation, route }) => {
     }
   };
 
+  const getCartData = async() => {
+    const docRef =await firebase
+      .firestore()
+      .collection("CartData")
+      .doc(firebase.auth().currentUser.uid);
+    docRef
+      .get()
+      .then(async (doc) => {
+        if (doc.exists) {
+          await setCart(doc.data());
+          //   console.log(JSON.stringify(doc.data()));
+        } else {
+          console.log("No Such Document");
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
   return (
     <>
       <ScrollView style={styles.Productcontainer}>
-        <StatusBar style="dark" />
+        <StatusBar style="dark`" />
 
         <View style={styles.imageContainer}>
           <View style={navBtn}>
@@ -217,11 +239,14 @@ const ProductScreen = ({ navigation, route }) => {
         <TouchableOpacity style={styles.button} onPress={() => addToCart()}>
           <Text style={styles.buttonText}>Add to Cart</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText} onPress={()=>{
-            addToCart();
-            navigation.navigate("placeOrderScreen")
-          }}>Buy Now</Text>
+        <TouchableOpacity style={styles.button} onPress={async()=>{
+             await addToCart().then(()=>{
+               navigation.navigate("cartScreen",cart)
+             }).catch((error)=>{
+              console.log(error.message)
+             })
+          }}>
+          <Text style={styles.buttonText} >Buy Now</Text>
         </TouchableOpacity>
       </View>
       </View>
@@ -238,8 +263,8 @@ const styles = StyleSheet.create({
     marginBottom: 120,
   },
   imageContainer: {
+    marginTop:50,
     width: "100%",
-    height: 250,
     backgroundcolor: colors.color1,
     alignItems: "center",
     justifyContent: "center",
