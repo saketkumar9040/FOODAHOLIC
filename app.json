@@ -15,16 +15,14 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
-      "googleServicesFile": "./GoogleService-Info.plist"
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/icons/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.saketkumar.foodaholic",
-      "googleServicesFile": "./google-services.json"
+      "package": "com.saketkumar.foodaholic"
     },
     "androidStatusBar": {
       "barStyle": "light-content",
@@ -37,7 +35,6 @@
       "eas": {
         "projectId": "31e16bb3-9f3b-4ccf-9d06-d97345783a30"
       }
-    },
-    "plugins": ["@react-native-google-signin/google-signin"]
+    }
   }
 }

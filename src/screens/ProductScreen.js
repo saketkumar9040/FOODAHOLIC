@@ -7,7 +7,7 @@ import {
   Image,
   TextInput,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { colors, navBtn, navBtnin, nonVeg, veg } from "../globals/style";
 import { Entypo, FontAwesome } from "@expo/vector-icons";
 import { firebase } from "../firebase/FirebaseConfig";
@@ -23,7 +23,7 @@ const ProductScreen = ({ navigation, route }) => {
   const [foodQuantity, setFoodQuantity] = useState("1");
   const [addOnQuantity, setAddOnQuantity] = useState("0");
 
-  const [cart,setCart]=useState([]);
+  // const [cartData,setCartData] = useState([])
 
   const addToCart = async () => {
     const docRef = await firebase
@@ -69,30 +69,35 @@ const ProductScreen = ({ navigation, route }) => {
     }
   };
 
-  const getCartData = async() => {
-    const docRef =await firebase
-      .firestore()
-      .collection("CartData")
-      .doc(firebase.auth().currentUser.uid);
-    docRef
-      .get()
-      .then(async (doc) => {
-        if (doc.exists) {
-          await setCart(doc.data());
-          //   console.log(JSON.stringify(doc.data()));
-        } else {
-          console.log("No Such Document");
-        }
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
+  // const getCartData = async() => {
+  //   const docRef =await firebase
+  //     .firestore()
+  //     .collection("CartData")
+  //     .doc(firebase.auth().currentUser.uid);
+  //   docRef
+  //     .get()
+  //     .then(async (doc) => {
+  //       if (doc.exists) {
+  //         await setCartData(doc.data());
+  //         //   console.log(JSON.stringify(doc.data()));
+  //       } else {
+  //         console.log("No Such Document");
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.message);
+  //     });
+  // };
 
+  // useEffect(()=>{
+  //   getCartData();
+  // },[]);
+
+  // console.log(cartData);
   return (
     <>
       <ScrollView style={styles.Productcontainer}>
-        <StatusBar style="dark`" />
+        <StatusBar style="dark" />
 
         <View style={styles.imageContainer}>
           <View style={navBtn}>
@@ -240,11 +245,8 @@ const ProductScreen = ({ navigation, route }) => {
           <Text style={styles.buttonText}>Add to Cart</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={async()=>{
-             await addToCart().then(()=>{
-               navigation.navigate("cartScreen",cart)
-             }).catch((error)=>{
-              console.log(error.message)
-             })
+            await addToCart();
+            navigation.navigate("cartScreen");
           }}>
           <Text style={styles.buttonText} >Buy Now</Text>
         </TouchableOpacity>
@@ -263,8 +265,8 @@ const styles = StyleSheet.create({
     marginBottom: 120,
   },
   imageContainer: {
-    marginTop:50,
     width: "100%",
+    height: 250,
     backgroundcolor: colors.color1,
     alignItems: "center",
     justifyContent: "center",

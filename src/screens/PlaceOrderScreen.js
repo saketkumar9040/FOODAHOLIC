@@ -13,6 +13,7 @@ import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import { firebase } from "../firebase/FirebaseConfig";
 
 import RazorpayCheckout from "react-native-razorpay";
+import { StatusBar } from "expo-status-bar";
 
 const PlaceOrderScreen = ({ navigation, route }) => {
   // console.log(route.params.cartData)
@@ -65,7 +66,7 @@ const PlaceOrderScreen = ({ navigation, route }) => {
       }
     })();
   }, [userLoggedUid]);
- console.log(firebase.auth().currentUser.uid) 
+//  console.log(firebase.auth().currentUser.uid) 
 
   // console.log(userData);
 
@@ -155,11 +156,13 @@ const PlaceOrderScreen = ({ navigation, route }) => {
 
   return (
     <View style={styles.placeOrderContainer}>
+      <StatusBar style="light" backgroundColor="#ff4242"/>
       <View
         style={{
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",
+          paddingTop:45,
         }}
       >
         <View style={styles.navBtn}>

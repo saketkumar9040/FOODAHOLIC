@@ -23,7 +23,7 @@ const TrackOrderScreen = ({ navigation }) => {
     getOrders();
   }, []);
 
-    console.log(orders)
+    // console.log(orders)
 
   return (
     <>

@@ -14,10 +14,8 @@ import { firebase } from "../firebase/FirebaseConfig";
 import { FontAwesome, AntDesign } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 
-const CartScreen = ({ navigation,route }) => {
+const CartScreen = ({ navigation }) => {
 
-  const {cart} = route.params;
-  console.log(route.params);
   const [cartData, setCartData] = useState(null);
   const [totalPrice, setTotalPrice] = useState("0");
   // const [createOrderData, setCreateOrderData] = useState(null);
@@ -43,7 +41,9 @@ const CartScreen = ({ navigation,route }) => {
   };
 
   useEffect(() => {
-    getCartData();
+    setTimeout(()=>{
+      getCartData();
+    },500)
   }, []);
 
   useEffect(() => {
@@ -65,7 +65,7 @@ const CartScreen = ({ navigation,route }) => {
       setTotalPrice(allItemPrice + allAddOnPrice);
     }
   }, [cartData]);
-  // console.log(JSON.stringify(cartData));
+  // console.log(JSON.stringify(cartData)); 
 
   const deleteHandler = (item) => {
     const docRef = firebase
@@ -88,14 +88,14 @@ const CartScreen = ({ navigation,route }) => {
 
   return (
     <>
-    <StatusBar style="light" />
       <SafeAreaView style={styles.cartContainerOut}>
+        <StatusBar style="light" />
         <View
           style={{
             width: "100%",
             flexDirection: "row",
-            alignItems: "center",
-            justifyContent:"center",
+            alignItems: "center", 
+            paddingTop:50,
           }}
         >
           <View style={styles.navBtn}>
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     backgroundColor: colors.bgColor,
-    marginTop:50,
+    PaddingTop:50,
   },
   navBtn: {
     backgroundColor: colors.color1,
