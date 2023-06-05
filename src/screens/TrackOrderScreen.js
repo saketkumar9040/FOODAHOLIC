@@ -40,8 +40,15 @@ const TrackOrderScreen = ({ navigation }) => {
     return newDate.toDateString();
   };
 
-  const cancelOrder = (id) => {
-
+  const cancelOrder = (item) => {
+    const ordersRef = firebase
+      .firestore()
+      .collection("UserOrders")
+      .doc(item.orderid)
+      .update({
+        orderstatus:"cancelled"
+      });
+      getOrders();
   };
 
   return (
@@ -49,12 +56,10 @@ const TrackOrderScreen = ({ navigation }) => {
       <StatusBar style="light" backgroundColor="#ff4242" />
       <View style={styles.container}>
         <HomeHeadNav navigation={navigation} />
-          <View style={styles.headContainer}>
-          <Text style={styles.head}>
-          TRACK-ORDERS
-          </Text>
-             <MaterialIcons name="delivery-dining" size={45} color="white" />
-          </View>
+        <View style={styles.headContainer}>
+          <Text style={styles.head}>TRACK-ORDERS</Text>
+          <MaterialIcons name="delivery-dining" size={45} color="#ff4242" />
+        </View>
         <ScrollView style={styles.containerIn}>
           {orders
             .sort((a, b) => {
@@ -207,40 +212,53 @@ const styles = StyleSheet.create({
     // paddingBottom:80,
   },
   containerIn: {
-    marginTop: 20,
+    // marginTop: 20,
     flex: 1,
     backgroundColor: colors.color1,
     width: "100%",
     height: "100%",
-    margin:20,
-    alignSelf:"center",
+    alignSelf: "center",
     marginBottom: 50,
-    padding:15,
+    // padding: 5,
   },
-  orderCard:{
-       borderRadius:50,
-       borderWidth:5,
-       borderColor:colors.bgColor,
-       padding:20,
-       margin:10,
+  orderCard: {
+    borderRadius: 50,
+    borderWidth: 5,
+    borderColor: colors.bgColor,
+    padding: 20,
+    margin: 10,
   },
-  orderIndex:{
-    fontSize:30,
-    fontWeight:900,
-    alignSelf:"center",
+  orderIndex: {
+    fontSize: 30,
+    fontWeight: 900,
+    alignSelf: "center",
+    textAlign:"center",
+    // borderRadius:80,
+    borderWidth:5,
+    borderColor:colors.bgColor,
+    paddingHorizontal:10,
+    marginTop:-24,
+    borderBottomLeftRadius:25,
+    borderBottomRightRadius:25,
   },
-  headContainer:{
-    flexDirection:"row",
-    alignItems:"center",
-    justifyContent:"center",
-    height:"10%",
-    width:"100%",
-    
+  headContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "8%",
+    width: "100%",
+    backgroundColor:colors.color1,
+    // elevation:10,
+    // backgroundColor:"blue"
+    borderWidth:10,
+   
+    borderColor:"#ff4242"
   },
   head: {
     fontSize: 25,
-    color: colors.color1,
-    marginRight:10,
+    color: colors.bgColor,
+    marginRight: 10,
+    fontWeight:700,
   },
   cartImage: {
     width: 80,
@@ -308,123 +326,123 @@ const styles = StyleSheet.create({
     color: colors.price,
     borderRadius: 40,
   },
-  row1:{
-    flexDirection:"column",
-    margin:10,
-    elevation:10,
-    backgroundColor:colors.color1,
-    padding:10,
-    borderRadius:10,
-    justifyContent:"center",
-    alignItems:"center",
+  row1: {
+    flexDirection: "column",
+    margin: 10,
+    elevation: 10,
+    backgroundColor: colors.color1,
+    padding: 10,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
   },
   // totalPrice:{
   //   fontSize:20,
   //   marginRight:10,
   // },
-  total:{
-    fontSize:23,
-    fontWeight:800,
-    color:colors.price,
-    textAlign:"right",
-    marginVertical:10,
-    // marginRight:20,
-    marginHorizontal:20,
-  },
-  orderText3:{
-    fontSize:17,
-    fontWeight:600,
-    alignSelf:"center",
-    color:colors.price,
-  },
-  orderText2:{
-    fontSize:17,
-    fontWeight:600,
-    alignSelf:"center",
-    color:"red",
-  },
-  orderText1:{
-      fontSize:15,
-      fontWeight:500,
-      // borderRadius:30,
-
-  },
-  orderText:{
+  total: {
+    fontSize: 23,
+    fontWeight: 800,
+    color: colors.price,
+    alignSelf:"flex-end",
+    marginVertical: 10,
     backgroundColor:colors.color1,
-    alignSelf:"center",
     padding:5,
-    color:colors.price,
-    fontSize:16,
-    fontWeight:700,
-
-
+    elevation:10,
+    borderRadius:40,
   },
-  orderTextThankYou:{
-    fontSize:22,
-    fontWeight:600,
-    color:colors.price,
-    alignSelf:"center",
-    textAlign:"center"
-  
+  orderText3: {
+    fontSize: 17,
+    fontWeight: 600,
+    alignSelf: "center",
+    color: colors.price,
   },
-  orderTextSorry:{
-    fontSize:22,
-    fontWeight:600,
-    color:"orange",
-    alignSelf:"center",
-    textAlign:"center",
-    padding:5,
+  orderText2: {
+    fontSize: 17,
+    fontWeight: 600,
+    alignSelf: "center",
+    color: "red",
   },
-  cancelButton:{
-    backgroundColor:colors.bgColor,
-    padding:10,
-    borderRadius:15,
-    marginVertical:10,
-    alignSelf:"center"
+  orderText1: {
+    fontSize: 15,
+    fontWeight: 500,
+    // borderRadius:30,
   },
-  cancelButtonText:{
-    fontSize:20,
-    color:colors.color1,
-    textAlign:"center",
-    fontWeight:700,
+  orderText: {
+    backgroundColor: colors.color1,
+    alignSelf: "center",
+    padding: 5,
+    margin:7,
+    color: colors.price,
+    fontSize: 16,
+    fontWeight: 700,
+    elevation:10,
+    borderRadius:50,
   },
-  orderOtw:{
-    fontSize:18,
-    backgroundColor:"orange",
-    textAlign:"center",
-    fontWeight:700,
-    color:colors.color1,
-    borderRadius:30,
+  orderTextThankYou: {
+    fontSize: 22,
+    fontWeight: 600,
+    color: colors.price,
+    alignSelf: "center",
+    textAlign: "center",
   },
-  orderDelivered:{
-    fontSize:18,
-    backgroundColor:colors.price,
-    textAlign:"center",
-    fontWeight:700,
-    color:colors.color1,
-    borderRadius:30,
-    padding:5,
+  orderTextSorry: {
+    fontSize: 22,
+    fontWeight: 600,
+    color: "orange",
+    alignSelf: "center",
+    textAlign: "center",
+    padding: 5,
   },
-  orderCancelled:{
-    fontSize:18,
-    fontWeight:900,
-    backgroundColor:"red",
-    textAlign:"center",
-    fontWeight:700,
-    color:colors.color1,
-    borderRadius:30,
-    padding:5,
+  cancelButton: {
+    backgroundColor: colors.bgColor,
+    padding: 10,
+    borderRadius: 15,
+    marginVertical: 10,
+    alignSelf: "center",
+    elevation:10,
   },
-  orderPending:{
-    fontSize:18,
-    fontWeight:900,
-    backgroundColor:"#FFEA00",
-    textAlign:"center",
-    color:colors.color1,
-    borderRadius:30,
-    padding:5,
-  }
-
- 
-
+  cancelButtonText: {
+    fontSize: 20,
+    color: colors.color1,
+    textAlign: "center",
+    fontWeight: 700,
+  },
+  orderOtw: {
+    fontSize: 18,
+    backgroundColor: "orange",
+    textAlign: "center",
+    fontWeight: 700,
+    color: colors.color1,
+    borderRadius: 30,
+    
+  },
+  orderDelivered: {
+    fontSize: 18,
+    backgroundColor: colors.price,
+    textAlign: "center",
+    fontWeight: 700,
+    color: colors.color1,
+    borderRadius: 30,
+    padding: 5,
+  },
+  orderCancelled: {
+    fontSize: 18,
+    fontWeight: 900,
+    backgroundColor: "red",
+    textAlign: "center",
+    fontWeight: 700,
+    color: colors.color1,
+    borderRadius: 30,
+    padding: 5,
+  },
+  orderPending: {
+    fontSize: 18,
+    fontWeight: 900,
+    backgroundColor: "#FFEA00",
+    textAlign: "center",
+    color: colors.color1,
+    borderRadius: 30,
+    padding: 5,
+  },
 });
