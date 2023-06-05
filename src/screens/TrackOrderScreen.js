@@ -19,12 +19,12 @@ const TrackOrderScreen = ({ navigation }) => {
   const [orders, setOrders] = useState([]);
 
   const getOrders = async () => {
-    const orderRef = firebase
+    const orderRef = await firebase
       .firestore()
       .collection("UserOrders")
       .where("orderuseruid", "==", firebase.auth().currentUser.uid);
 
-    orderRef.onSnapshot((snapshot) =>
+    await orderRef.onSnapshot((snapshot) =>
       setOrders(snapshot.docs.map((doc) => doc.data()))
     );
   };
@@ -33,30 +33,32 @@ const TrackOrderScreen = ({ navigation }) => {
     getOrders();
   }, []);
 
-  // console.log(orders);
+  // console.log(JSON.stringify(orders[0].orderstatus));
 
   const convertDate = (date) => {
     let newDate = new Date(date.seconds * 1000);
     return newDate.toDateString();
   };
 
-  const cancelOrder = () => {};
+  const cancelOrder = (id) => {
+
+  };
 
   return (
     <>
       <StatusBar style="light" backgroundColor="#ff4242" />
       <View style={styles.container}>
         <HomeHeadNav navigation={navigation} />
-        <ScrollView style={styles.containerIn}>
           <View style={styles.headContainer}>
           <Text style={styles.head}>
           TRACK-ORDERS
           </Text>
-             <MaterialIcons name="delivery-dining" size={40} color="white" />
+             <MaterialIcons name="delivery-dining" size={45} color="white" />
           </View>
+        <ScrollView style={styles.containerIn}>
           {orders
             .sort((a, b) => {
-              b?.orderdate.seconds - a?.orderdate.seconds;
+              b.orderdate.seconds - a.orderdate.seconds;
             })
             .map((item, index) => {
               return (
@@ -163,12 +165,12 @@ const TrackOrderScreen = ({ navigation }) => {
                   />
                   <Text style={styles.total}>Total : ₹{item.ordercost}</Text>
                   {item.orderstatus == "delivered" ? (
-                    <Text style={styles.orderText3}>
+                    <Text style={styles.orderTextThankYou}>
                       Thank You for Ordering With Us ☺
                     </Text>
                   ) : null}
                   {item.orderstatus == "cancelled" ? (
-                    <Text style={styles.orderText3}>
+                    <Text style={styles.orderTextSorry}>
                       Sorry for the Inconvenience caused 😔
                     </Text>
                   ) : null}
@@ -205,18 +207,34 @@ const styles = StyleSheet.create({
     // paddingBottom:80,
   },
   containerIn: {
-    marginTop: 10,
+    marginTop: 20,
     flex: 1,
-    backgroundColor: colors.bgColor,
+    backgroundColor: colors.color1,
     width: "100%",
     height: "100%",
-    marginBottom: 100,
+    margin:20,
+    alignSelf:"center",
+    marginBottom: 50,
+    padding:15,
+  },
+  orderCard:{
+       borderRadius:100,
+       borderWidth:5,
+       borderColor:colors.bgColor,
+       padding:20,
+       margin:10,
+  },
+  orderIndex:{
+    fontSize:30,
+    fontWeight:900,
+    alignSelf:"center",
   },
   headContainer:{
-    flex:1,
     flexDirection:"row",
     alignItems:"center",
     justifyContent:"center",
+    height:"10%",
+    width:"100%",
     
   },
   head: {
@@ -224,4 +242,189 @@ const styles = StyleSheet.create({
     color: colors.color1,
     marginRight:10,
   },
+  cartImage: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    marginTop: 7,
+  },
+  row: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 5,
+    justifyContent: "space-between",
+  },
+  rowOut: {
+    flexDirection: "column",
+    margin: 5,
+    elevation: 10,
+    backgroundColor: colors.color1,
+    padding: 3,
+    borderRadius: 70,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  rowLeft: {
+    width: "50%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  quantity: {
+    width: 40,
+    height: 30,
+    backgroundColor: colors.color1,
+    borderRadius: 10,
+    textAlign: "center",
+    textAlignVertical: "center",
+    marginRight: 10,
+    marginHorizontal: 10,
+    marginTop: 10,
+    color: colors.bgColor,
+    fontSize: 17,
+    fontWeight: 500,
+  },
+  title: {
+    width: "60%",
+    fontSize: 19,
+    fontWeight: 800,
+    color: colors.bgColor,
+    textAlign: "center",
+    textAlignVertical: "center",
+  },
+  price1: {
+    fontSize: 18,
+    fontWeight: 500,
+    color: colors.price,
+    padding: 4,
+    borderRadius: 10,
+    backgroundColor: colors.color1,
+  },
+  itemPrice: {
+    fontSize: 18,
+    fontWeight: 700,
+    padding: 6,
+    backgroundColor: colors.color1,
+    color: colors.price,
+    borderRadius: 40,
+  },
+  row1:{
+    flexDirection:"column",
+    margin:10,
+    elevation:10,
+    backgroundColor:colors.color1,
+    padding:10,
+    borderRadius:10,
+    justifyContent:"center",
+    alignItems:"center",
+  },
+  // totalPrice:{
+  //   fontSize:20,
+  //   marginRight:10,
+  // },
+  total:{
+    fontSize:23,
+    fontWeight:800,
+    color:colors.price,
+    textAlign:"right",
+    marginVertical:10,
+    // marginRight:20,
+    marginHorizontal:20,
+  },
+  orderText3:{
+    fontSize:17,
+    fontWeight:600,
+    alignSelf:"center",
+    color:colors.price,
+  },
+  orderText2:{
+    fontSize:17,
+    fontWeight:600,
+    alignSelf:"center",
+    color:"red",
+  },
+  orderText1:{
+      fontSize:15,
+      fontWeight:500,
+      // borderRadius:30,
+
+  },
+  orderText:{
+    backgroundColor:colors.color1,
+    alignSelf:"center",
+    padding:5,
+    color:colors.price,
+    fontSize:16,
+    fontWeight:700,
+
+
+  },
+  orderTextThankYou:{
+    fontSize:22,
+    fontWeight:600,
+    color:colors.price,
+    alignSelf:"center",
+    textAlign:"center"
+  
+  },
+  orderTextSorry:{
+    fontSize:22,
+    fontWeight:600,
+    color:"orange",
+    alignSelf:"center",
+    textAlign:"center",
+    padding:5,
+  },
+  cancelButton:{
+    backgroundColor:colors.bgColor,
+    padding:10,
+    borderRadius:15,
+    marginVertical:10,
+    alignSelf:"center"
+  },
+  cancelButtonText:{
+    fontSize:20,
+    color:colors.color1,
+    textAlign:"center",
+    fontWeight:700,
+  },
+  orderOtw:{
+    fontSize:18,
+    backgroundColor:"orange",
+    textAlign:"center",
+    fontWeight:700,
+    color:colors.color1,
+    borderRadius:30,
+  },
+  orderDelivered:{
+    fontSize:18,
+    backgroundColor:colors.price,
+    textAlign:"center",
+    fontWeight:700,
+    color:colors.color1,
+    borderRadius:30,
+    padding:5,
+  },
+  orderCancelled:{
+    fontSize:18,
+    fontWeight:900,
+    backgroundColor:"red",
+    textAlign:"center",
+    fontWeight:700,
+    color:colors.color1,
+    borderRadius:30,
+    padding:5,
+  },
+  orderPending:{
+    fontSize:18,
+    fontWeight:900,
+    backgroundColor:"#FFEA00",
+    textAlign:"center",
+    color:colors.color1,
+    borderRadius:30,
+    padding:5,
+  }
+
+ 
+
 });

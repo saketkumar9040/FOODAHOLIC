@@ -196,10 +196,13 @@ const PlaceOrderScreen = ({ navigation, route }) => {
             return (
               <View style={styles.rowOut}>
                 <View style={styles.row}>
+                  { 
+                  item.data.foodImageUrl !== null &&
                   <Image
                     source={{ uri: item.data.foodImageUrl }}
                     style={styles.cartImage}
                   />
+                  }
                   <View style={styles.rowLeft}>
                     <Text style={styles.quantity}>{item.foodQuantity}</Text>
                     <Text style={styles.title}>{item.data.foodName}</Text>
