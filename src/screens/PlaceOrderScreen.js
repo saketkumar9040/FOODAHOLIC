@@ -18,7 +18,7 @@ import { StatusBar } from "expo-status-bar";
 const PlaceOrderScreen = ({ navigation, route }) => {
 
   let { cartData, totalPrice ,createOrderData} = route?.params;
-  console.log(totalPrice)
+  // console.log(totalPrice)
 
   const [totalCost, setTotalCost] = useState("0");
   const [orderData, setOrderData] = useState([]);
@@ -33,7 +33,7 @@ const PlaceOrderScreen = ({ navigation, route }) => {
     setTotalCost(totalPrice);
   }, [cartData, totalPrice]);
 
-  console.log(JSON.stringify(orderData))
+  // console.log(JSON.stringify(orderData))
 
   /////////////////////////    USER - DATA   ///////////////////
 
@@ -122,7 +122,7 @@ const PlaceOrderScreen = ({ navigation, route }) => {
           console.log(error.message);
         });
       })();
-      navigation.navigate("trackOrderScreen");      
+      navigation.navigate("successfulOrderScreen");      
 
       })
       .catch((error) => {

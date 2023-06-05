@@ -11,6 +11,7 @@ import ProductScreen from "./src/screens/ProductScreen.js";
 import CartScreen from "./src/screens/CartScreen.js";
 import PlaceOrderScreen from "./src/screens/PlaceOrderScreen.js";
 import TrackOrderScreen from "./src/screens/TrackOrderScreen.js";
+import SuccessfulOrderScreen from "./src/screens/SuccessfulOrderScreen.js";
 
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
 
 
   return (
+    
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ animation: "none" }}
@@ -66,6 +68,11 @@ export default function App() {
         <Stack.Screen
           name="trackOrderScreen"
           component={TrackOrderScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="successfulOrderScreen"
+          component={SuccessfulOrderScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
