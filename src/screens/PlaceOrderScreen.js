@@ -5,7 +5,7 @@ import {
   Text,
   TouchableOpacity,
   View,
-  ScrollView,
+
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { colors } from "../globals/style";
@@ -16,9 +16,9 @@ import RazorpayCheckout from "react-native-razorpay";
 import { StatusBar } from "expo-status-bar";
 
 const PlaceOrderScreen = ({ navigation, route }) => {
-  // console.log(route.params.cartData)
 
   let { cartData, totalPrice ,createOrderData} = route?.params;
+  console.log(totalPrice)
 
   const [totalCost, setTotalCost] = useState("0");
   const [orderData, setOrderData] = useState([]);
@@ -32,6 +32,8 @@ const PlaceOrderScreen = ({ navigation, route }) => {
     setOrderData(cartData);
     setTotalCost(totalPrice);
   }, [cartData, totalPrice]);
+
+  console.log(JSON.stringify(orderData))
 
   /////////////////////////    USER - DATA   ///////////////////
 
@@ -120,23 +122,7 @@ const PlaceOrderScreen = ({ navigation, route }) => {
           console.log(error.message);
         });
       })();
-      navigation.navigate("trackOrderScreen");
-      
-
-        // const getCartData = (async() => {
-        //   const docRef =await firebase
-        //     .firestore()
-        //     .collection("CartData")
-        //     .doc(firebase.auth().currentUser.uid);
-        //   docRef
-        //     .get()
-        //     .then(async () => {
-        //         await setOrderData([]);
-        //     })
-        //     .catch((error) => {
-        //       console.log(error.message);
-        //     });
-        // })();
+      navigation.navigate("trackOrderScreen");      
 
       })
       .catch((error) => {

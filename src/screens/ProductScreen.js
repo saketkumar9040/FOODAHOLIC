@@ -69,31 +69,12 @@ const ProductScreen = ({ navigation, route }) => {
     }
   };
 
-  // const getCartData = async() => {
-  //   const docRef =await firebase
-  //     .firestore()
-  //     .collection("CartData")
-  //     .doc(firebase.auth().currentUser.uid);
-  //   docRef
-  //     .get()
-  //     .then(async (doc) => {
-  //       if (doc.exists) {
-  //         await setCartData(doc.data());
-  //         //   console.log(JSON.stringify(doc.data()));
-  //       } else {
-  //         console.log("No Such Document");
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.log(error.message);
-  //     });
-  // };
+  const cartData = {
+    cart: [{ addOnQuantity: addOnQuantity, foodQuantity: foodQuantity,data}]
+  };
+  const totalPrice = addOnQuantity * data.foodAddOnPrice + foodQuantity * data.price;
+  // console.log(totalPrice)
 
-  // useEffect(()=>{
-  //   getCartData();
-  // },[]);
-
-  // console.log(cartData);
   return (
     <>
       <ScrollView style={styles.Productcontainer}>
@@ -173,84 +154,103 @@ const ProductScreen = ({ navigation, route }) => {
             </Text>
           </View>
         </View>
-      
       </ScrollView>
       <View style={styles.bottomContainer}>
-      <View style={styles.quantityAddOnContainer}>
-      <View style={styles.container3}>
-          <Text style={styles.foodQuantityText}>Quantity</Text>
-          <View style={styles.foodQuantityIn}>
-            <TouchableOpacity>
-              <Text
-                style={styles.increment}
-                onPress={() => incrementQuantity()}
-              >
-                +
-              </Text>
-            </TouchableOpacity>
-            <TextInput style={styles.foodQuantityInput} value={foodQuantity} />
-            <TouchableOpacity>
-              <Text
-                style={styles.decrement}
-                onPress={() => decrementQuantity()}
-              >
-                -
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        {data.foodAddOnPrice !== "" && (
+        <View style={styles.quantityAddOnContainer}>
           <View style={styles.container3}>
-            <View
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
-            >
-              <Text style={styles.foodAddOnText}>{data.foodAddOn}</Text>
-              <Text style={styles.addOnPrice}>
-                ₹ {data.foodAddOnPrice}/-
-              </Text>
-            </View>
+            <Text style={styles.foodQuantityText}>Quantity</Text>
             <View style={styles.foodQuantityIn}>
               <TouchableOpacity>
-                <Text style={styles.increment} onPress={() => incrementAddOn()}>
+                <Text
+                  style={styles.increment}
+                  onPress={() => incrementQuantity()}
+                >
                   +
                 </Text>
               </TouchableOpacity>
               <TextInput
                 style={styles.foodQuantityInput}
-                value={addOnQuantity}
+                value={foodQuantity}
               />
               <TouchableOpacity>
-                <Text style={styles.decrement} onPress={() => decrementAddOn()}>
+                <Text
+                  style={styles.decrement}
+                  onPress={() => decrementQuantity()}
+                >
                   -
                 </Text>
               </TouchableOpacity>
             </View>
           </View>
-        )}
-      </View>
-      <View style={styles.container4}>
-        <View style={styles.container4In}>
-          <Text style={styles.totalPriceText}>Total Price</Text>
-          {data.foodAddOnPrice !== "" ? (
-            <Text style={styles.text5}> ₹ {((parseInt(data.price) * parseInt(foodQuantity))+(parseInt(data.foodAddOnPrice) * parseInt(addOnQuantity))).toString()}/-</Text>
-          ) : (
-            <Text style={styles.text5}>
-              ₹ {(parseInt(data.price) * parseInt(foodQuantity)).toString()}/-
-            </Text>
+          {data.foodAddOnPrice !== "" && (
+            <View style={styles.container3}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Text style={styles.foodAddOnText}>{data.foodAddOn}</Text>
+                <Text style={styles.addOnPrice}>₹ {data.foodAddOnPrice}/-</Text>
+              </View>
+              <View style={styles.foodQuantityIn}>
+                <TouchableOpacity>
+                  <Text
+                    style={styles.increment}
+                    onPress={() => incrementAddOn()}
+                  >
+                    +
+                  </Text>
+                </TouchableOpacity>
+                <TextInput
+                  style={styles.foodQuantityInput}
+                  value={addOnQuantity}
+                />
+                <TouchableOpacity>
+                  <Text
+                    style={styles.decrement}
+                    onPress={() => decrementAddOn()}
+                  >
+                    -
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
           )}
         </View>
-      </View>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={() => addToCart()}>
-          <Text style={styles.buttonText}>Add to Cart</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={async()=>{
-            await addToCart();
-            navigation.navigate("cartScreen");
-          }}>
-          <Text style={styles.buttonText} >Buy Now</Text>
-        </TouchableOpacity>
-      </View>
+        <View style={styles.container4}>
+          <View style={styles.container4In}>
+            <Text style={styles.totalPriceText}>Total Price</Text>
+            {data.foodAddOnPrice !== "" ? (
+              <Text style={styles.text5}>
+                {" "}
+                ₹{" "}
+                {(
+                  parseInt(data.price) * parseInt(foodQuantity) +
+                  parseInt(data.foodAddOnPrice) * parseInt(addOnQuantity)
+                ).toString()}
+                /-
+              </Text>
+            ) : (
+              <Text style={styles.text5}>
+                ₹ {(parseInt(data.price) * parseInt(foodQuantity)).toString()}/-
+              </Text>
+            )}
+          </View>
+        </View>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.button} onPress={() => addToCart()}>
+            <Text style={styles.buttonText}>Add to Cart</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              navigation.navigate("placeOrderScreen", {cartData,totalPrice});
+            }}
+          >
+            <Text style={styles.buttonText}>Buy Now</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </>
   );
@@ -363,7 +363,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignSelf: "center",
     marginVertical: 20,
-    marginBottom:140,
+    marginBottom: 140,
   },
   locationText: {
     color: colors.color1,
@@ -392,33 +392,32 @@ const styles = StyleSheet.create({
     height: 25,
     backgroundColor: colors.color1,
   },
-  bottomContainer:{
-    flex:1,
-    width:"100%",
-    alignItems:"center",
-    backgroundColor:colors.color1,
+  bottomContainer: {
+    flex: 1,
+    width: "100%",
+    alignItems: "center",
+    backgroundColor: colors.color1,
     justifyContent: "center",
     position: "absolute",
     bottom: 0,
   },
-  quantityAddOnContainer:{
-    flexDirection:"row",
-    width:"100%",
-    alignItems:"center",
-    backgroundColor:colors.color1,
+  quantityAddOnContainer: {
+    flexDirection: "row",
+    width: "100%",
+    alignItems: "center",
+    backgroundColor: colors.color1,
     justifyContent: "center",
-
   },
   container3: {
     width: "45%",
     backgroundColor: colors.color1,
     padding: 10,
     borderRadius: 20,
-    borderWidth:5,
-    borderColor:colors.bgColor,
+    borderWidth: 5,
+    borderColor: colors.bgColor,
     alignSelf: "center",
     marginVertical: 10,
-    marginHorizontal:5,
+    marginHorizontal: 5,
   },
   foodQuantityText: {
     color: colors.bgColor,
@@ -426,11 +425,11 @@ const styles = StyleSheet.create({
     fontWeight: 700,
     marginBottom: 10,
   },
-  foodAddOnText:{
+  foodAddOnText: {
     color: colors.bgColor,
     fontSize: 20,
     fontWeight: 700,
-    width:"60%",
+    width: "60%",
   },
   addOnPrice: {
     color: "#00b200",
@@ -475,14 +474,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: colors.bgColor,
     borderWidth: 5,
-    marginBottom:7,
+    marginBottom: 7,
   },
   container4In: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     padding: 5,
-    backgroundColor:colors.color1,
+    backgroundColor: colors.color1,
     paddingHorizontal: 20,
   },
 
