@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  TextInput
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
@@ -13,15 +14,23 @@ import { colors } from "../globals/style";
 import { firebase } from "../firebase/FirebaseConfig";
 import { AntDesign, Feather, FontAwesome } from "@expo/vector-icons";
 
+import {launchCameraAsync, useCameraPermissions, PermissionStatus, launchImageLibraryAsync,MediaTypeOptions} from 'expo-image-picker'
+
 const UserProfileScreen = ({ navigation }) => {
   NavigationBar.setBackgroundColorAsync("#ff4242");
 
   const [userLoggedUid, setUserLoggedUid] = useState(null);
   const [userData, setUserData] = useState(null);
 
-  // const [name, setName] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [phone, setPhone] = useState("");
+  const [image,setImage] = useState(null);
+  const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
+  const [edit, setEdit] = useState(false);
+
+console.log(name)
+
+
+  const [cameraPermissionInformation, requestPermission]=useCameraPermissions();
 
   useEffect(() => {
     const checkLogin = async () => {
@@ -57,13 +66,50 @@ const UserProfileScreen = ({ navigation }) => {
 
   // console.log(userData);
 
-  const handleChange = () => {
-    console.log("have to change name and address");
+  const handleName = () => {
+    console.log("have to change name ");
   };
-  const handlePic = () => {
-    console.log("have to implement change pic");
+  const handleAddress = () => {
+    console.log("have to change address");
   };
+  
+  const handlePic = async() => {
 
+    async function verifyPermission(){
+      if (cameraPermissionInformation.status===PermissionStatus.UNDETERMINED){
+          const permissionResponse=await requestPermission();
+  
+          return permissionResponse.granted;
+      }
+      if (cameraPermissionInformation.status===PermissionStatus.DENIED){
+          alert(
+              'Insufficient permission!, You need to grant camera access to use this app'
+          );
+          return false
+      }
+      return true;
+  }
+
+  const hasPermission=await verifyPermission()
+  if (!hasPermission){
+      return;
+  }
+    
+    let result = await launchImageLibraryAsync({
+      mediaTypes: MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    // console.log(result);xz
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
+  
+  console.log(image)
   return (
     <View style={styles.userProfileContainer}>
       <TouchableOpacity
@@ -87,17 +133,40 @@ const UserProfileScreen = ({ navigation }) => {
       </View>
       <ScrollView style={{backgroundColor:colors.bgColor,width:"100%",height:"100%"}}>
         <View style={{flex:1,alignItems:"center",justifyContent:"center"}}>
-      <View style={styles.inputContainer}>
-        <Text style={styles.input}>{userData?.name}</Text>
-        <TouchableOpacity>
-          <Feather
-            name="edit"
-            size={24}
-            color="black"
-            onPress={() => handleChange()}
-          />
-        </TouchableOpacity>
-      </View>
+       { 
+           edit === false ?
+            <View style={styles.inputContainer}>
+            <Text style={styles.input}>{userData?.name}</Text>
+            <TouchableOpacity>
+              <Feather
+                name="edit"
+                size={24}
+                color="black"
+                onPress={() =>{ 
+                  setEdit(true)
+                }
+              }
+              />
+            </TouchableOpacity>
+          </View>:
+           <View style={styles.inputContainer}>
+           <TextInput style={styles.input} placeholder={userData?.name}  onChangeText={setName} value={name}/>
+           <TouchableOpacity>
+              <Feather
+                name="save"
+                size={24}
+                color="red"
+                onPress={() =>{ 
+                  setEdit(true)
+                  handleName()
+                }
+              }
+              />
+            </TouchableOpacity>
+           
+         </View>
+         
+      }
       <View style={styles.inputContainer}>
         <Text style={styles.input}>{userData?.email}</Text>
       </View>
@@ -113,7 +182,7 @@ const UserProfileScreen = ({ navigation }) => {
             name="edit"
             size={24}
             color="black"
-            onPress={() => handleChange()}
+            onPress={() => handleAddress()}
           />
         </TouchableOpacity>
       </View>
@@ -137,7 +206,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height:"8%",
     marginTop:45,
-    marginLeft:5,
     alignItems: "center",
   },
   imageContainer: {
@@ -159,8 +227,14 @@ const styles = StyleSheet.create({
   },
   changeAvatar: {
     margin: 10,
+    marginBottom:20,
     fontSize: 18,
     fontWeight: 600,
+    backgroundColor:colors.color1,
+    elevation:10,
+    borderRadius:40,
+    padding:5,
+    paddingHorizontal:15,
   },
   image: {
     width: "100%",
