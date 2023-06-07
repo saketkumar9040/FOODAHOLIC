@@ -11,10 +11,10 @@ import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import * as NavigationBar from "expo-navigation-bar";
 import { colors } from "../globals/style";
-import { firebase } from "../firebase/FirebaseConfig";
-import { AntDesign, Feather, FontAwesome } from "@expo/vector-icons";
+import { Feather, FontAwesome } from "@expo/vector-icons";
 
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { firebase } from "../firebase/FirebaseConfig";
+import { storage } from "@react-native-firebase/firestore";
 
 import {
   launchCameraAsync,
@@ -78,28 +78,46 @@ const UserProfileScreen = ({ navigation }) => {
 
   // console.log(userData);
 
-  const handleName = async() => {
+  const handleName = async () => {
     const docRef = firebase
-    .firestore()
-    .collection("UserData")
-    .where("uid", "==", userLoggedUid);
-  const doc = await docRef.get();
-  if (!doc.empty) {
-    if (name !== "") {
-      doc.forEach((doc) => {
-        doc.ref.update({
-          name: name,
+      .firestore()
+      .collection("UserData")
+      .where("uid", "==", userLoggedUid);
+    const doc = await docRef.get();
+    if (!doc.empty) {
+      if (name !== "") {
+        doc.forEach((doc) => {
+          doc.ref.update({
+            name: name,
+          });
+          // console.log(doc.data())
         });
-        // console.log(doc.data())
-      });
+      }
     }
-  }
-  getUserData();
-  setNameEdit(false)
+    alert("Name updated successfully");
+    getUserData();
+    setNameEdit(false);
   };
-  const handleAddress = () => {
-    console.log("have to change address");
-    setAddressEdit(false)
+
+  const handleAddress = async () => {
+    const docRef = firebase
+      .firestore()
+      .collection("UserData")
+      .where("uid", "==", userLoggedUid);
+    const doc = await docRef.get();
+    if (!doc.empty) {
+      if (name !== "") {
+        doc.forEach((doc) => {
+          doc.ref.update({
+            name: name,
+          });
+          // console.log(doc.data())
+        });
+      }
+    }
+    alert("Address updated successfully");
+    getUserData();
+    setAddressEdit(false);
   };
 
   const handlePic = async () => {
@@ -126,7 +144,7 @@ const UserProfileScreen = ({ navigation }) => {
     }
 
     let result = await launchImageLibraryAsync({
-      mediaTypes: MediaTypeOptions.Images,
+      mediaType: "photo",
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
@@ -138,15 +156,25 @@ const UserProfileScreen = ({ navigation }) => {
       setImage(result.assets[0].uri);
     }
 
-    // const imageRef = ref(
-    //   storage,
-    //   `UserAvatar/${Date.now() + image.name}`
-    // );
-    // await uploadBytes(imageRef, image);
+    const filename = result.uri.substring(
+      result.uri.lastIndexOf("/") + 1,
+      result.uri.length
+    );
 
-    // alert("Image uploaded successfully");
-    // const uploadedImage = await getDownloadURL(imageRef);
-    // console.log(uploadedImage);
+    // console.log(filename)
+
+    const imageRef = storage().ref(`UserAvatar/${Date.now() + filename}`);
+    await imageRef
+      .putFile(image)
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    const url = imageRef.getDownloadURL();
+    console.log(url);
 
     const docRef = firebase
       .firestore()
@@ -155,215 +183,220 @@ const UserProfileScreen = ({ navigation }) => {
     const doc = await docRef.get();
     if (doc.exists) {
       if (image !== "") {
-        doc.forEach((doc) => {
-          doc.ref.update({
-            avatar: image,
+        doc.forEach(async (doc) => {
+          await doc.ref.update({
+            avatar: url,
           });
-          // console.log(doc.data())
         });
       }
     }
+    alert("Image Update Successfully");
     getUserData();
   };
 
   const handlePassword = () => {
-      alert("Password changed successfully");
-      setPasswordEdit(false);
-  }
+    alert("Password changed successfully");
+    setPasswordEdit(false);
+  };
+
+  const handleLogout = () => {
+    alert("Logout successfully");
+  };
 
   // console.log(image)
   return (
     <>
-    {
-      passwordEdit === false ?
-      (
+      {passwordEdit === false ? (
         <View style={styles.userProfileContainer}>
-        <TouchableOpacity
-          style={styles.navContainer}
-          onPress={() => navigation.navigate("homeScreen")}
-        >
-          <View style={styles.navBtn}>
-            <FontAwesome name="arrow-left" size={28} color="white" />
-          </View>
-        </TouchableOpacity>
-        <View style={styles.imageContainer}>
-          <View style={styles.avatarContainer}>
-           {
-            image !== null ?
-            (
-              <Image
-              style={styles.image}
-              source={{uri:image}}
-            />
-            ):(
-              <Image
-              style={styles.image}
-              source={require("../../assets/avatar.jpg")}
-            />
-            )
-           }
-          </View>
-          <TouchableOpacity onPress={() => handlePic()}>
-            <Text style={styles.changeAvatar}>Change Pic</Text>
-          </TouchableOpacity>
-        </View>
-        <ScrollView
-          style={{
-            backgroundColor: colors.bgColor,
-            width: "100%",
-            height: "100%",
-          }}
-        >
-          <View
-            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+          <TouchableOpacity
+            style={styles.navContainer}
+            onPress={() => navigation.navigate("homeScreen")}
           >
-            {nameEdit === false ? (
-              <View style={styles.inputContainer}>
-                <Text style={styles.input}>{userData?.name}</Text>
-                <TouchableOpacity>
-                  <Feather
-                    name="edit"
-                    size={24}
-                    color="black"
-                    onPress={() => {
-                      setNameEdit(true);
-                    }}
+            <View style={styles.navBtn}>
+              <FontAwesome name="arrow-left" size={28} color="white" />
+            </View>
+          </TouchableOpacity>
+          <View style={styles.imageContainer}>
+            <View style={styles.avatarContainer}>
+              {image !== null ? (
+                <Image style={styles.image} source={{ uri: image }} />
+              ) : (
+                <Image
+                  style={styles.image}
+                  source={require("../../assets/avatar.jpg")}
+                />
+              )}
+            </View>
+            <TouchableOpacity onPress={() => handlePic()}>
+              <Text style={styles.changeAvatar}>Change Pic</Text>
+            </TouchableOpacity>
+          </View>
+          <ScrollView
+            style={{
+              backgroundColor: colors.bgColor,
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {nameEdit === false ? (
+                <View style={styles.inputContainer}>
+                  <Text style={styles.input}>{userData?.name}</Text>
+                  <TouchableOpacity>
+                    <Feather
+                      name="edit"
+                      size={24}
+                      color="black"
+                      onPress={() => {
+                        setNameEdit(true);
+                      }}
+                    />
+                  </TouchableOpacity>
+                </View>
+              ) : (
+                <View style={styles.inputContainer}>
+                  <TextInput
+                    style={styles.input}
+                    placeholder={userData?.name}
+                    onChangeText={setName}
+                    value={name}
                   />
-                </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Feather
+                      name="save"
+                      size={24}
+                      color="red"
+                      onPress={() => {
+                        handleName();
+                      }}
+                    />
+                  </TouchableOpacity>
+                </View>
+              )}
+              <View style={styles.inputContainer}>
+                <Text style={styles.input}>{userData?.email}</Text>
               </View>
-            ) : (
+              <View style={styles.inputContainer}>
+                <Text style={styles.input}>{userData?.phone}</Text>
+              </View>
+              {addressEdit === false ? (
+                <View style={styles.inputContainer}>
+                  <Text style={styles.input}>
+                    {userData?.address
+                      ? userData?.address
+                      : "enter your address"}
+                  </Text>
+                  <TouchableOpacity>
+                    <Feather
+                      name="edit"
+                      size={24}
+                      color="black"
+                      onPress={() => setAddressEdit(true)}
+                    />
+                  </TouchableOpacity>
+                </View>
+              ) : (
+                <View style={styles.inputContainer}>
+                  <TextInput
+                    style={styles.input}
+                    placeholder={userData?.address}
+                    onChangeText={setAddress}
+                    value={address}
+                  />
+                  <TouchableOpacity>
+                    <Feather
+                      name="save"
+                      size={24}
+                      color="red"
+                      onPress={() => {
+                        handleAddress();
+                      }}
+                    />
+                  </TouchableOpacity>
+                </View>
+              )}
+            </View>
+            <TouchableOpacity
+              style={{ backgroundColor: colors.bgColor, elevation: 10 }}
+              onPress={() => setPasswordEdit(true)}
+            >
+              <Text style={styles.button}>Change Password</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{ backgroundColor: colors.bgColor, elevation: 10 }}
+              onPress={() => handleLogout()}
+            >
+              <Text style={styles.button}>Log Out</Text>
+            </TouchableOpacity>
+          </ScrollView>
+          <StatusBar style="dark" />
+        </View>
+      ) : (
+        <View style={styles.userProfileContainer}>
+          <TouchableOpacity
+            style={styles.navContainer}
+            onPress={() => setPasswordEdit(false)}
+          >
+            <View style={styles.navBtn}>
+              <FontAwesome name="arrow-left" size={28} color="white" />
+            </View>
+          </TouchableOpacity>
+          <View style={styles.imageContainer}>
+            <View style={styles.avatarContainer}>
+              <Image
+                style={styles.image}
+                source={require("../../assets/avatar.jpg")}
+              />
+            </View>
+          </View>
+          <ScrollView
+            style={{
+              backgroundColor: colors.bgColor,
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <View style={styles.inputContainer}>
                 <TextInput
                   style={styles.input}
-                  placeholder={userData?.name}
-                  onChangeText={setName}
-                  value={name}
+                  placeholder="Enter Old Password"
+                  onChangeText={setOldPassword}
+                  value={oldPassword}
                 />
-                <TouchableOpacity>
-                  <Feather
-                    name="save"
-                    size={24}
-                    color="red"
-                    onPress={() => {
-                      handleName();
-                    }}
-                  />
-                </TouchableOpacity>
               </View>
-            )}
-            <View style={styles.inputContainer}>
-              <Text style={styles.input}>{userData?.email}</Text>
+              <View style={styles.inputContainer}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter New Password"
+                  onChangeText={setNewPassword}
+                  value={newPassword}
+                />
+              </View>
             </View>
-            <View style={styles.inputContainer}>
-              <Text style={styles.input}>{userData?.phone}</Text>
-            </View>
-           {
-            addressEdit === false ?
-            (<View style={styles.inputContainer}>
-            <Text style={styles.input}>
-              {userData?.address ? userData?.address : "enter your address"}
-            </Text>
-            <TouchableOpacity>
-              <Feather
-                name="edit"
-                size={24}
-                color="black"
-                onPress={() => setAddressEdit(true)}
-              />
+            <TouchableOpacity
+              style={{ backgroundColor: colors.bgColor, elevation: 10 }}
+              onPress={() => handlePassword()}
+            >
+              <Text style={styles.button}>Submit</Text>
             </TouchableOpacity>
-          </View> ):(
-             <View style={styles.inputContainer}>
-             <TextInput
-               style={styles.input}
-               placeholder={userData?.address}
-               onChangeText={setAddress}
-               value={address}
-             />
-             <TouchableOpacity>
-               <Feather
-                 name="save"
-                 size={24}
-                 color="red"
-                 onPress={() => {
-                   handleAddress();
-                 }}
-               />
-             </TouchableOpacity>
-           </View>
-  
-          )
-  
-           }
-          </View>
-          <TouchableOpacity
-            style={{ backgroundColor: colors.bgColor, elevation: 10 }}
-            onPress={() => setPasswordEdit(true)}
-          >
-            <Text style={styles.button}>Change Password</Text>
-          </TouchableOpacity>
-        </ScrollView>
-        <StatusBar style="dark" />
-      </View>
-      ):(
-        <View style={styles.userProfileContainer}>
-        <TouchableOpacity
-          style={styles.navContainer}
-          onPress={() => setPasswordEdit(false)}
-        >
-          <View style={styles.navBtn}>
-            <FontAwesome name="arrow-left" size={28} color="white" />
-          </View>
-        </TouchableOpacity>
-        <View style={styles.imageContainer}>
-          <View style={styles.avatarContainer}>
-            <Image
-              style={styles.image}
-              source={require("../../assets/avatar.jpg")}
-            />
-          </View>
+          </ScrollView>
+          <StatusBar style="dark" />
         </View>
-        <ScrollView
-          style={{
-            backgroundColor: colors.bgColor,
-            width: "100%",
-            height: "100%",
-          }}
-        >
-          <View
-            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-          >
-
-            <View style={styles.inputContainer}>
-            <TextInput
-               style={styles.input}
-               placeholder="Enter Old Password"
-               onChangeText={setOldPassword}
-               value={oldPassword}
-             />
-            </View>
-            <View style={styles.inputContainer}>
-            <TextInput
-               style={styles.input}
-               placeholder="Enter New Password"
-               onChangeText={setNewPassword}
-               value={newPassword}
-             />
-            </View>
-         
-          </View>
-          <TouchableOpacity
-            style={{ backgroundColor: colors.bgColor, elevation: 10 }}
-            onPress={() => handlePassword()}
-          >
-            <Text style={styles.button}>Submit</Text>
-          </TouchableOpacity>
-        </ScrollView>
-        <StatusBar style="dark" />
-      </View>
-      )
-    }
+      )}
     </>
-
   );
 };
 
@@ -390,7 +423,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   avatarContainer: {
-    width: "70%",
+    width: "50%",
     height: "80%",
     borderWidth: 5,
     borderRadius: 40,
