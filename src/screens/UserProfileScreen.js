@@ -111,7 +111,6 @@ const UserProfileScreen = ({ navigation }) => {
           doc.ref.update({
             name: name,
           });
-          // console.log(doc.data())
         });
       }
     }

@@ -83,6 +83,7 @@ const SignUpScreen = ({ navigation }) => {
               password: password,
               address:address,
               uid: userCredentials?.user?.uid,
+              avatar:"",
             })
             .then(() => {
               console.log("Data added to firestore");
