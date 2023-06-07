@@ -126,7 +126,7 @@ const UserProfileScreen = ({ navigation }) => {
     }
 
     let result = await launchImageLibraryAsync({
-      mediaTypes: MediaTypeOptions.All,
+      mediaTypes: MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
@@ -134,7 +134,7 @@ const UserProfileScreen = ({ navigation }) => {
 
     console.log(result);
 
-    if (!result.canceled) {
+    if (result.assets[0].uri) {
       setImage(result.assets[0].uri);
     }
 
@@ -188,10 +188,20 @@ const UserProfileScreen = ({ navigation }) => {
         </TouchableOpacity>
         <View style={styles.imageContainer}>
           <View style={styles.avatarContainer}>
-            <Image
+           {
+            image !== null ?
+            (
+              <Image
+              style={styles.image}
+              source={{uri:image}}
+            />
+            ):(
+              <Image
               style={styles.image}
               source={require("../../assets/avatar.jpg")}
             />
+            )
+           }
           </View>
           <TouchableOpacity onPress={() => handlePic()}>
             <Text style={styles.changeAvatar}>Change Pic</Text>
