@@ -23,6 +23,7 @@ import {
   launchImageLibraryAsync,
   MediaTypeOptions,
 } from "expo-image-picker";
+import react from "react";
 
 const UserProfileScreen = ({ navigation }) => {
   NavigationBar.setBackgroundColorAsync("#ff4242");
@@ -100,11 +101,11 @@ const UserProfileScreen = ({ navigation }) => {
   };
 
   const handleAddress = async () => {
-    const docRef = firebase
+    let docRef = firebase
       .firestore()
       .collection("UserData")
       .where("uid", "==", userLoggedUid);
-    const doc = await docRef.get();
+    let doc = await docRef.get();
     if (!doc.empty) {
       if (name !== "") {
         doc.forEach((doc) => {
@@ -193,13 +194,53 @@ const UserProfileScreen = ({ navigation }) => {
     getUserData();
   };
 
-  const handlePassword = () => {
-    alert("Password changed successfully");
+  const handlePassword = async() => {
+    const reAuthenticate = (oldPassword) => {
+       const user= firebase.auth().currentUser;
+       const credentials = firebase.auth.EmailAuthProvider.credential(user.email,oldPassword);
+       return user.reauthenticateWithCredential(credentials);
+    }
+
+    let docRef = firebase
+    .firestore()
+    .collection("UserData")
+    .where("uid", "==", userLoggedUid);
+    let doc =await docRef.get();
+
+    reAuthenticate(oldPassword).then(async()=>{
+       const user= firebase.auth().currentUser;
+       await user.updatePassword(newPassword).then(()=>{
+        if(!doc.empty){
+          doc.forEach(async(doc)=>{
+           await doc.ref.update({
+              password:newPassword
+            })
+          })
+          alert("Password updated successfully")
+          setOldPassword("");
+          setNewPassword("")
+        }
+       }).catch((error)=>{
+        alert("password updation failed")
+        console.log(error)
+       })
+    }).catch((error)=>{
+      alert("Wrong Password")
+      console.log(error)
+      return;
+    })
+    // alert("Password changed successfully");
     setPasswordEdit(false);
   };
 
   const handleLogout = () => {
-    alert("Logout successfully");
+    firebase.auth().signOut().then(()=>{
+      alert("Logout successfully");
+      navigation.navigate("loginScreen")
+    }).catch((error)=>{
+      alert("system Error");
+      console.log(error)
+    })
   };
 
   // console.log(image)
@@ -463,7 +504,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     // marginLeft: 10,
     fontStyle: "italic",
-    fontWeight: 500,
+    // fontWeight: 500,
     width: "80%",
   },
   navBtn: {
