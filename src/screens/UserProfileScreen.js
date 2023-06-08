@@ -1,3 +1,4 @@
+import react from "react";
 import {
   StyleSheet,
   Text,
@@ -17,13 +18,10 @@ import { firebase } from "../firebase/FirebaseConfig";
 import { storage } from "@react-native-firebase/firestore";
 
 import {
-  launchCameraAsync,
   useCameraPermissions,
-  PermissionStatus,
   launchImageLibraryAsync,
   MediaTypeOptions,
 } from "expo-image-picker";
-import react from "react";
 
 const UserProfileScreen = ({ navigation }) => {
   NavigationBar.setBackgroundColorAsync("#ff4242");
@@ -40,9 +38,6 @@ const UserProfileScreen = ({ navigation }) => {
   const [nameEdit, setNameEdit] = useState(false);
   const [addressEdit, setAddressEdit] = useState(false);
   const [passwordEdit, setPasswordEdit] = useState(false);
-
-  const [cameraPermissionInformation, requestPermission] =
-    useCameraPermissions();
 
   useEffect(() => {
     const checkLogin = async () => {
@@ -121,30 +116,10 @@ const UserProfileScreen = ({ navigation }) => {
   };
 
   const handlePic = async () => {
-    async function verifyPermission() {
-      if (
-        cameraPermissionInformation.status === PermissionStatus.UNDETERMINED
-      ) {
-        const permissionResponse = await requestPermission();
-
-        return permissionResponse.granted;
-      }
-      if (cameraPermissionInformation.status === PermissionStatus.DENIED) {
-        alert(
-          "Insufficient permission!, You need to grant camera access to use this app"
-        );
-        return false;
-      }
-      return true;
-    }
-
-    const hasPermission = await verifyPermission();
-    if (!hasPermission) {
-      return;
-    }
+   //  Launching  mobile  image  gallary
 
     let result = await launchImageLibraryAsync({
-      mediaType: "photo",
+      mediaTypes:MediaTypeOptions,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
