@@ -25,7 +25,7 @@ import {
   getDownloadURL,
   uploadBytesResumable,
 } from "firebase/storage";
-import {getFirestore} from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyA9PAsVzy6WAUBE_EiO5HCMBdBa8w9QMW8",
@@ -42,7 +42,7 @@ if (!getApps().length) {
 }
 
 const storage = getStorage(initializeApp(firebaseConfig));
-const db = getFirestore(initializeApp(firebaseConfig))
+const db = getFirestore(initializeApp(firebaseConfig));
 
 const UserProfileScreen = ({ navigation }) => {
   NavigationBar.setBackgroundColorAsync("#ff4242");
@@ -232,19 +232,20 @@ const UserProfileScreen = ({ navigation }) => {
             .collection("UserData")
             .where("uid", "==", userLoggedUid);
           const doc = await docRef.get();
-          if (doc.exists) {
+
+          if (!doc.empty) {
+            // using doc.exists was not giving to output
             doc.forEach(async (doc) => {
               await doc.ref.update({
                 avatar: downloadURL,
               });
             });
           }
+          await getUserData();
           alert("Image Update Successfully");
-          
         });
       }
     );
-    getUserData();
   };
 
   const handlePassword = async () => {
