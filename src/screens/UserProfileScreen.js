@@ -15,13 +15,34 @@ import { colors } from "../globals/style";
 import { Feather, FontAwesome } from "@expo/vector-icons";
 
 import { firebase } from "../firebase/FirebaseConfig";
-import { storage } from "@react-native-firebase/firestore";
 
+import * as ImagePicker from "expo-image-picker";
+
+import { getApps, initializeApp } from "firebase/app";
 import {
-  useCameraPermissions,
-  launchImageLibraryAsync,
-  MediaTypeOptions,
-} from "expo-image-picker";
+  getStorage,
+  ref,
+  getDownloadURL,
+  uploadBytesResumable,
+} from "firebase/storage";
+import {getFirestore} from "firebase/firestore";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA9PAsVzy6WAUBE_EiO5HCMBdBa8w9QMW8",
+  authDomain: "foodaholic-fd324.firebaseapp.com",
+  projectId: "foodaholic-fd324",
+  storageBucket: "foodaholic-fd324.appspot.com",
+  messagingSenderId: "104513043816",
+  appId: "1:104513043816:web:142d173b125fb356516add",
+  measurementId: "G-PQ6FYZ2DPC",
+};
+// Editing this file with fast refresh will reinitialize the app on every refresh, let's not do that
+if (!getApps().length) {
+  initializeApp(firebaseConfig);
+}
+
+const storage = getStorage(initializeApp(firebaseConfig));
+const db = getFirestore(initializeApp(firebaseConfig))
 
 const UserProfileScreen = ({ navigation }) => {
   NavigationBar.setBackgroundColorAsync("#ff4242");
@@ -115,11 +136,18 @@ const UserProfileScreen = ({ navigation }) => {
     setAddressEdit(false);
   };
 
-  const handlePic = async () => {
-   //  Launching  mobile  image  gallary
+  useEffect(() => {
+    if (image !== null) {
+      uploadImageToStorage();
+      setImage(null);
+    }
+  }, [image]);
 
-    let result = await launchImageLibraryAsync({
-      mediaTypes:MediaTypeOptions,
+  const handlePic = async () => {
+    //  Launching  mobile  image  gallary  =========================>
+
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
@@ -130,92 +158,154 @@ const UserProfileScreen = ({ navigation }) => {
     if (result.assets[0].uri) {
       setImage(result.assets[0].uri);
     }
+  };
 
-    const filename = result.uri.substring(
-      result.uri.lastIndexOf("/") + 1,
-      result.uri.length
-    );
+  const uploadImageToStorage = async () => {
+    //  CONVERT IMAGE TO BLOB  ===================================>
 
-    // console.log(filename)
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function (e) {
+        console.log(e);
+        reject(new TypeError("Network request failed"));
+      };
+      xhr.responseType = "blob";
+      xhr.open("GET", image, true);
+      xhr.send(null);
+    });
 
-    const imageRef = storage().ref(`UserAvatar/${Date.now() + filename}`);
-    await imageRef
-      .putFile(image)
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    //  SET METADATA OF IMAGE   =====================================>
 
-    const url = imageRef.getDownloadURL();
-    console.log(url);
+    const metadata = {
+      contentType: "image/jpeg",
+    };
 
-    const docRef = firebase
-      .firestore()
-      .collection("UserData")
-      .where("uid", "==", userLoggedUid);
-    const doc = await docRef.get();
-    if (doc.exists) {
-      if (image !== "") {
-        doc.forEach(async (doc) => {
-          await doc.ref.update({
-            avatar: url,
-          });
+    //  UPLOAD IMAGE ON FIREBASE STORAGE  =============================>
+
+    const storageRef = ref(storage, "UserAvatar/" + Date.now());
+    const uploadTask = uploadBytesResumable(storageRef, blob, metadata);
+
+    // Listen for state changes, errors, and completion of the upload.
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+        }
+      },
+      (error) => {
+        // A full list of error codes is available at
+        // https://firebase.google.com/docs/storage/web/handle-errors
+        switch (error.code) {
+          case "storage/unauthorized":
+            // User doesn't have permission to access the object
+            break;
+          case "storage/canceled":
+            // User canceled the upload
+            break;
+          case "storage/unknown":
+            // Unknown error occurred, inspect error.serverResponse
+            break;
+        }
+      },
+      () => {
+        // Upload completed successfully, now we can get the download URL
+        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+          console.log("File available at", downloadURL);
+
+          //   SAVING TO URL TO USER - DATABSE ============================>
+
+          const docRef = await firebase
+            .firestore()
+            .collection("UserData")
+            .where("uid", "==", userLoggedUid);
+          const doc = await docRef.get();
+          if (doc.exists) {
+            doc.forEach(async (doc) => {
+              await doc.ref.update({
+                avatar: downloadURL,
+              });
+            });
+          }
+          alert("Image Update Successfully");
+          
         });
       }
-    }
-    alert("Image Update Successfully");
+    );
     getUserData();
   };
 
-  const handlePassword = async() => {
+  const handlePassword = async () => {
     const reAuthenticate = (oldPassword) => {
-       const user= firebase.auth().currentUser;
-       const credentials = firebase.auth.EmailAuthProvider.credential(user.email,oldPassword);
-       return user.reauthenticateWithCredential(credentials);
-    }
+      const user = firebase.auth().currentUser;
+      const credentials = firebase.auth.EmailAuthProvider.credential(
+        user.email,
+        oldPassword
+      );
+      return user.reauthenticateWithCredential(credentials);
+    };
 
     let docRef = firebase
-    .firestore()
-    .collection("UserData")
-    .where("uid", "==", userLoggedUid);
-    let doc =await docRef.get();
+      .firestore()
+      .collection("UserData")
+      .where("uid", "==", userLoggedUid);
+    let doc = await docRef.get();
 
-    reAuthenticate(oldPassword).then(async()=>{
-       const user= firebase.auth().currentUser;
-       await user.updatePassword(newPassword).then(()=>{
-        if(!doc.empty){
-          doc.forEach(async(doc)=>{
-           await doc.ref.update({
-              password:newPassword
-            })
+    reAuthenticate(oldPassword)
+      .then(async () => {
+        const user = firebase.auth().currentUser;
+        await user
+          .updatePassword(newPassword)
+          .then(() => {
+            if (!doc.empty) {
+              doc.forEach(async (doc) => {
+                await doc.ref.update({
+                  password: newPassword,
+                });
+              });
+              alert("Password updated successfully");
+              setOldPassword("");
+              setNewPassword("");
+            }
           })
-          alert("Password updated successfully")
-          setOldPassword("");
-          setNewPassword("")
-        }
-       }).catch((error)=>{
-        alert("password updation failed")
-        console.log(error)
-       })
-    }).catch((error)=>{
-      alert("Wrong Password")
-      console.log(error)
-      return;
-    })
+          .catch((error) => {
+            alert("password updation failed");
+            console.log(error);
+          });
+      })
+      .catch((error) => {
+        alert("Wrong Password");
+        console.log(error);
+        return;
+      });
     // alert("Password changed successfully");
     setPasswordEdit(false);
   };
 
   const handleLogout = () => {
-    firebase.auth().signOut().then(()=>{
-      alert("Logout successfully");
-      navigation.navigate("loginScreen")
-    }).catch((error)=>{
-      alert("system Error");
-      console.log(error)
-    })
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        alert("Logout successfully");
+        navigation.navigate("loginScreen");
+      })
+      .catch((error) => {
+        alert("system Error");
+        console.log(error);
+      });
   };
 
   // console.log(image)
