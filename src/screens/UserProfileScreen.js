@@ -153,7 +153,7 @@ const UserProfileScreen = ({ navigation }) => {
       quality: 1,
     });
 
-    console.log(result);
+    // console.log(result);
 
     if (result.assets[0].uri) {
       setImage(result.assets[0].uri);
