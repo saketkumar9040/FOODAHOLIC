@@ -329,7 +329,7 @@ const UserProfileScreen = ({ navigation }) => {
               ) : (
                 <Image
                   style={styles.image}
-                  source={require("../../assets/avatar.jpg")}
+                  source={userData?.avatar ?{uri:userData?.avatar}:require("../../assets/avatar.jpg")}
                 />
               )}
             </View>
