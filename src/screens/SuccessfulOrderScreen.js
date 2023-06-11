@@ -16,7 +16,9 @@ const SuccessfulOrderScreen = ({ navigation }) => {
     <View style={styles.container} >
       
       <Text style={styles.title}>Congratulations🎉</Text>
-      <Text style={styles.title1}>Order     placed Successfully</Text>
+      <Text style={styles.title1}>Order</Text>
+      <Text style={styles.title1}> placed</Text>
+      <Text style={styles.title1}>Successfully</Text>
       <View style={styles.logoContainer}>
         <Image source={logo} style={styles.logoImage} />
       </View>
