@@ -17,7 +17,6 @@ import SuccessfulOrderScreen from "./src/screens/SuccessfulOrderScreen.js";
 export default function App() {
   const Stack = createNativeStackNavigator();
 
-
   return (
     
     <NavigationContainer>

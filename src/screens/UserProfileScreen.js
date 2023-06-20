@@ -123,10 +123,10 @@ const UserProfileScreen = ({ navigation }) => {
       .where("uid", "==", userLoggedUid);
     let doc = await docRef.get();
     if (!doc.empty) {
-      if (name !== "") {
+      if (address !== "") {
         doc.forEach((doc) => {
           doc.ref.update({
-            name: name,
+            address: address,
           });
         });
       }
@@ -162,7 +162,7 @@ const UserProfileScreen = ({ navigation }) => {
 
   const uploadImageToStorage = async () => {
     //  CONVERT IMAGE TO BLOB  ===================================>
-
+0
     const blob = await new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.onload = function () {
