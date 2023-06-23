@@ -72,8 +72,8 @@ const PlaceOrderScreen = ({ navigation, route }) => {
 
   // console.log(userData);
 
-  const payNow = () => {
-    var options = {
+  const payNow = async() => {
+    let options = {
       description: "Payment for food order",
       image: "https://i.ibb.co/vzQKX5N/razorpay-Icon.png" ,
       currency: "INR",
@@ -89,7 +89,7 @@ const PlaceOrderScreen = ({ navigation, route }) => {
       theme: { color: "#ff4242" },
     };
 
-    RazorpayCheckout.open(options)
+    await RazorpayCheckout.open(options)
       .then((data) => {
         // handle success
         const docRef = firebase.firestore().collection('UserOrders').doc(data.razorpay_payment_id);
@@ -319,7 +319,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginVertical: 5,
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
   },
   rowOut: {
     flexDirection: "column",

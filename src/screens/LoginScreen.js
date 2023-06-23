@@ -89,6 +89,7 @@ const LoginScreen = ({ navigation }) => {
             setCustomError("");
           }}
           onChangeText={(text) => setEmail(text)}
+          autoCapitalize="none"
         />
       </View>
       <View style={styles.inputContainer}>
@@ -107,6 +108,7 @@ const LoginScreen = ({ navigation }) => {
           }}
           onChangeText={(text) => setPassword(text)}
           secureTextEntry={showPassword === false ? true : false}
+          autoCapitalize="none"
         />
         <Feather
           name={showPassword === false ? "eye-off" : "eye"}

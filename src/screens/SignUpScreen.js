@@ -154,6 +154,7 @@ const SignUpScreen = ({ navigation }) => {
             setCustomError("");
           }}
           onChangeText={(text) => setName(text)}
+          autoCapitalize="none"
         />
       </View>
       <View style={styles.inputContainer}>
@@ -177,6 +178,7 @@ const SignUpScreen = ({ navigation }) => {
             setCustomError("")
           }}
           onChangeText={(text) => setEmail(text)}
+          autoCapitalize="none"
         />
       </View>
       <View style={styles.inputContainer}>
@@ -200,6 +202,7 @@ const SignUpScreen = ({ navigation }) => {
             setCustomError("")
           }}
           onChangeText={(text) => setPhone(text)}
+          autoCapitalize="none"
         />
       </View>
       <View style={styles.inputContainer}>
@@ -223,6 +226,7 @@ const SignUpScreen = ({ navigation }) => {
           }}
           secureTextEntry={showPassword === false ? true : false}
           onChangeText={(text) => setPassword(text)}
+          autoCapitalize="none"
         />
         <Feather
           name={showPassword === false ? "eye-off" : "eye"}
@@ -252,6 +256,7 @@ const SignUpScreen = ({ navigation }) => {
           }}
           onChangeText={(text) => setReEnterPassword(text)}
           secureTextEntry={showPassword === false ? true : false}
+          autoCapitalize="none"
         />
         <Feather
           name={showPassword === false ? "eye-off" : "eye"}
@@ -277,6 +282,7 @@ const SignUpScreen = ({ navigation }) => {
             setCustomError("")
           }}
           onChangeText={(text) => setAddress(text)}
+          autoCapitalize="none"
         />
       </View>
     

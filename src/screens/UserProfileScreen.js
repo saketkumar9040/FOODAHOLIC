@@ -372,6 +372,7 @@ const UserProfileScreen = ({ navigation }) => {
                     placeholder={userData?.name}
                     onChangeText={setName}
                     value={name}
+                    autoCapitalize="none"
                   />
                   <TouchableOpacity>
                     <Feather
@@ -414,6 +415,7 @@ const UserProfileScreen = ({ navigation }) => {
                     placeholder={userData?.address}
                     onChangeText={setAddress}
                     value={address}
+                    autoCapitalize="none"
                   />
                   <TouchableOpacity>
                     <Feather
@@ -481,6 +483,7 @@ const UserProfileScreen = ({ navigation }) => {
                   placeholder="Enter Old Password"
                   onChangeText={setOldPassword}
                   value={oldPassword}
+                  autoCapitalize="none"
                 />
               </View>
               <View style={styles.inputContainer}>
@@ -489,6 +492,7 @@ const UserProfileScreen = ({ navigation }) => {
                   placeholder="Enter New Password"
                   onChangeText={setNewPassword}
                   value={newPassword}
+                  autoCapitalize="none"
                 />
               </View>
             </View>

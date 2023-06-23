@@ -411,7 +411,8 @@ const styles = StyleSheet.create({
   container3: {
     width: "45%",
     backgroundColor: colors.color1,
-    padding: 10,
+    padding: 5,
+    paddingHorizontal:10,
     borderRadius: 20,
     borderWidth: 5,
     borderColor: colors.bgColor,

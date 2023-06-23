@@ -57,13 +57,13 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     height: "30%",
-    width: "100%",
+    width: "90%",
     padding:30,
-    resizeMode:"contain",
   },
   logoImage: {
     width: "100%",
     height: "100%",
+    resizeMode:"contain"
   },
   title: {
     fontSize: 35,
@@ -74,20 +74,12 @@ const styles = StyleSheet.create({
     fontWeight: "700",
   },
   title1: {
-    width:"60%",
     flexDirection:"column",
-    fontSize: 35,
+    fontSize: 30,
     color: colors.color1,
     textAlign: "center",
     marginVertical: 10,
     fontWeight: "700",
-  },
-  text: {
-    fontSize: 13,
-    fontWeight: 700,
-    width: "80%",
-    color: colors.color1,
-    textAlign: "center",
   },
   buttonContainer: {
     flexDirection: "row",
