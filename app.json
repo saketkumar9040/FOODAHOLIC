@@ -16,14 +16,20 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.saketkumar.foodaholic"
+      "bundleIdentifier": "com.saketkumar.foodaholic",
+      "runtimeVersion": {
+        "policy": "sdkVersion"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/icons/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.saketkumar.foodaholic"
+      "package": "com.saketkumar.foodaholic",
+      "runtimeVersion": {
+        "policy": "sdkVersion"
+      }
     },
     "androidStatusBar": {
       "barStyle": "light-content",
@@ -36,6 +42,9 @@
       "eas": {
         "projectId": "31e16bb3-9f3b-4ccf-9d06-d97345783a30"
       }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/31e16bb3-9f3b-4ccf-9d06-d97345783a30"
     }
   }
 }

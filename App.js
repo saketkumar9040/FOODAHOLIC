@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Alert, StyleSheet } from "react-native";
 import "expo-dev-client";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -13,8 +13,34 @@ import PlaceOrderScreen from "./src/screens/PlaceOrderScreen.js";
 import TrackOrderScreen from "./src/screens/TrackOrderScreen.js";
 import SuccessfulOrderScreen from "./src/screens/SuccessfulOrderScreen.js";
 
+import * as Updates from 'expo-updates' // Updates*
+import { useEffect } from "react";
+
+
+
 
 export default function App() {
+// CHECKING FOR UPDATES AS APP STARTS
+//  useEffect(()=>{
+//   const checkForUpdates = async() => {
+//     try {
+//       const update = await Updates.checkForUpdateAsync()
+//       if (update.isAvailable) {
+//         await Updates.fetchUpdateAsync()
+//         Alert.alert("Foodaholic got updates🤗! please wait while app is updating...")
+//         await Updates.reloadAsync().then(()=>{
+//           Alert.alert("App updated Successfully🤩,Thank You for your patience🙏")
+//         })
+//       }
+//     } catch (e) {
+//         console.log(e)
+//     }
+//   };
+//   checkForUpdates();
+//  },[])
+
+  
+
   const Stack = createNativeStackNavigator();
 
   return (
