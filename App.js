@@ -13,38 +13,47 @@ import PlaceOrderScreen from "./src/screens/PlaceOrderScreen.js";
 import TrackOrderScreen from "./src/screens/TrackOrderScreen.js";
 import SuccessfulOrderScreen from "./src/screens/SuccessfulOrderScreen.js";
 
-import * as Updates from 'expo-updates' // Updates*
-import { useEffect } from "react";
-
-
-
+import * as Updates from "expo-updates"; // Updates*
+import { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function App() {
-// CHECKING FOR UPDATES AS APP STARTS
-//  useEffect(()=>{
-//   const checkForUpdates = async() => {
-//     try {
-//       const update = await Updates.checkForUpdateAsync()
-//       if (update.isAvailable) {
-//         await Updates.fetchUpdateAsync()
-//         Alert.alert("Foodaholic got updates🤗! please wait while app is updating...")
-//         await Updates.reloadAsync().then(()=>{
-//           Alert.alert("App updated Successfully🤩,Thank You for your patience🙏")
-//         })
-//       }
-//     } catch (e) {
-//         console.log(e)
-//     }
-//   };
-//   checkForUpdates();
-//  },[])
+  // CHECKING FOR UPDATES AS APP STARTS
+  //  useEffect(()=>{
+  //   const checkForUpdates = async() => {
+  //     try {
+  //       const update = await Updates.checkForUpdateAsync()
+  //       if (update.isAvailable) {
+  //         await Updates.fetchUpdateAsync()
+  //         Alert.alert("Foodaholic got updates🤗! please wait while app is updating...")
+  //         await Updates.reloadAsync().then(()=>{
+  //           Alert.alert("App updated Successfully🤩,Thank You for your patience🙏")
+  //         })
+  //       }
+  //     } catch (e) {
+  //         console.log(e)
+  //     }
+  //   };
+  //   checkForUpdates();
+  //  },[]);
 
-  
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const alreadyLoggedIn = async () => {
+      const storedEmail = await AsyncStorage.getItem("email");
+      const storedPassword = await AsyncStorage.getItem("password");
+      console.log(storedEmail, storedPassword);
+      if (storedEmail !== null && storedPassword !== null) {
+        setIsLoggedIn(true);
+      }
+    };
+    alreadyLoggedIn();
+  }, []);
 
   const Stack = createNativeStackNavigator();
 
   return (
-    
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ animation: "none" }}

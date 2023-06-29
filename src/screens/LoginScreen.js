@@ -16,9 +16,9 @@ import { StatusBar } from "expo-status-bar";
 import vehicleImage from "../../assets/vehicleImage.png";
 
 import { firebase } from "../firebase/FirebaseConfig";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LoginScreen = ({ navigation }) => {
-  
   NavigationBar.setBackgroundColorAsync("#ff4242");
 
   const [emailFocus, setEmailFocus] = useState(false);
@@ -29,14 +29,17 @@ const LoginScreen = ({ navigation }) => {
   const [password, setPassword] = useState(false);
   const [customError, setCustomError] = useState("");
 
+
   const handleLogin = () => {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then((userCredintial) => {
+      .then(async (userCredintial) => {
         let user = userCredintial.user;
         console.log("Logged in successfully !!!!!!");
-
+          await AsyncStorage.setItem("email",email);
+          await AsyncStorage.setItem("password",password);
+     
         navigation.navigate("welcomeScreen");
       })
       .catch((error) => {
@@ -47,20 +50,19 @@ const LoginScreen = ({ navigation }) => {
           "Firebase: Error (auth/invalid-value-at-'email'-(type-string),-false-invalid-value-at-'password'-(type-string),-false)."
         ) {
           setCustomError("Please enter a valid email address");
-        } 
+        }
         if (
           errorMessage ===
           "Firebase: There is no user record corresponding to this identifier. The user may have been deleted. (auth/user-not-found)."
         ) {
           setCustomError("No such User Found");
-        } 
+        }
         if (
           errorMessage ===
           "Firebase: The password is invalid or the user does not have a password. (auth/wrong-password)."
         ) {
           setCustomError("Password is Incorrect");
-        } 
-        else {
+        } else {
           setCustomError("Incorrect email or password");
         }
       });

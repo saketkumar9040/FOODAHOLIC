@@ -26,6 +26,7 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { getFirestore } from "firebase/firestore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyA9PAsVzy6WAUBE_EiO5HCMBdBa8w9QMW8",
@@ -299,9 +300,10 @@ const UserProfileScreen = ({ navigation }) => {
     firebase
       .auth()
       .signOut()
-      .then(() => {
+      .then(async() => {
         alert("Logout successfully");
-        navigation.navigate("loginScreen");
+        await AsyncStorage.clear();
+        // navigation.navigate("loginScreen",{isLoggedIn:false});
       })
       .catch((error) => {
         alert("system Error");
@@ -431,13 +433,13 @@ const UserProfileScreen = ({ navigation }) => {
               )}
             </View>
             <TouchableOpacity
-              style={{ backgroundColor: colors.bgColor, elevation: 10 }}
+              style={{ alignSelf:"center",}}
               onPress={() => setPasswordEdit(true)}
             >
               <Text style={styles.button}>Change Password</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={{ backgroundColor: colors.bgColor, elevation: 10 }}
+              style={{ alignSelf:"center", }}
               onPress={() => handleLogout()}
             >
               <Text style={styles.button}>Log Out</Text>
@@ -497,7 +499,7 @@ const UserProfileScreen = ({ navigation }) => {
               </View>
             </View>
             <TouchableOpacity
-              style={{ backgroundColor: colors.bgColor, elevation: 10 }}
+              style={{ backgroundColor: colors.bgColor, elevation: 10, }}
               onPress={() => handlePassword()}
             >
               <Text style={styles.button}>Submit</Text>
@@ -589,10 +591,10 @@ const styles = StyleSheet.create({
   },
   button: {
     fontSize: 17,
-    alignSelf: "center",
+    // alignSelf: "center",
     textAlign: "center",
     color: colors.text1,
-    marginHorizontal: 10,
+    // marginHorizontal: 10,
     marginVertical: 10,
     fontWeight: 600,
     backgroundColor: colors.color1,

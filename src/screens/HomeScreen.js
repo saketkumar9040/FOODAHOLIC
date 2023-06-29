@@ -19,8 +19,14 @@ import { AntDesign, FontAwesome5 } from "@expo/vector-icons";
 import { firebase } from "../firebase/FirebaseConfig.js";
 import CardSlider from "../components/CardSlider";
 import BottomNav from "../components/BottomNav";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const HomeScreen = ({navigation}) => {
+  
+  // const storedEmail=AsyncStorage.getItem("email");
+  // const storedPassword = AsyncStorage.getItem("password");
+  // console.log(storedEmail,storedPassword);
+
   NavigationBar.setBackgroundColorAsync("#ff4242");
 
   const [foodData, setFoodData] = useState([]);
