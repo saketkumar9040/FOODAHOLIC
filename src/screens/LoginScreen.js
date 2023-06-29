@@ -16,10 +16,14 @@ import { StatusBar } from "expo-status-bar";
 import vehicleImage from "../../assets/vehicleImage.png";
 
 import { firebase } from "../firebase/FirebaseConfig";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch } from "react-redux";
+import { autoLogin } from "../../store/authSlice";
+
 
 const LoginScreen = ({ navigation }) => {
   NavigationBar.setBackgroundColorAsync("#ff4242");
+
+  const dispatch = useDispatch();
 
   const [emailFocus, setEmailFocus] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
@@ -37,10 +41,8 @@ const LoginScreen = ({ navigation }) => {
       .then(async (userCredintial) => {
         let user = userCredintial.user;
         console.log("Logged in successfully !!!!!!");
-          await AsyncStorage.setItem("email",email);
-          await AsyncStorage.setItem("password",password);
-     
-        navigation.navigate("welcomeScreen");
+        dispatch(autoLogin({email,password}));
+        // navigation.navigate("welcomeScreen");
       })
       .catch((error) => {
         let errorMessage = error.message;

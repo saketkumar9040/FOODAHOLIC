@@ -26,7 +26,8 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { getFirestore } from "firebase/firestore";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch } from "react-redux";
+import { autoLogin } from "../../store/authSlice";
 
 const firebaseConfig = {
   apiKey: "AIzaSyA9PAsVzy6WAUBE_EiO5HCMBdBa8w9QMW8",
@@ -46,6 +47,9 @@ const storage = getStorage(initializeApp(firebaseConfig));
 const db = getFirestore(initializeApp(firebaseConfig));
 
 const UserProfileScreen = ({ navigation }) => {
+
+  const dispatch = useDispatch();
+
   NavigationBar.setBackgroundColorAsync("#ff4242");
 
   const [userLoggedUid, setUserLoggedUid] = useState(null);
@@ -301,8 +305,8 @@ const UserProfileScreen = ({ navigation }) => {
       .auth()
       .signOut()
       .then(async() => {
+        await dispatch(autoLogin({email:null,password:null}))
         alert("Logout successfully");
-        await AsyncStorage.clear();
         // navigation.navigate("loginScreen",{isLoggedIn:false});
       })
       .catch((error) => {
