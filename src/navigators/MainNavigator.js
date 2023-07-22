@@ -21,7 +21,7 @@ const MainNavigator = () => {
   const isAuthenticated = useSelector(
     (state) => state.auth.email !== null && state.auth.password !== null
   );
-  console.log(isAuthenticated);
+  // console.log(isAuthenticated);
 
   const Stack = createNativeStackNavigator();
 

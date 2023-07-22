@@ -1,27 +1,34 @@
-import { StyleSheet } from "react-native";
+import { Alert, StyleSheet } from "react-native";
 import MainNavigator from "./src/navigators/MainNavigator";
 import { store } from "./store/store.js";
 import { Provider } from "react-redux";
+import { useEffect } from "react";
+import * as Updates from "expo-updates"
+
 
 export default function App() {
   // CHECKING FOR UPDATES AS APP STARTS
-  //  useEffect(()=>{
-  //   const checkForUpdates = async() => {
-  //     try {
-  //       const update = await Updates.checkForUpdateAsync()
-  //       if (update.isAvailable) {
-  //         await Updates.fetchUpdateAsync()
-  //         Alert.alert("Foodaholic got updates🤗! please wait while app is updating...")
-  //         await Updates.reloadAsync().then(()=>{
-  //           Alert.alert("App updated Successfully🤩,Thank You for your patience🙏")
-  //         })
-  //       }
-  //     } catch (e) {
-  //         console.log(e)
-  //     }
-  //   };
-  //   checkForUpdates();
-  //  },[]);
+   useEffect(()=>{
+    const checkForUpdates = async() => {
+      try {
+        const update = await Updates.checkForUpdateAsync()
+        if (update.isAvailable) {
+          await Updates.fetchUpdateAsync()
+          Alert.alert("Foodaholic got updates🤗! please wait while app is updating...")
+          await Updates.reloadAsync().then(()=>{
+            Alert.alert("App updated Successfully🤩,Thank You for your patience🙏")
+          })
+        }
+      } catch (error) {
+        if(error.message === "You cannot check for updates in development mode. To test manual updates, publish your project using `expo publish` and open the published version in this development client."){
+          console.log(error.message)
+        }else{
+          Alert.alert("Expo updates error: "+error.message)
+        }
+      }
+    };
+    checkForUpdates();
+   },[]);
 
   return (
     <Provider store={store}>

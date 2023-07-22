@@ -2,7 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { View, Text, StyleSheet, Image, TouchableOpacity, } from "react-native";
 import React, { useEffect, useState } from "react";
 import * as NavigationBar from "expo-navigation-bar";
-import logo from "../../assets/congrats.png";
+import logo from "../../assets/successful.png";
 import { colors, hr80 } from "../globals/style.js";
 import { FontAwesome5 } from '@expo/vector-icons';
 

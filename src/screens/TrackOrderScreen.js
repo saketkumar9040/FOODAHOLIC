@@ -61,10 +61,7 @@ const TrackOrderScreen = ({ navigation }) => {
           <MaterialIcons name="delivery-dining" size={45} color="#ff4242" />
         </View>
         <ScrollView style={styles.containerIn}>
-          {orders
-            .sort((a, b) => {
-              b.orderdate.seconds - a.orderdate.seconds;
-            })
+          {orders.reverse()
             .map((item, index) => {
               return (
                 <View style={styles.orderCard} key={index}>
@@ -113,6 +110,7 @@ const TrackOrderScreen = ({ navigation }) => {
                     style={styles.cartList}
                     data={item.orderdata}
                     renderItem={({ item }) => {
+                      // console.log(item)
                       return (
                         <View style={styles.rowOut}>
                           <View style={styles.row}>
