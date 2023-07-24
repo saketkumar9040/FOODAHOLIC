@@ -2,7 +2,7 @@ import { FlatList, StyleSheet, Text, View, Image,TouchableOpacity } from "react-
 import React from "react";
 import {colors, nonVeg, veg } from "../globals/style";
 
-const CardSlider = ({ title, data,navigation }) => {
+const CardSlider = ({ title,data,navigation }) => {
 
   const openProductPage=(item)=>{
     // console.log(item)

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from "react-native";
 import React from "react";
 import { colors } from "../globals/style";
 import {
@@ -7,31 +7,36 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 
-const Categories = () => {
+const Categories = ({navigation}) => {
+
+  const searchFoodCategory = (searchText) => {
+     navigation.navigate("homeScreen",{searchText})
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.head}>{"Categories"+" >>>"}</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        <View style={styles.card}>
+        <TouchableOpacity style={styles.card} onPress={()=>searchFoodCategory("starters")}>
           <MaterialCommunityIcons name="food-apple" size={35} color="white" />
           <Text style={styles.foodText}>starters</Text>
-        </View>
-        <View style={styles.card}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.card} onPress={()=>searchFoodCategory("breakfast")}>
           <MaterialCommunityIcons name="food-variant" size={35} color="white" />
           <Text style={styles.foodText}>Breakfast</Text>
-        </View>
-        <View style={styles.card}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.card} onPress={()=>searchFoodCategory("lunch")}>
           <MaterialIcons name="lunch-dining" size={35} color="white" />
           <Text style={styles.foodText}>Lunch</Text>
-        </View>
-        <View style={styles.card}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.card} onPress={()=>searchFoodCategory("dinner")}>
           <MaterialIcons name="dinner-dining" size={35} color="white" />
           <Text style={styles.foodText}>Dinner</Text>
-        </View>
-        <View style={styles.card}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.card} onPress={()=>searchFoodCategory("liquid")}>
           <FontAwesome5 name="glass-cheers" size={35} color="white" />
           <Text style={styles.foodText}>Liquid</Text>
-        </View>
+        </TouchableOpacity>
       </ScrollView>
     </View>
   );

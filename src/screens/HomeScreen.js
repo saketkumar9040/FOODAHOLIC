@@ -20,8 +20,11 @@ import { AntDesign, FontAwesome5 } from "@expo/vector-icons";
 import { firebase } from "../firebase/FirebaseConfig.js";
 import CardSlider from "../components/CardSlider";
 import BottomNav from "../components/BottomNav";
+import { useCallback } from "react";
 
-const HomeScreen = ({navigation}) => {
+const HomeScreen = ({ navigation, route }) => {
+  // console.log(route.params.searchText);
+  // const searchText = route?.params?.searchText;
   
 
   NavigationBar.setBackgroundColorAsync("#ff4242");
@@ -29,6 +32,10 @@ const HomeScreen = ({navigation}) => {
   const [foodData, setFoodData] = useState([]);
   const [vegData, setVegData] = useState([]);
   const [nonVegData, setNonVegData] = useState([]);
+  const [search, setSearch] = useState("");
+  const [searchText, setSearchText] = useState("");
+  // console.log(search);
+  console.log(searchText);
 
   const foodRef = firebase.firestore().collection("foodData");
 
@@ -43,11 +50,15 @@ const HomeScreen = ({navigation}) => {
     setNonVegData(foodData.filter((item) => item.foodType === "non-veg"));
   }, [foodData]);
 
-  const [search, setSearch] = useState("");
+  useEffect(() => {
+    if (route.params.searchText) {
+      setSearchText(route.params.searchText);
+    }
+  }, [route?.params?.searchText]);
 
   return (
     <>
-      <HomeHeadNav navigation={navigation}/>
+      <HomeHeadNav navigation={navigation} />
       <ScrollView style={styles.container}>
         <StatusBar
           barStyle="light-content"
@@ -64,9 +75,10 @@ const HomeScreen = ({navigation}) => {
             onChangeText={(text) => {
               setSearch(text);
             }}
+            onFocus={()=>setSearchText("")}
           />
         </View>
-        {search != "" && (
+        {search != "" && searchText === undefined && (
           <View style={styles.searchResultContainer}>
             <FlatList
               style={styles.searchResultInner}
@@ -75,9 +87,14 @@ const HomeScreen = ({navigation}) => {
                 if (
                   item.foodName.toLowerCase().includes(search.toLowerCase())
                 ) {
-                  // console.log(item)/
+                  // console.log(item);
                   return (
-                    <TouchableOpacity style={styles.searchResult} onPress={()=>navigation.navigate("productScreen",{...item})}>
+                    <TouchableOpacity
+                      style={styles.searchResult}
+                      onPress={() =>
+                        navigation.navigate("productScreen", { ...item })
+                      }
+                    >
                       {/* <AntDesign name="arrowright" size={24} color="white" /> */}
                       <Image
                         source={{ uri: item.foodImageUrl }}
@@ -98,13 +115,60 @@ const HomeScreen = ({navigation}) => {
             />
           </View>
         )}
-        <Categories />
+        {searchText && (
+          <View style={styles.searchResultContainer}>
+            <FlatList
+              style={styles.searchResultInner}
+              data={foodData}
+              renderItem={({ item }) => {
+                if (item.mealType.includes(searchText)) {
+                  // console.log(item);
+                  return (
+                    <TouchableOpacity
+                      style={styles.searchResult}
+                      onPress={() =>
+                        navigation.navigate("productScreen", { ...item })
+                      }
+                    >
+                      {/* <AntDesign name="arrowright" size={24} color="white" /> */}
+                      <Image
+                        source={{ uri: item.foodImageUrl }}
+                        style={styles.searchResultImage}
+                      />
+                      <View>
+                        <Text style={styles.searchResultText}>
+                          {item.foodName}
+                        </Text>
+                        <Text style={styles.searchResultPlace}>
+                          {item.restaurantAddressStreet}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  );
+                }
+              }}
+            />
+          </View>
+        )}
+        <Categories navigation={navigation} />
         <OfferSliders />
-        <CardSlider title={"Today's Special"} data={foodData} navigation={navigation} />
-        <CardSlider title={"Non Veg Lover's"} data={nonVegData}  navigation={navigation}/>
-        <CardSlider title={"Veg Hunger"} data={vegData}  navigation={navigation}/>
+        <CardSlider
+          title={"Today's Special"}
+          data={foodData}
+          navigation={navigation}
+        />
+        <CardSlider
+          title={"Non Veg Lover's"}
+          data={nonVegData}
+          navigation={navigation}
+        />
+        <CardSlider
+          title={"Veg Hunger"}
+          data={vegData}
+          navigation={navigation}
+        />
       </ScrollView>
-      <BottomNav navigation={navigation}/>
+      <BottomNav navigation={navigation} />
     </>
   );
 };
@@ -114,10 +178,10 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width:"100%",
-    height:"100%",
+    width: "100%",
+    height: "100%",
     backgroundColor: colors.bgColor,
-    marginBottom:35,
+    marginBottom: 35,
   },
   searchContainer: {
     flexDirection: "row",
@@ -125,7 +189,7 @@ const styles = StyleSheet.create({
     margin: 8,
     padding: 7,
     paddingLeft: 15,
-    alignItems: "center",
+    // alignItems: "center",
     borderWidth: 3,
     borderRadius: 20,
     borderColor: colors.color1,
