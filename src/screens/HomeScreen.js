@@ -7,6 +7,7 @@ import {
   View,
   FlatList,
   Image,
+  TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 
@@ -74,8 +75,9 @@ const HomeScreen = ({navigation}) => {
                 if (
                   item.foodName.toLowerCase().includes(search.toLowerCase())
                 ) {
+                  // console.log(item)/
                   return (
-                    <View style={styles.searchResult}>
+                    <TouchableOpacity style={styles.searchResult} onPress={()=>navigation.navigate("productScreen",{...item})}>
                       {/* <AntDesign name="arrowright" size={24} color="white" /> */}
                       <Image
                         source={{ uri: item.foodImageUrl }}
@@ -89,7 +91,7 @@ const HomeScreen = ({navigation}) => {
                           {item.restaurantAddressStreet}
                         </Text>
                       </View>
-                    </View>
+                    </TouchableOpacity>
                   );
                 }
               }}

@@ -8,7 +8,7 @@ import { colors } from "../globals/style";
 const HomeHeadNav = ({ navigation }) => {
   return (
     <View style={styles.container}>
-     <TouchableOpacity>
+     <TouchableOpacity onPress={()=>console.log("opening drawer...")}>
      <FontAwesome
         name="th-list"
         size={30}

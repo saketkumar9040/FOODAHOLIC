@@ -15,7 +15,7 @@ import { StatusBar } from "expo-status-bar";
 
 const ProductScreen = ({ navigation, route }) => {
   const data = route.params;
-  // console.log(data);
+  console.log(data);
   if (route.params === undefined) {
     navigation.navigate("homeScreen");
   }
