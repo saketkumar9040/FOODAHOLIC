@@ -130,7 +130,7 @@ const LoginScreen = ({ navigation }) => {
       <TouchableOpacity>
         <Text style={styles.forgot}>Forget Password ?</Text>
       </TouchableOpacity>
-      <Text style={styles.or}>OR</Text>
+      {/* <Text style={styles.or}>OR</Text>
       <Text style={styles.GFtext}>Sign In With</Text>
       <View style={styles.socialIconContainer}>
         <TouchableOpacity>
@@ -139,7 +139,7 @@ const LoginScreen = ({ navigation }) => {
         <TouchableOpacity>
           <FontAwesome name="facebook-square" size={45} color={colors.color1} />
         </TouchableOpacity>
-      </View>
+      </View> */}
       <View style={hr80}></View>
       <View style={styles.signUpContainer}>
         <Text style={styles.signUpText}>Don't have an account ?</Text>
