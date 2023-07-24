@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 10,
     padding: 10,
-    paddingHorizontal: 26,
+    paddingHorizontal: 45,
     elevation: 15,
   },
   loggedName:{

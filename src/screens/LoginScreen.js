@@ -127,9 +127,9 @@ const LoginScreen = ({ navigation }) => {
       >
         <Text style={styles.button}>LOGIN</Text>
       </TouchableOpacity>
-      <TouchableOpacity>
+      {/* <TouchableOpacity>
         <Text style={styles.forgot}>Forget Password ?</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       {/* <Text style={styles.or}>OR</Text>
       <Text style={styles.GFtext}>Sign In With</Text>
       <View style={styles.socialIconContainer}>
