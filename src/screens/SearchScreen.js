@@ -35,7 +35,7 @@ const SearchScreen = ({ navigation, route }) => {
           onFocus={() => setSearchText("")}
         />
       </View>
-      { !search && (
+      { !search && !searchText && (
         <Image
         source={searchBackground}
         style={styles.screenBackground} 
@@ -76,7 +76,7 @@ const SearchScreen = ({ navigation, route }) => {
           />
         </View>
       )}
-      {searchText && searchText && (
+      {searchText && (
         <View style={styles.searchResultContainer}>
           <FlatList
             style={styles.searchResultInner}
