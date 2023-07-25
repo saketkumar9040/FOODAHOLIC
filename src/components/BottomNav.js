@@ -11,7 +11,7 @@ const BottomNav = ({navigation}) => {
         <FontAwesome5 name="home" size={30} color="white" onPress={()=>navigation.navigate("homeScreen")} />
       </TouchableOpacity>
       <TouchableOpacity style={styles.searchIcon}>
-        <FontAwesome name="search" size={30} color={colors.bgColor} />
+        <FontAwesome name="search" size={30} color={colors.bgColor} onPress={()=>navigation.navigate("searchScreen")} />
       </TouchableOpacity>
       <TouchableOpacity  style={styles.icon}>
         <FontAwesome5 name="shopping-cart" size={30} color="white" onPress={()=>navigation.navigate("cartScreen")}/>
@@ -28,12 +28,13 @@ export default BottomNav;
 const styles = StyleSheet.create({
   bottomNavContainer: {
     width: "100%",
-    height: "5%",
+    // height: "5%",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 30,
     paddingTop:2,
+    // marginTop:20,
     backgroundColor: colors.bgColor,
     position:"absolute",
     bottom:0,

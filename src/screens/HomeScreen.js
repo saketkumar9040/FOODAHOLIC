@@ -33,9 +33,9 @@ const HomeScreen = ({ navigation, route }) => {
   const [vegData, setVegData] = useState([]);
   const [nonVegData, setNonVegData] = useState([]);
   const [search, setSearch] = useState("");
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState(route?.params?.searchText);
   // console.log(search);
-  console.log(searchText);
+  // console.log(searchText);
 
   const foodRef = firebase.firestore().collection("foodData");
 
@@ -49,12 +49,6 @@ const HomeScreen = ({ navigation, route }) => {
     setVegData(foodData.filter((item) => item.foodType === "veg"));
     setNonVegData(foodData.filter((item) => item.foodType === "non-veg"));
   }, [foodData]);
-
-  useEffect(() => {
-    if (route.params.searchText) {
-      setSearchText(route.params.searchText);
-    }
-  }, [route?.params?.searchText]);
 
   return (
     <>
@@ -75,81 +69,9 @@ const HomeScreen = ({ navigation, route }) => {
             onChangeText={(text) => {
               setSearch(text);
             }}
-            onFocus={()=>setSearchText("")}
+            onFocus={()=>navigation.navigate("searchScreen")}
           />
         </View>
-        {search != "" && searchText === undefined && (
-          <View style={styles.searchResultContainer}>
-            <FlatList
-              style={styles.searchResultInner}
-              data={foodData}
-              renderItem={({ item }) => {
-                if (
-                  item.foodName.toLowerCase().includes(search.toLowerCase())
-                ) {
-                  // console.log(item);
-                  return (
-                    <TouchableOpacity
-                      style={styles.searchResult}
-                      onPress={() =>
-                        navigation.navigate("productScreen", { ...item })
-                      }
-                    >
-                      {/* <AntDesign name="arrowright" size={24} color="white" /> */}
-                      <Image
-                        source={{ uri: item.foodImageUrl }}
-                        style={styles.searchResultImage}
-                      />
-                      <View>
-                        <Text style={styles.searchResultText}>
-                          {item.foodName}
-                        </Text>
-                        <Text style={styles.searchResultPlace}>
-                          {item.restaurantAddressStreet}
-                        </Text>
-                      </View>
-                    </TouchableOpacity>
-                  );
-                }
-              }}
-            />
-          </View>
-        )}
-        {searchText && (
-          <View style={styles.searchResultContainer}>
-            <FlatList
-              style={styles.searchResultInner}
-              data={foodData}
-              renderItem={({ item }) => {
-                if (item.mealType.includes(searchText)) {
-                  // console.log(item);
-                  return (
-                    <TouchableOpacity
-                      style={styles.searchResult}
-                      onPress={() =>
-                        navigation.navigate("productScreen", { ...item })
-                      }
-                    >
-                      {/* <AntDesign name="arrowright" size={24} color="white" /> */}
-                      <Image
-                        source={{ uri: item.foodImageUrl }}
-                        style={styles.searchResultImage}
-                      />
-                      <View>
-                        <Text style={styles.searchResultText}>
-                          {item.foodName}
-                        </Text>
-                        <Text style={styles.searchResultPlace}>
-                          {item.restaurantAddressStreet}
-                        </Text>
-                      </View>
-                    </TouchableOpacity>
-                  );
-                }
-              }}
-            />
-          </View>
-        )}
         <Categories navigation={navigation} />
         <OfferSliders />
         <CardSlider
@@ -181,7 +103,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     backgroundColor: colors.bgColor,
-    marginBottom: 35,
+    marginBottom: 60,
   },
   searchContainer: {
     flexDirection: "row",

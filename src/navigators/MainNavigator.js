@@ -12,6 +12,7 @@ import CartScreen from "../screens/CartScreen.js";
 import PlaceOrderScreen from "../screens/PlaceOrderScreen.js";
 import TrackOrderScreen from "../screens/TrackOrderScreen.js";
 import SuccessfulOrderScreen from "../screens/SuccessfulOrderScreen.js";
+import SearchScreen from "../screens/SearchScreen.js"
 
 import * as Updates from "expo-updates"; // Updates*
 import { useEffect, useState } from "react";
@@ -85,6 +86,11 @@ const MainNavigator = () => {
             <Stack.Screen
               name="successfulOrderScreen"
               component={SuccessfulOrderScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="searchScreen"
+              component={SearchScreen}
               options={{ headerShown: false }}
             />
           </>

@@ -10,7 +10,7 @@ import {
 const Categories = ({navigation}) => {
 
   const searchFoodCategory = (searchText) => {
-     navigation.navigate("homeScreen",{searchText})
+     navigation.navigate("searchScreen",{searchText})
   }
 
   return (
