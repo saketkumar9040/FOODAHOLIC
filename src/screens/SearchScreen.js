@@ -5,6 +5,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { TextInput } from "react-native";
 import { firebase } from "../firebase/FirebaseConfig.js";
 import BottomNav from "../components/BottomNav";
+import searchBackground from "../../assets/searchScreenBackground.png"
 
 const SearchScreen = ({ navigation, route }) => {
 
@@ -34,6 +35,12 @@ const SearchScreen = ({ navigation, route }) => {
           onFocus={() => setSearchText("")}
         />
       </View>
+      { !search && (
+        <Image
+        source={searchBackground}
+        style={styles.screenBackground} 
+        />
+      )}
       {search != "" && !searchText && (
         <View style={styles.searchResultContainer}>
           <FlatList
@@ -120,6 +127,11 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     // marginBottom: 35,
   },
+  screenBackground:{
+    width:"100%",
+    height:"100%",
+    resizeMode:"cover"
+  },
   searchContainer: {
     flexDirection: "row",
     width: "95%",
@@ -135,7 +147,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     width: "80%",
     color: colors.color1,
-    fontSize:22,
+    fontSize:20,
   },
   searchResultContainer: {
     width: "100%",
