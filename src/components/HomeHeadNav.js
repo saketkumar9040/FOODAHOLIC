@@ -8,32 +8,32 @@ import { colors } from "../globals/style";
 const HomeHeadNav = ({ navigation }) => {
   return (
     <View style={styles.container}>
-     <TouchableOpacity onPress={()=>console.log("opening drawer...")}>
-     <FontAwesome
-        name="th-list"
-        size={30}
-        color="white"
-        style={styles.myIcon}
-      />
-     </TouchableOpacity>
-  <TouchableOpacity>
-        <View style={styles.middleContainer}>
-        <Text style={styles.myText}>FOODAHOLIC</Text>
-        <Ionicons
-          name="fast-food-outline"
-          size={35}
+      <TouchableOpacity onPress={() => navigation.openDrawer()}>
+        <FontAwesome
+          name="th-list"
+          size={30}
           color="white"
           style={styles.myIcon}
         />
-      </View>
-  </TouchableOpacity>
-      <TouchableOpacity >
+      </TouchableOpacity>
+      <TouchableOpacity>
+        <View style={styles.middleContainer}>
+          <Text style={styles.myText}>FOODAHOLIC</Text>
+          <Ionicons
+            name="fast-food-outline"
+            size={35}
+            color="white"
+            style={styles.myIcon}
+          />
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity>
         <FontAwesome5
           name="user-circle"
           size={30}
           color="white"
           style={styles.myIcon}
-          onPress={()=>navigation.navigate("userProfileScreen")}
+          onPress={() => navigation.navigate("userProfileScreen")}
         />
       </TouchableOpacity>
     </View>
@@ -60,12 +60,12 @@ const styles = StyleSheet.create({
     // width: "55%",
     // marginLeft: 30,
     alignItems: "center",
-    justifyContent:"center",
+    justifyContent: "center",
   },
   myText: {
     color: colors.color1,
     fontSize: 20,
-    marginRight:8,
+    marginRight: 8,
     fontWeight: 800,
   },
 });

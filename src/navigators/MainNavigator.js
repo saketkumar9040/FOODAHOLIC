@@ -13,10 +13,25 @@ import PlaceOrderScreen from "../screens/PlaceOrderScreen.js";
 import TrackOrderScreen from "../screens/TrackOrderScreen.js";
 import SuccessfulOrderScreen from "../screens/SuccessfulOrderScreen.js";
 import SearchScreen from "../screens/SearchScreen.js"
-
 import * as Updates from "expo-updates"; // Updates*
 import { useEffect, useState } from "react";
 import { Provider, useSelector } from "react-redux";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+
+const Drawer = createDrawerNavigator();
+
+const DrawerNavigator = () => {
+  return (
+      <Drawer.Navigator>
+        <Drawer.Screen name="homeScreen" component={HomeScreen} options={{ headerShown: false }}/>
+        <Drawer.Screen name="searchScreen" component={SearchScreen} options={{ headerShown: false }}/>
+        <Drawer.Screen name="cartScreen" component={CartScreen} options={{ headerShown: false }}/>
+        <Drawer.Screen name="trackOrderScreen" component={TrackOrderScreen} options={{ headerShown: false }}/>
+        <Drawer.Screen name="userProfileScreen" component={UserProfileScreen} options={{ headerShown: false }}/>
+
+      </Drawer.Navigator>
+  );
+};
 
 const MainNavigator = () => {
   const isAuthenticated = useSelector(
@@ -55,7 +70,7 @@ const MainNavigator = () => {
           <>
             <Stack.Screen
               name="homeScreen"
-              component={HomeScreen}
+              component={DrawerNavigator}
               options={{ headerShown: false }}
             />
             <Stack.Screen
