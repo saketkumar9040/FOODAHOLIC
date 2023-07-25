@@ -176,8 +176,8 @@ const styles = StyleSheet.create({
   },
   searchResultImage: {
     marginLeft: 15,
-    height: 55,
-    width: 55,
+    height: 70,
+    width: 70,
     borderRadius: 10,
     borderWidth: 3,
     borderColor: colors.color1,
