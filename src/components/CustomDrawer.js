@@ -74,12 +74,12 @@ const CustomDrawer = (props) => {
       <DrawerContentScrollView {...props} contentContainerStyle={{}}>
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
-      <View style={{paddingTop:20,borderTopWidth:2,borderTopColor:"#fff"}}>
-        <TouchableOpacity style={{flexDirection:"row",alignItems:"center",paddingLeft:20,paddingVertical:5,}}>
+      <View style={{paddingTop:10,borderTopWidth:2,borderTopColor:"#fff"}}>
+        <TouchableOpacity style={{flexDirection:"row",alignItems:"center",paddingLeft:20,paddingVertical:7,}}>
         <Ionicons name="ios-share-social-sharp" size={26} color="#fff" />
          <Text style={{fontSize:16,color:"#fff",marginLeft:20,fontWeight:800}}>SHARE WITH FRIEND'S</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{flexDirection:"row",alignItems:"center",paddingLeft:20,paddingVertical:5}} onPress={()=>handleLogout()}>
+        <TouchableOpacity style={{flexDirection:"row",alignItems:"center",paddingLeft:20,paddingVertical:7,paddingBottom:10,}} onPress={()=>handleLogout()}>
         <FontAwesome name="power-off" size={26} color="#fff" />
          <Text style={{fontSize:16,color:"#fff",marginLeft:25,fontWeight:800}}>LOGOUT</Text>
         </TouchableOpacity>
