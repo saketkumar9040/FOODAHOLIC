@@ -200,7 +200,7 @@ export default CartScreen;
 
 const styles = StyleSheet.create({
   cartContainerOut: {
-    flex: 1,
+    flex:1,
     width: "100%",
     backgroundColor: colors.bgColor,
   },
