@@ -24,11 +24,25 @@ const Drawer = createDrawerNavigator();
 const DrawerNavigator = () => {
   return (
     <Drawer.Navigator
-      drawerContent={(props)=><CustomDrawer {...props}/>}
+      screenOptions={{
+        drawerStyle: {
+          backgroundColor: "#ff4242",
+          //  paddingTop:40,
+        },
+        drawerActiveBackgroundColor: "#fff",
+        drawerActiveTintColor: "#ff4242",
+        drawerInactiveTintColor: "#fff",
+      }}
+      drawerContent={(props) => <CustomDrawer {...props} />}
     >
       <Drawer.Screen
         name="HOME"
         component={HomeScreen}
+        options={{ headerShown: false }}
+      />
+      <Drawer.Screen
+        name="PROFILE"
+        component={UserProfileScreen}
         options={{ headerShown: false }}
       />
       <Drawer.Screen
@@ -44,11 +58,6 @@ const DrawerNavigator = () => {
       <Drawer.Screen
         name="TRACK ORDER"
         component={TrackOrderScreen}
-        options={{ headerShown: false }}
-      />
-      <Drawer.Screen
-        name="PROFILE"
-        component={UserProfileScreen}
         options={{ headerShown: false }}
       />
     </Drawer.Navigator>

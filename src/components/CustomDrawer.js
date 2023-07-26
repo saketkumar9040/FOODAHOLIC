@@ -5,8 +5,9 @@ import { Image } from "react-native";
 import { firebase } from "../firebase/FirebaseConfig";
 import { useEffect } from "react";
 import { useState } from "react";
+import { DrawerContentScrollView,DrawerItemList } from "@react-navigation/drawer";
 
-const CustomDrawer = ({ props }) => {
+const CustomDrawer = ( props ) => {
 
    const[userData,setUserData] = useState("");
    const [userLoggedUid, setUserLoggedUid] = useState(null);
@@ -43,9 +44,16 @@ const CustomDrawer = ({ props }) => {
   }, []);
 
   return (
-    <ScrollView style={styles.container}>
-      <Image />
-    </ScrollView>
+    <View style={{flex:1,}}>
+      <Image 
+        style={styles.image}
+        source={{uri:userData.avatar}}
+      />
+      <Text style={styles.name}>{userData.name.toUpperCase()}</Text>
+    <DrawerContentScrollView {...props}>
+      <DrawerItemList {...props}/>
+    </DrawerContentScrollView>
+    </View>
   );
 };
 
@@ -56,4 +64,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#ff4242",
   },
+  image:{
+     width:"100%",
+     height:200,
+     resizeMode:"cover"
+  },
+  name:{
+    fontSize:20,
+    color:"#fff",
+    alignSelf:"center",
+    paddingVertical:5,
+    fontWeight:900,
+  },
+
 });
