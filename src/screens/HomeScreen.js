@@ -51,7 +51,7 @@ const HomeScreen = ({ navigation, route }) => {
   }, [foodData]);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex:1,}}>
       <HomeHeadNav navigation={navigation} />
       <ScrollView style={styles.container}>
         <StatusBar

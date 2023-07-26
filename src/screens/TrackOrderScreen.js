@@ -6,13 +6,13 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  StatusBar
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { colors } from "../globals/style";
 import BottomNav from "../components/BottomNav";
 import HomeHeadNav from "../components/HomeHeadNav";
 import { firebase } from "../firebase/FirebaseConfig";
-import { StatusBar } from "expo-status-bar";
 import { MaterialIcons } from "@expo/vector-icons";
 
 const TrackOrderScreen = ({ navigation }) => {
@@ -53,7 +53,12 @@ const TrackOrderScreen = ({ navigation }) => {
 
   return (
     <>
-      <StatusBar style="light" backgroundColor="#ff4242" />
+        <StatusBar
+          barStyle="light-content"
+          hidden={false}
+          backgroundColor="#ff4242"
+          translucent={false}
+        />
       <View style={styles.container}>
         {/* <HomeHeadNav navigation={navigation} /> */}
         <View style={styles.headContainer}>
@@ -206,8 +211,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.bgColor,
     width: "100%",
     height: "100%",
-    paddingTop: 30,
-    // paddingBottom:80,
   },
   containerIn: {
     // marginTop: 20,

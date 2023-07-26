@@ -6,6 +6,7 @@ import { TextInput } from "react-native";
 import { firebase } from "../firebase/FirebaseConfig.js";
 import BottomNav from "../components/BottomNav";
 import searchBackground from "../../assets/searchScreenBackground.png"
+import { StatusBar } from "react-native";
 
 const SearchScreen = ({ navigation, route }) => {
 
@@ -23,6 +24,12 @@ const SearchScreen = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
+        <StatusBar
+          barStyle="light-content"
+          hidden={false}
+          backgroundColor="#ff4242"
+          translucent={false}
+        />
       <View style={styles.searchContainer}>
         <FontAwesome5 name="search" size={24} color="white" />
         <TextInput
