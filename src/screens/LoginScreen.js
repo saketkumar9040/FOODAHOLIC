@@ -40,7 +40,7 @@ const LoginScreen = ({ navigation }) => {
       .signInWithEmailAndPassword(email, password)
       .then(async (userCredintial) => {
         let user = userCredintial.user;
-        console.log("Logged in successfully !!!!!!");
+        // console.log("Logged in successfully !!!!!!");
         dispatch(autoLogin({email,password}));
         // navigation.navigate("welcomeScreen");
       })

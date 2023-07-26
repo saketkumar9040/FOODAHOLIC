@@ -12,33 +12,46 @@ import CartScreen from "../screens/CartScreen.js";
 import PlaceOrderScreen from "../screens/PlaceOrderScreen.js";
 import TrackOrderScreen from "../screens/TrackOrderScreen.js";
 import SuccessfulOrderScreen from "../screens/SuccessfulOrderScreen.js";
-import SearchScreen from "../screens/SearchScreen.js"
+import SearchScreen from "../screens/SearchScreen.js";
 import * as Updates from "expo-updates"; // Updates*
 import { useEffect, useState } from "react";
 import { Provider, useSelector } from "react-redux";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import CustomDrawer from "../components/CustomDrawer.js";
 
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
   return (
-      <Drawer.Navigator screenOptions={{
-        drawerStyle:{
-          backgroundColor:"#ff4242",
-           paddingTop:40,
-        },
-        drawerActiveBackgroundColor:"#fff",
-        drawerActiveTintColor:"#ff4242",
-        drawerInactiveTintColor:"#fff",
-
-      }}>
-        <Drawer.Screen name="HOME" component={HomeScreen} options={{ headerShown: false }}/>
-        <Drawer.Screen name="SEARCH" component={SearchScreen} options={{ headerShown: false }}/>
-        <Drawer.Screen name="GO TO CART" component={CartScreen} options={{ headerShown: false }}/>
-        <Drawer.Screen name="TRACK ORDER" component={TrackOrderScreen} options={{ headerShown: false }}/>
-        <Drawer.Screen name="PROFILE" component={UserProfileScreen} options={{ headerShown: false }}/>
-
-      </Drawer.Navigator>
+    <Drawer.Navigator
+      drawerContent={(props)=><CustomDrawer {...props}/>}
+    >
+      <Drawer.Screen
+        name="HOME"
+        component={HomeScreen}
+        options={{ headerShown: false }}
+      />
+      <Drawer.Screen
+        name="SEARCH"
+        component={SearchScreen}
+        options={{ headerShown: false }}
+      />
+      <Drawer.Screen
+        name="GO TO CART"
+        component={CartScreen}
+        options={{ headerShown: false }}
+      />
+      <Drawer.Screen
+        name="TRACK ORDER"
+        component={TrackOrderScreen}
+        options={{ headerShown: false }}
+      />
+      <Drawer.Screen
+        name="PROFILE"
+        component={UserProfileScreen}
+        options={{ headerShown: false }}
+      />
+    </Drawer.Navigator>
   );
 };
 
@@ -56,8 +69,7 @@ const MainNavigator = () => {
         screenOptions={{ animation: "none" }}
         initialRouteName="welcomeScreen"
       >
-        {
-        isAuthenticated === false ? (
+        {isAuthenticated === false ? (
           <>
             <Stack.Screen
               name="welcomeScreen"
