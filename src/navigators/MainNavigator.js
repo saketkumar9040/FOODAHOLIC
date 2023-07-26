@@ -18,6 +18,7 @@ import { useEffect, useState } from "react";
 import { Provider, useSelector } from "react-redux";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import CustomDrawer from "../components/CustomDrawer.js";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 const Drawer = createDrawerNavigator();
 
@@ -25,10 +26,6 @@ const DrawerNavigator = () => {
   return (
     <Drawer.Navigator
       screenOptions={{
-        drawerStyle: {
-          backgroundColor: "#ff4242",
-          //  paddingTop:40,
-        },
         drawerActiveBackgroundColor: "#fff",
         drawerActiveTintColor: "#ff4242",
         drawerInactiveTintColor: "#fff",
@@ -38,7 +35,12 @@ const DrawerNavigator = () => {
       <Drawer.Screen
         name="HOME"
         component={HomeScreen}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+          drawerIcon: ({focused}) => (
+            <FontAwesome5 name="home" size={24} color={focused?"#ff4242":"#fff"} />
+          ),
+        }}
       />
       <Drawer.Screen
         name="PROFILE"

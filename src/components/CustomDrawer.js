@@ -5,15 +5,17 @@ import { Image } from "react-native";
 import { firebase } from "../firebase/FirebaseConfig";
 import { useEffect } from "react";
 import { useState } from "react";
-import { DrawerContentScrollView,DrawerItemList } from "@react-navigation/drawer";
+import {
+  DrawerContentScrollView,
+  DrawerItemList,
+} from "@react-navigation/drawer";
 
-const CustomDrawer = ( props ) => {
+const CustomDrawer = (props) => {
+  const [userData, setUserData] = useState("");
+  const [userLoggedUid, setUserLoggedUid] = useState(null);
 
-   const[userData,setUserData] = useState("");
-   const [userLoggedUid, setUserLoggedUid] = useState(null);
-
-   console.log(userData)
-   const checkLogin = async () => {
+  console.log(userData);
+  const checkLogin = async () => {
     await firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         setUserLoggedUid(user.uid);
@@ -34,25 +36,24 @@ const CustomDrawer = ( props ) => {
         setUserData(doc.data());
       });
     } else {
-     return;
+      return;
     }
   };
 
   useEffect(() => {
-    checkLogin()
+    checkLogin();
     getUserData();
   }, []);
 
   return (
-    <View style={{flex:1,}}>
-      <Image 
-        style={styles.image}
-        source={{uri:userData.avatar}}
-      />
-      <Text style={styles.name}>{userData.name.toUpperCase()}</Text>
-    <DrawerContentScrollView {...props}>
-      <DrawerItemList {...props}/>
-    </DrawerContentScrollView>
+    <View style={{ flex: 1, backgroundColor: "#ff4242" }}>
+      <View style={styles.userDetailsContainer}>
+        <Image style={styles.image} source={{ uri: userData.avatar }} />
+      <Text style={styles.name}>{userData?.name?.toUpperCase()}</Text>
+      </View>
+      <DrawerContentScrollView {...props} contentContainerStyle={{}}>
+        <DrawerItemList {...props} />
+      </DrawerContentScrollView>
     </View>
   );
 };
@@ -64,17 +65,23 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#ff4242",
   },
-  image:{
-     width:"100%",
-     height:200,
-     resizeMode:"cover"
-  },
-  name:{
-    fontSize:20,
-    color:"#fff",
-    alignSelf:"center",
-    paddingVertical:5,
-    fontWeight:900,
-  },
+  userDetailsContainer: {
+    alignItems: "center",
+    paddingTop:20,
+    backgroundColor:'#fff',
 
+  },
+  image: {
+    width: 150,
+    height: 150,
+    resizeMode: "cover",
+    borderRadius:100,
+  },
+  name: {
+    fontSize: 22,
+    color: "#ff4242",
+    alignSelf: "center",
+    paddingTop: 10,
+    fontWeight: 900,
+  },
 });
