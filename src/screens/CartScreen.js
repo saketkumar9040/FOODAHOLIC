@@ -6,13 +6,13 @@ import {
   FlatList,
   Image,
   SafeAreaView,
+  StatusBar
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import BottomNav from "../components/BottomNav";
 import { colors } from "../globals/style";
 import { firebase } from "../firebase/FirebaseConfig";
 import { FontAwesome, AntDesign } from "@expo/vector-icons";
-import { StatusBar } from "expo-status-bar";
 
 const CartScreen = ({ navigation }) => {
 
@@ -89,17 +89,22 @@ const CartScreen = ({ navigation }) => {
   return (
     <>
       <SafeAreaView style={styles.cartContainerOut}>
-        <StatusBar style="light" />
+      <StatusBar
+          barStyle="light-content"
+          hidden={false}
+          backgroundColor="#ff4242"
+          translucent={false}
+        />
         <View
           style={{
             width: "100%",
             flexDirection: "row",
             alignItems: "center", 
-            paddingTop:50,
+            paddingTop:10,
           }}
         >
           <View style={styles.navBtn}>
-            <TouchableOpacity onPress={() => navigation.navigate("homeScreen")}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
               <FontAwesome name="arrow-left" size={30} color={colors.bgColor} />
             </TouchableOpacity>
           </View>
@@ -198,7 +203,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     backgroundColor: colors.bgColor,
-    PaddingTop:50,
   },
   navBtn: {
     backgroundColor: colors.color1,
