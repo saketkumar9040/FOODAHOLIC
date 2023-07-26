@@ -7,9 +7,9 @@ import {
   TouchableOpacity,
   ScrollView,
   TextInput,
+  StatusBar
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { StatusBar } from "expo-status-bar";
 import * as NavigationBar from "expo-navigation-bar";
 import { colors } from "../globals/style";
 import { Feather, FontAwesome } from "@expo/vector-icons";
@@ -28,6 +28,7 @@ import {
 import { getFirestore } from "firebase/firestore";
 import { useDispatch } from "react-redux";
 import { autoLogin } from "../../store/authSlice";
+import { SafeAreaView } from "react-native";
 
 const firebaseConfig = {
   apiKey: "AIzaSyA9PAsVzy6WAUBE_EiO5HCMBdBa8w9QMW8",
@@ -319,7 +320,7 @@ const UserProfileScreen = ({ navigation }) => {
   return (
     <>
       {passwordEdit === false ? (
-        <View style={styles.userProfileContainer}>
+        <SafeAreaView style={styles.userProfileContainer}>
           <TouchableOpacity
             style={styles.navContainer}
             onPress={() => navigation.goBack()}
@@ -449,10 +450,15 @@ const UserProfileScreen = ({ navigation }) => {
               <Text style={styles.button}>Log Out</Text>
             </TouchableOpacity>
           </ScrollView>
-          <StatusBar style="dark" />
-        </View>
+          <StatusBar
+          barStyle="light-content"
+          hidden={false}
+          backgroundColor="#ff4242"
+          translucent={false}
+        />
+        </SafeAreaView>
       ) : (
-        <View style={styles.userProfileContainer}>
+        <SafeAreaView style={styles.userProfileContainer}>
           <TouchableOpacity
             style={styles.navContainer}
             onPress={() => setPasswordEdit(false)}
@@ -509,8 +515,13 @@ const UserProfileScreen = ({ navigation }) => {
               <Text style={styles.button}>Submit</Text>
             </TouchableOpacity>
           </ScrollView>
-          <StatusBar style="dark" />
-        </View>
+          <StatusBar
+          barStyle="light-content"
+          hidden={false}
+          backgroundColor="#ff4242"
+          translucent={false}
+        />
+        </SafeAreaView>
       )}
     </>
   );
@@ -528,7 +539,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     height: "8%",
-    marginTop: 45,
+    marginTop: 10,
     alignItems: "center",
   },
   imageContainer: {

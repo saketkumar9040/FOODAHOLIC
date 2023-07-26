@@ -21,6 +21,7 @@ import { firebase } from "../firebase/FirebaseConfig.js";
 import CardSlider from "../components/CardSlider";
 import BottomNav from "../components/BottomNav";
 import { useCallback } from "react";
+import { SafeAreaView } from "react-native";
 
 const HomeScreen = ({ navigation, route }) => {
   // console.log(route.params.searchText);
@@ -50,7 +51,7 @@ const HomeScreen = ({ navigation, route }) => {
   }, [foodData]);
 
   return (
-    <>
+    <SafeAreaView>
       <HomeHeadNav navigation={navigation} />
       <ScrollView style={styles.container}>
         <StatusBar
@@ -90,7 +91,7 @@ const HomeScreen = ({ navigation, route }) => {
         />
       </ScrollView>
       <BottomNav navigation={navigation} />
-    </>
+    </SafeAreaView>
   );
 };
 
@@ -98,7 +99,7 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     width: "100%",
     height: "100%",
     backgroundColor: colors.bgColor,
