@@ -10,12 +10,16 @@ import {
   DrawerItemList,
 } from "@react-navigation/drawer";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import { useDispatch } from "react-redux";
 
 const CustomDrawer = (props) => {
+
+   const dispatch = useDispatch();
+
   const [userData, setUserData] = useState("");
   const [userLoggedUid, setUserLoggedUid] = useState(null);
 
-  console.log(userData);
+//   console.log(userData);
   const checkLogin = async () => {
     await firebase.auth().onAuthStateChanged((user) => {
       if (user) {
@@ -41,6 +45,21 @@ const CustomDrawer = (props) => {
     }
   };
 
+  const handleLogout = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(async() => {
+        await dispatch(autoLogin({email:null,password:null}))
+        alert("Logout successfully");
+        // navigation.navigate("loginScreen",{isLoggedIn:false});
+      })
+      .catch((error) => {
+        alert("system Error");
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
     checkLogin();
     getUserData();
@@ -60,7 +79,7 @@ const CustomDrawer = (props) => {
         <Ionicons name="ios-share-social-sharp" size={26} color="#fff" />
          <Text style={{fontSize:16,color:"#fff",marginLeft:20,fontWeight:800}}>SHARE WITH FRIEND'S</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{flexDirection:"row",alignItems:"center",paddingLeft:20,paddingVertical:5}}>
+        <TouchableOpacity style={{flexDirection:"row",alignItems:"center",paddingLeft:20,paddingVertical:5}} onPress={()=>handleLogout()}>
         <FontAwesome name="power-off" size={26} color="#fff" />
          <Text style={{fontSize:16,color:"#fff",marginLeft:25,fontWeight:800}}>LOGOUT</Text>
         </TouchableOpacity>
