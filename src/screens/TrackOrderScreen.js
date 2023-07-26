@@ -55,10 +55,10 @@ const TrackOrderScreen = ({ navigation }) => {
     <>
       <StatusBar style="light" backgroundColor="#ff4242" />
       <View style={styles.container}>
-        <HomeHeadNav navigation={navigation} />
+        {/* <HomeHeadNav navigation={navigation} /> */}
         <View style={styles.headContainer}>
           <Text style={styles.head}>TRACK-ORDERS</Text>
-          <MaterialIcons name="delivery-dining" size={45} color="#ff4242" />
+          <MaterialIcons name="delivery-dining" size={45} color="#fff" />
         </View>
         <ScrollView style={styles.containerIn}>
           {orders.reverse()
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.bgColor,
     width: "100%",
     height: "100%",
-    paddingTop: 45,
+    paddingTop: 30,
     // paddingBottom:80,
   },
   containerIn: {
@@ -243,18 +243,18 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    height: "8%",
+    // height: "8%",
     width: "100%",
-    backgroundColor:colors.color1,
+    // backgroundColor:colors.color1,
     // elevation:10,
     // backgroundColor:"blue"
-    borderWidth:10,
-   
+    borderBottomWidth:5,
+    // borderRadius:20,
     borderColor:"#ff4242"
   },
   head: {
     fontSize: 25,
-    color: colors.bgColor,
+    color: colors.color1,
     marginRight: 10,
     fontWeight:700,
   },
