@@ -18,7 +18,7 @@ import { useEffect, useState } from "react";
 import { Provider, useSelector } from "react-redux";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import CustomDrawer from "../components/CustomDrawer.js";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 
 const Drawer = createDrawerNavigator();
 
@@ -29,6 +29,11 @@ const DrawerNavigator = () => {
         drawerActiveBackgroundColor: "#fff",
         drawerActiveTintColor: "#ff4242",
         drawerInactiveTintColor: "#fff",
+        drawerLabelStyle:{
+          fontSize:16,
+          fontWeight:800,
+          marginLeft:-15,
+        }
       }}
       drawerContent={(props) => <CustomDrawer {...props} />}
     >
@@ -39,28 +44,48 @@ const DrawerNavigator = () => {
           headerShown: false,
           drawerIcon: ({focused}) => (
             <FontAwesome5 name="home" size={24} color={focused?"#ff4242":"#fff"} />
-          ),
+          )
         }}
       />
       <Drawer.Screen
         name="PROFILE"
         component={UserProfileScreen}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+          drawerIcon: ({focused}) => (
+            <FontAwesome5 name="user-alt" size={24} color={focused?"#ff4242":"#fff"} />
+          )
+        }}
       />
       <Drawer.Screen
         name="SEARCH"
         component={SearchScreen}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+          drawerIcon: ({focused}) => (
+            <FontAwesome name="search" size={24} color={focused?"#ff4242":"#fff"} />
+          )
+        }}
       />
       <Drawer.Screen
         name="GO TO CART"
         component={CartScreen}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+          drawerIcon: ({focused}) => (
+            <FontAwesome name="shopping-cart" size={24} color={focused?"#ff4242":"#fff"} />
+          )
+        }}
       />
       <Drawer.Screen
         name="TRACK ORDER"
         component={TrackOrderScreen}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+          drawerIcon: ({focused}) => (
+            <FontAwesome5 name="map-marked-alt" size={24} color={focused?"#ff4242":"#fff"} />
+          )
+        }}
       />
     </Drawer.Navigator>
   );

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { ScrollView } from "react-native";
 import { Image } from "react-native";
@@ -9,6 +9,7 @@ import {
   DrawerContentScrollView,
   DrawerItemList,
 } from "@react-navigation/drawer";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 
 const CustomDrawer = (props) => {
   const [userData, setUserData] = useState("");
@@ -54,6 +55,16 @@ const CustomDrawer = (props) => {
       <DrawerContentScrollView {...props} contentContainerStyle={{}}>
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
+      <View style={{paddingTop:20,borderTopWidth:2,borderTopColor:"#fff"}}>
+        <TouchableOpacity style={{flexDirection:"row",alignItems:"center",paddingLeft:20,paddingVertical:5,}}>
+        <Ionicons name="ios-share-social-sharp" size={26} color="#fff" />
+         <Text style={{fontSize:16,color:"#fff",marginLeft:20,fontWeight:800}}>SHARE WITH FRIEND'S</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{flexDirection:"row",alignItems:"center",paddingLeft:20,paddingVertical:5}}>
+        <FontAwesome name="power-off" size={26} color="#fff" />
+         <Text style={{fontSize:16,color:"#fff",marginLeft:25,fontWeight:800}}>LOGOUT</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
