@@ -34,7 +34,7 @@ const HomeHeadNav = ({ navigation }) => {
           size={30}
           color="white"
           style={styles.myIcon}
-          onPress={() => navigation.navigate("userProfileScreen")}
+          onPress={() => navigation.navigate("PROFILE")}
         />
       </TouchableOpacity>
       <StatusBar

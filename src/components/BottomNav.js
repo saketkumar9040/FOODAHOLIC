@@ -8,16 +8,16 @@ const BottomNav = ({navigation}) => {
   return (
     <View style={styles.bottomNavContainer}>
       <TouchableOpacity  style={styles.icon}>
-        <FontAwesome5 name="home" size={30} color="white" onPress={()=>navigation.navigate("homeScreen")} />
+        <FontAwesome5 name="home" size={30} color="white" onPress={()=>navigation.navigate("HOME")} />
       </TouchableOpacity>
       <TouchableOpacity style={styles.searchIcon}>
-        <FontAwesome name="search" size={30} color={colors.bgColor} onPress={()=>navigation.navigate("searchScreen")} />
+        <FontAwesome name="search" size={30} color={colors.bgColor} onPress={()=>navigation.navigate("SEARCH")} />
       </TouchableOpacity>
       <TouchableOpacity  style={styles.icon}>
-        <FontAwesome5 name="shopping-cart" size={30} color="white" onPress={()=>navigation.navigate("cartScreen")}/>
+        <FontAwesome5 name="shopping-cart" size={30} color="white" onPress={()=>navigation.navigate("GO TO CART")}/>
       </TouchableOpacity>
       <TouchableOpacity  style={styles.icon}>
-        <FontAwesome5 name="map-marked-alt" size={30} color="white" onPress={()=>navigation.navigate("trackOrderScreen")}/>
+        <FontAwesome5 name="map-marked-alt" size={30} color="white" onPress={()=>navigation.navigate("TRACK ORDER")}/>
       </TouchableOpacity>
     </View>
   );
