@@ -107,7 +107,7 @@ const MainNavigator = () => {
       >
         {isAuthenticated === false ? (
           <>
-            <Stack.Screen
+            {/* <Stack.Screen
               name="welcomeScreen"
               component={WelcomeScreen}
               options={{ headerShown: false }}
@@ -120,6 +120,11 @@ const MainNavigator = () => {
             <Stack.Screen
               name="signUpScreen"
               component={SignUpScreen}
+              options={{ headerShown: false }}
+            /> */}
+                 <Stack.Screen
+              name="successfulOrderScreen"
+              component={SuccessfulOrderScreen}
               options={{ headerShown: false }}
             />
           </>
