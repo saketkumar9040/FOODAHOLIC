@@ -4,6 +4,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { colors } from "../globals/style";
+import { StatusBar } from "react-native";
 
 const HomeHeadNav = ({ navigation }) => {
   return (
@@ -36,6 +37,12 @@ const HomeHeadNav = ({ navigation }) => {
           onPress={() => navigation.navigate("userProfileScreen")}
         />
       </TouchableOpacity>
+      <StatusBar
+          barStyle="light-content"
+          hidden={false}
+          backgroundColor="#ff4242"
+          translucent={false}
+        />
     </View>
   );
 };
@@ -54,6 +61,7 @@ const styles = StyleSheet.create({
     // borderBottomRightRadius: 20,
     // borderBottomWidth: 5,
     // borderColor: colors.color1,
+    paddingTop:40,
   },
   middleContainer: {
     flexDirection: "row",

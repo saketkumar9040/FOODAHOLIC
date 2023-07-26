@@ -22,12 +22,21 @@ const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
   return (
-      <Drawer.Navigator>
-        <Drawer.Screen name="homeScreen" component={HomeScreen} options={{ headerShown: false }}/>
-        <Drawer.Screen name="searchScreen" component={SearchScreen} options={{ headerShown: false }}/>
-        <Drawer.Screen name="cartScreen" component={CartScreen} options={{ headerShown: false }}/>
-        <Drawer.Screen name="trackOrderScreen" component={TrackOrderScreen} options={{ headerShown: false }}/>
-        <Drawer.Screen name="userProfileScreen" component={UserProfileScreen} options={{ headerShown: false }}/>
+      <Drawer.Navigator screenOptions={{
+        drawerStyle:{
+          backgroundColor:"#ff4242",
+           paddingTop:40,
+        },
+        drawerActiveBackgroundColor:"#fff",
+        drawerActiveTintColor:"#ff4242",
+        drawerInactiveTintColor:"#fff",
+
+      }}>
+        <Drawer.Screen name="HOME" component={HomeScreen} options={{ headerShown: false }}/>
+        <Drawer.Screen name="SEARCH" component={SearchScreen} options={{ headerShown: false }}/>
+        <Drawer.Screen name="GO TO CART" component={CartScreen} options={{ headerShown: false }}/>
+        <Drawer.Screen name="TRACK ORDER" component={TrackOrderScreen} options={{ headerShown: false }}/>
+        <Drawer.Screen name="PROFILE" component={UserProfileScreen} options={{ headerShown: false }}/>
 
       </Drawer.Navigator>
   );

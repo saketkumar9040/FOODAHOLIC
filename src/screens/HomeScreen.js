@@ -26,7 +26,6 @@ const HomeScreen = ({ navigation, route }) => {
   // console.log(route.params.searchText);
   // const searchText = route?.params?.searchText;
   
-
   NavigationBar.setBackgroundColorAsync("#ff4242");
 
   const [foodData, setFoodData] = useState([]);

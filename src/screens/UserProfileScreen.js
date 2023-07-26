@@ -322,7 +322,7 @@ const UserProfileScreen = ({ navigation }) => {
         <View style={styles.userProfileContainer}>
           <TouchableOpacity
             style={styles.navContainer}
-            onPress={() => navigation.navigate("homeScreen")}
+            onPress={() => navigation.goBack()}
           >
             <View style={styles.navBtn}>
               <FontAwesome name="arrow-left" size={28} color="white" />
