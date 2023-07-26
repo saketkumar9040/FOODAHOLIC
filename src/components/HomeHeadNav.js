@@ -17,7 +17,7 @@ const HomeHeadNav = ({ navigation }) => {
           style={styles.myIcon}
         />
       </TouchableOpacity>
-      <TouchableOpacity>
+      <View>
         <View style={styles.middleContainer}>
           <Text style={styles.myText}>FOODAHOLIC</Text>
           <Ionicons
@@ -27,7 +27,7 @@ const HomeHeadNav = ({ navigation }) => {
             style={styles.myIcon}
           />
         </View>
-      </TouchableOpacity>
+      </View>
       <TouchableOpacity>
         <FontAwesome5
           name="user-circle"
@@ -72,8 +72,8 @@ const styles = StyleSheet.create({
   },
   myText: {
     color: colors.color1,
-    fontSize: 20,
+    fontSize: 30,
     marginRight: 8,
-    fontWeight: 800,
+    fontWeight: 700,
   },
 });

@@ -105,7 +105,7 @@ const CartScreen = ({ navigation }) => {
         >
           <View style={styles.navBtn}>
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <FontAwesome name="arrow-left" size={30} color={colors.bgColor} />
+              <FontAwesome name="arrow-left" size={20} color={colors.bgColor} />
             </TouchableOpacity>
           </View>
           <View style={styles.containerTop}>
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
   navBtn: {
     backgroundColor: colors.color1,
     width: 50,
-    height: 60,
+    height: 40,
     alignItems: "center",
     justifyContent: "center",
     elevation: 10,
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
   },
   cartText: {
     // width: "70%",
-    fontSize: 26,
+    fontSize: 35,
     fontWeight: 500,
     color: colors.color1,
     textAlign: "center",
