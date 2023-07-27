@@ -55,7 +55,6 @@ const WelcomeScreen = ({ navigation }) => {
         kill the MONSTER
       </Text>
       <View style={hr80} />
-    { userLogged ===null ?
       <View style={styles.buttonContainer}>
       <TouchableOpacity>
         <Text
@@ -68,22 +67,7 @@ const WelcomeScreen = ({ navigation }) => {
       <TouchableOpacity onPress={() => navigation.navigate("loginScreen")}>
         <Text style={styles.button}>Log In</Text>
       </TouchableOpacity>
-    </View>
-  :
-  <View style={styles.buttonContainer}>
-  <TouchableOpacity onPress={() => navigation.navigate("homeScreen")}>
-    <Text style={styles.button}>Go to Home</Text>
-  </TouchableOpacity>
-  <TouchableOpacity>
-    <Text
-      style={styles.button}
-      onPress={() => handleLogout()}
-    >
-      Log Out
-    </Text>
-  </TouchableOpacity>
-</View>
-  }   
+    </View> 
       <StatusBar style="light" />
     </View>
   );
@@ -108,8 +92,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   logoImage: {
-    width: "70%",
+    width: "90%",
     height: "100%",
+    resizeMode:'contain'
   },
   title: {
     fontSize: 35,
@@ -137,7 +122,7 @@ const styles = StyleSheet.create({
     fontWeight: 800,
     backgroundColor: "#fff",
     borderRadius: 10,
-    padding: 10,
+    padding: 5,
     paddingHorizontal: 45,
     elevation: 15,
   },

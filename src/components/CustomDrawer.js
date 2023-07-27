@@ -11,6 +11,7 @@ import {
 } from "@react-navigation/drawer";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
+import { autoLogin } from "../../store/authSlice";
 
 const CustomDrawer = (props) => {
 

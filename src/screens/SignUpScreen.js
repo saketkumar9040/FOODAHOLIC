@@ -16,6 +16,7 @@ import foodImage from "../../assets/foodImage.png";
 
 import { firebase } from "../firebase/FirebaseConfig";
 import { useDispatch } from "react-redux";
+import { autoLogin } from "../../store/authSlice";
 
 // import {
 //   GoogleSignin,
@@ -77,22 +78,24 @@ const SignUpScreen = ({ navigation }) => {
         .then(async (userCredentials) => {
           // console.log(userCredentials)
          if(userCredentials?.user?.uid){
+          const userData={
+            name:name,
+            email: email,
+            phone: phone,
+            password: password,
+            address:address,
+            uid: userCredentials?.user?.uid,
+            avatar:"",
+          }
           const userRef = firebase.firestore().collection("UserData");
           await userRef
-            .add({
-              name:name,
-              email: email,
-              phone: phone,
-              password: password,
-              address:address,
-              uid: userCredentials?.user?.uid,
-              avatar:"",
-            })
+            .add(userData)
             .then(() => {
               console.log("Data added to firestore");
               // console.log("User created successfully", userCredentials.user.uid);
               console.log("User created successfully");
-              setSuccessmsg("User created successfully")
+              setSuccessmsg("User created successfully");
+              dispatch(autoLogin(email,password,userData))
             })
             .catch((error) => {
               console.log("firestore error", error.message);
