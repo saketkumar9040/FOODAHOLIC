@@ -11,25 +11,22 @@
       "resizeMode": "contain",
       "backgroundColor": "#ff4242"
     },
+    "updates": {
+      "fallbackToCacheTimeout": 60000,
+      "url": "https://u.expo.dev/31e16bb3-9f3b-4ccf-9d06-d97345783a30"
+    },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.saketkumar.foodaholic",
-      "runtimeVersion": {
-        "policy": "sdkVersion"
-      }
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/icons/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.saketkumar.foodaholic",
-      "runtimeVersion": {
-        "policy": "sdkVersion"
-      }
+      "package": "com.saketkumar.foodaholic"
     },
     "androidStatusBar": {
       "barStyle": "light-content",
@@ -46,8 +43,9 @@
         "projectId": "31e16bb3-9f3b-4ccf-9d06-d97345783a30"
       }
     },
-    "updates": {
-      "url": "https://u.expo.dev/31e16bb3-9f3b-4ccf-9d06-d97345783a30"
-    }
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "owner": "saketkumar"
   }
 }
