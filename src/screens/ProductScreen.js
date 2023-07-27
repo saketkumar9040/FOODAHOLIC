@@ -6,16 +6,16 @@ import {
   TouchableOpacity,
   Image,
   TextInput,
+  StatusBar
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { colors, navBtn, navBtnin, nonVeg, veg } from "../globals/style";
 import { Entypo, FontAwesome } from "@expo/vector-icons";
 import { firebase } from "../firebase/FirebaseConfig";
-import { StatusBar } from "expo-status-bar";
 
 const ProductScreen = ({ navigation, route }) => {
   const data = route.params;
-  console.log(data);
+  // console.log(data);
   if (route.params === undefined) {
     navigation.navigate("homeScreen");
   }
@@ -78,7 +78,12 @@ const ProductScreen = ({ navigation, route }) => {
   return (
     <>
       <ScrollView style={styles.Productcontainer}>
-        <StatusBar style="dark" />
+      <StatusBar
+          barStyle="light-content"
+          hidden={false}
+          backgroundColor="#ff4242"
+          translucent={false}
+        />
 
         <View style={styles.imageContainer}>
           <View style={navBtn}>

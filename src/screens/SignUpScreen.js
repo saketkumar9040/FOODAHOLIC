@@ -6,15 +6,16 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  StatusBar
 } from "react-native";
 import React, { useState } from "react";
 import * as NavigationBar from "expo-navigation-bar";
 import { colors, hr80 } from "../globals/style";
 import { AntDesign, Feather, MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
-import { StatusBar } from "expo-status-bar";
 import foodImage from "../../assets/foodImage.png";
 
 import { firebase } from "../firebase/FirebaseConfig";
+import { useDispatch } from "react-redux";
 
 // import {
 //   GoogleSignin,
@@ -23,6 +24,8 @@ import { firebase } from "../firebase/FirebaseConfig";
 // } from '@react-native-google-signin/google-signin';
 
 const SignUpScreen = ({ navigation }) => {
+
+  const dispatch = useDispatch();
   NavigationBar.setBackgroundColorAsync("#ff4242");
 
   const [nameFocus, setNameFocus] = useState(false);
@@ -306,7 +309,12 @@ const SignUpScreen = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       </View>
-      <StatusBar style="light" />
+      <StatusBar
+          barStyle="light-content"
+          hidden={false}
+          backgroundColor="#ff4242"
+          translucent={false}
+        />
    
     </View>
    :

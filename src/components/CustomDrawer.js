@@ -10,7 +10,7 @@ import {
   DrawerItemList,
 } from "@react-navigation/drawer";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const CustomDrawer = (props) => {
 
@@ -19,13 +19,13 @@ const CustomDrawer = (props) => {
   const [userData, setUserData] = useState("");
   const [userLoggedUid, setUserLoggedUid] = useState(null);
 
-//   console.log(userData);
+  // console.log(userData);
   const checkLogin = async () => {
     await firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         setUserLoggedUid(user.uid);
       } else {
-        return;
+        setUserLoggedUid(null);
       }
     });
   };
@@ -63,7 +63,7 @@ const CustomDrawer = (props) => {
   useEffect(() => {
     checkLogin();
     getUserData();
-  }, []);
+  }, [userLoggedUid]);
 
   return (
     <View style={{ flex: 1, backgroundColor: "#ff4242" }}>

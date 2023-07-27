@@ -1,5 +1,4 @@
-import { StatusBar } from "expo-status-bar";
-import { View, Text, StyleSheet, Image, TouchableOpacity, } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity,StatusBar } from "react-native";
 import React, { useEffect, useState } from "react";
 import * as NavigationBar from "expo-navigation-bar";
 import logo from "../../assets/successful.png";
@@ -37,9 +36,12 @@ const SuccessfulOrderScreen = ({ navigation }) => {
         <Text style={styles.button}>Track Orders  <FontAwesome5 name="map-marker-alt" size={24} color="#ff4242" /></Text>
       </TouchableOpacity>
     </View>
-
-  
-      <StatusBar style="light" />
+    <StatusBar
+          barStyle="light-content"
+          hidden={false}
+          backgroundColor="#ff4242"
+          translucent={false}
+        />
     </View>
   );
 };

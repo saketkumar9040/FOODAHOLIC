@@ -17,7 +17,9 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.saketkumar.foodaholic",
-      "runtimeVersion":"exposdk:48.0.18"
+      "runtimeVersion": {
+        "policy": "sdkVersion"
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -25,7 +27,9 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.saketkumar.foodaholic",
-      "runtimeVersion": "exposdk:48.0.18"
+      "runtimeVersion": {
+        "policy": "sdkVersion"
+      }
     },
     "androidStatusBar": {
       "barStyle": "light-content",

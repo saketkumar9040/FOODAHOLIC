@@ -1,5 +1,4 @@
-import { StatusBar } from "expo-status-bar";
-import { View, Text, StyleSheet, Image, TouchableOpacity, } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity,StatusBar } from "react-native";
 import React, { useEffect, useState } from "react";
 import * as NavigationBar from "expo-navigation-bar";
 import logo from "../../assets/logo.png";
@@ -22,7 +21,7 @@ const WelcomeScreen = ({ navigation }) => {
           }
           else{
             setUserLogged(null);
-            console.log("No user is Logged In !!!!")
+            // console.log("No user is Logged In !!!!")
           }
         })
      }

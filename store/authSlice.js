@@ -5,13 +5,14 @@ const authSlice = createSlice({
     initialState:{
         email:null,
         password:null,
+        userData:null,
     },
     reducers:{
        autoLogin:(state,action) => {
            state.email = action.payload.email,
-           state.password = action.payload.password
-       }
-       
+           state.password = action.payload.password,
+           state.userData = action.payload.userData
+       }  
     }
 });
 

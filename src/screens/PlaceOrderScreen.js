@@ -5,7 +5,7 @@ import {
   Text,
   TouchableOpacity,
   View,
-
+  StatusBar
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { colors } from "../globals/style";
@@ -13,7 +13,6 @@ import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import { firebase } from "../firebase/FirebaseConfig";
 
 import RazorpayCheckout from "react-native-razorpay";
-import { StatusBar } from "expo-status-bar";
 
 const PlaceOrderScreen = ({ navigation, route }) => {
 
@@ -142,7 +141,12 @@ const PlaceOrderScreen = ({ navigation, route }) => {
 
   return (
     <View style={styles.placeOrderContainer}>
-      <StatusBar style="light" backgroundColor="#ff4242"/>
+          <StatusBar
+          barStyle="light-content"
+          hidden={false}
+          backgroundColor="#ff4242"
+          translucent={false}
+        />
       <View
         style={{
           flexDirection: "row",

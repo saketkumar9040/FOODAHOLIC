@@ -3,7 +3,8 @@ import MainNavigator from "./src/navigators/MainNavigator";
 import { store } from "./store/store.js";
 import { Provider } from "react-redux";
 import { useEffect } from "react";
-import * as Updates from "expo-updates"
+import * as Updates from "expo-updates";
+import 'react-native-gesture-handler';
 
 
 export default function App() {
@@ -21,9 +22,15 @@ export default function App() {
         }
       } catch (error) {
         if(error.message === "You cannot check for updates in development mode. To test manual updates, publish your project using `expo publish` and open the published version in this development client."){
-          console.log(error.message)
+          console.log(error.message);
+          return
+        }
+        if(error.message === "You cannot check for updates in development mode. To test manual updates, make a release build with `npm run ios --configuration Release` or `npm run android --variant Release`."){
+          console.log(error.message);
+          return
         }else{
           Alert.alert("Expo updates error: "+error.message)
+          console.log(error.message) 
         }
       }
     };

@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  StatusBar
 } from "react-native";
 import React, { useState } from "react";
 import * as NavigationBar from "expo-navigation-bar";
@@ -12,7 +13,6 @@ import { titles, colors, hr80 } from "../globals/style";
 import { Feather } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
-import { StatusBar } from "expo-status-bar";
 import vehicleImage from "../../assets/vehicleImage.png";
 
 import { firebase } from "../firebase/FirebaseConfig";
@@ -152,8 +152,12 @@ const LoginScreen = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       </View>
-
-      <StatusBar style="light" />
+      <StatusBar
+          barStyle="light-content"
+          hidden={false}
+          backgroundColor="#ff4242"
+          translucent={false}
+        />
     </View>
   );
 };
