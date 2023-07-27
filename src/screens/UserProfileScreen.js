@@ -82,7 +82,8 @@ const UserProfileScreen = ({ navigation }) => {
   // console.log(userLoggedUid);
 
   const getUserData = async () => {
-    const docRef = firebase
+    try {
+      const docRef = firebase
       .firestore()
       .collection("UserData")
       .where("uid", "==", userLoggedUid);
@@ -91,8 +92,9 @@ const UserProfileScreen = ({ navigation }) => {
       doc.forEach((doc) => {
         setUserData(doc.data());
       });
-    } else {
-      console.log("no User Profile found");
+    } 
+    } catch (error) {
+      console.log(error.message);
     }
   };
   useEffect(() => {
