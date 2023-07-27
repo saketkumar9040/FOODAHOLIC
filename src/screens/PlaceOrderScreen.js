@@ -152,7 +152,6 @@ const PlaceOrderScreen = ({ navigation, route }) => {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",
-          paddingTop:45,
         }}
       >
         <View style={styles.navBtn}>
