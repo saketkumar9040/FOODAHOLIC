@@ -93,7 +93,7 @@ const DrawerNavigator = () => {
 
 const MainNavigator = () => {
   const isAuthenticated = useSelector(
-    (state) => state.auth.email !== null && state.auth.password !== null
+    (state) => state.auth.userData !== null
   );
   // console.log(isAuthenticated);
 

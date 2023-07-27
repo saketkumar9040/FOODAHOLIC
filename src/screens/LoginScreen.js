@@ -40,9 +40,22 @@ const LoginScreen = ({ navigation }) => {
       .signInWithEmailAndPassword(email, password)
       .then(async (userCredintial) => {
         let user = userCredintial.user;
-        console.log(user)
+        const docRef = firebase
+        .firestore()
+        .collection("UserData")
+        .where("uid", "==", userCredintial.user.uid);
+      const doc = await docRef.get();
+      if (!doc.empty) {
+        doc.forEach(async(doc) => {
+          const userData = doc.data();
+          await dispatch(autoLogin({userData}));
+        });
+      } else {
+        console.log("no User Profile found");
+      }
+     
         // console.log("Logged in successfully !!!!!!");
-        dispatch(autoLogin({email,password}));
+        // dispatch(autoLogin({email,password}));
         // navigation.navigate("welcomeScreen");
       })
       .catch((error) => {

@@ -95,7 +95,7 @@ const SignUpScreen = ({ navigation }) => {
               // console.log("User created successfully", userCredentials.user.uid);
               console.log("User created successfully");
               setSuccessmsg("User created successfully");
-              dispatch(autoLogin(email,password,userData))
+              dispatch(autoLogin({userData}))
             })
             .catch((error) => {
               console.log("firestore error", error.message);

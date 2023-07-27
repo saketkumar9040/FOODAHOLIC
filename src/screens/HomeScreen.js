@@ -22,6 +22,7 @@ import CardSlider from "../components/CardSlider";
 import BottomNav from "../components/BottomNav";
 import { useCallback } from "react";
 import { SafeAreaView } from "react-native";
+import { useSelector } from "react-redux";
 
 const HomeScreen = ({ navigation, route }) => {
   // console.log(route.params.searchText);

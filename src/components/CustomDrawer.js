@@ -15,43 +15,46 @@ import { autoLogin } from "../../store/authSlice";
 
 const CustomDrawer = (props) => {
 
+  const storedUserData = useSelector(state=>state.auth.userData);
+  // console.log(storedUserData)
+
    const dispatch = useDispatch();
 
-  const [userData, setUserData] = useState("");
-  const [userLoggedUid, setUserLoggedUid] = useState(null);
+  // const [userData, setUserData] = useState("");
+  // const [userLoggedUid, setUserLoggedUid] = useState(null);
 
   // console.log(userData);
-  const checkLogin = async () => {
-    await firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        setUserLoggedUid(user.uid);
-      } else {
-        setUserLoggedUid(null);
-      }
-    });
-  };
+  // const checkLogin = async () => {
+  //   await firebase.auth().onAuthStateChanged((user) => {
+  //     if (user) {
+  //       setUserLoggedUid(user.uid);
+  //     } else {
+  //       setUserLoggedUid(null);
+  //     }
+  //   });
+  // };
 
-  const getUserData = async () => {
-    const docRef = firebase
-      .firestore()
-      .collection("UserData")
-      .where("uid", "==", userLoggedUid);
-    const doc = await docRef.get();
-    if (!doc.empty) {
-      doc.forEach((doc) => {
-        setUserData(doc.data());
-      });
-    } else {
-      return;
-    }
-  };
+  // const getUserData = async () => {
+  //   const docRef = firebase
+  //     .firestore()
+  //     .collection("UserData")
+  //     .where("uid", "==", userLoggedUid);
+  //   const doc = await docRef.get();
+  //   if (!doc.empty) {
+  //     doc.forEach((doc) => {
+  //       setUserData(doc.data());
+  //     });
+  //   } else {
+  //     return;
+  //   }
+  // };
 
   const handleLogout = () => {
     firebase
       .auth()
       .signOut()
       .then(async() => {
-        await dispatch(autoLogin({email:null,password:null}))
+        await dispatch(autoLogin({email:null,password:null,userData:null}))
         alert("Logout successfully");
         // navigation.navigate("loginScreen",{isLoggedIn:false});
       })
@@ -61,16 +64,16 @@ const CustomDrawer = (props) => {
       });
   };
 
-  useEffect(() => {
-    checkLogin();
-    getUserData();
-  }, [userLoggedUid]);
+  // useEffect(() => {
+  //   checkLogin();
+  //   getUserData();
+  // }, [userLoggedUid]);
 
   return (
     <View style={{ flex: 1, backgroundColor: "#ff4242" }}>
       <View style={styles.userDetailsContainer}>
-        <Image style={styles.image} source={{ uri: userData.avatar }} />
-      <Text style={styles.name}>{userData?.name?.toUpperCase()}</Text>
+        <Image style={styles.image} source={{ uri: storedUserData.avatar }} />
+      <Text style={styles.name}>{storedUserData?.name?.toUpperCase()}</Text>
       </View>
       <DrawerContentScrollView {...props} contentContainerStyle={{}}>
         <DrawerItemList {...props} />
