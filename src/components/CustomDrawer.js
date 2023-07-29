@@ -78,7 +78,7 @@ const CustomDrawer = (props) => {
       <DrawerContentScrollView {...props} contentContainerStyle={{}}>
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
-      <View style={{paddingTop:10,borderTopWidth:2,borderTopColor:"#fff"}}>
+      <View style={{paddingVertical:10,borderTopWidth:2,borderTopColor:"#fff"}}>
         <TouchableOpacity style={{flexDirection:"row",alignItems:"center",paddingLeft:20,paddingVertical:7,}}>
         <Ionicons name="ios-share-social-sharp" size={26} color="#fff" />
          <Text style={{fontSize:16,color:"#fff",marginLeft:20,fontWeight:800}}>SHARE WITH FRIEND'S</Text>
