@@ -11,10 +11,6 @@
       "resizeMode": "contain",
       "backgroundColor": "#ff4242"
     },
-    "updates": {
-      "fallbackToCacheTimeout": 60000,
-      "url": "https://u.expo.dev/31e16bb3-9f3b-4ccf-9d06-d97345783a30"
-    },
     "assetBundlePatterns": [
       "**/*"
     ],
@@ -38,14 +34,15 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "runtimeVersion": "1.0.0",
+    "owner": "saketkumar",
     "extra": {
       "eas": {
-        "projectId": "31e16bb3-9f3b-4ccf-9d06-d97345783a30"
+        "projectId": "25558b89-c33e-485c-9442-922576380b2a"
       }
     },
-    "runtimeVersion": {
-      "policy": "sdkVersion"
-    },
-    "owner": "saketkumar"
+    "updates": {
+      "url": "https://u.expo.dev/25558b89-c33e-485c-9442-922576380b2a"
+    }
   }
 }

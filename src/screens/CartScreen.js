@@ -119,7 +119,7 @@ const CartScreen = ({ navigation }) => {
             <Text style={styles.cartText1}> Your Cart Is Empty. Add some food 😋</Text>
             <TouchableOpacity
             style={styles.button1}
-            onPress={() => navigation.navigate("homeScreen")}
+            onPress={() => navigation.navigate("HOME")}
           >
             <Text style={styles.buttonText}>Go Home</Text>
           </TouchableOpacity>
