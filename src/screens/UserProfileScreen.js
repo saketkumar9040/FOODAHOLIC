@@ -89,8 +89,8 @@ const UserProfileScreen = ({ navigation }) => {
       .where("uid", "==", userLoggedUid);
     const doc = await docRef.get();
     if (!doc.empty) {
-      doc.forEach((doc) => {
-        setUserData(doc.data());
+      doc.forEach(async(doc) => {
+       await setUserData(doc.data());
       });
     } 
     } catch (error) {
