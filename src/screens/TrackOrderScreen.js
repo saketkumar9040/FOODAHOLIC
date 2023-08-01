@@ -13,7 +13,7 @@ import { colors } from "../globals/style";
 import BottomNav from "../components/BottomNav";
 import HomeHeadNav from "../components/HomeHeadNav";
 import { firebase } from "../firebase/FirebaseConfig";
-import { MaterialIcons, FontAwesome } from "@expo/vector-icons";
+import { MaterialIcons, FontAwesome,MaterialCommunityIcons} from "@expo/vector-icons";
 
 const TrackOrderScreen = ({ navigation }) => {
   const [orders, setOrders] = useState([]);
@@ -70,7 +70,14 @@ const TrackOrderScreen = ({ navigation }) => {
           <MaterialIcons name="delivery-dining" size={45} color="#fff" />
           </View>
         </View>
-        <ScrollView style={styles.containerIn}>
+        {
+          orders.length >0  && <View style={{flex:1,backgroundColor:"#ff4242",alignItems:"center",justifyContent:"center"}}>
+                 <MaterialCommunityIcons name="emoticon-sad-outline" size={150} color="#fff" />
+                 <Text style={{fontSize:30,color:"#fff",fontWeight:600,}}>SORRY</Text>
+                 <Text style={{fontSize:20,color:"#fff",fontWeight:600,}}>YOU HAVE NO ORDERS!</Text>
+          </View>
+        }
+        {/* <ScrollView style={styles.containerIn}>
           {orders.reverse().map((item, index) => {
             return (
               <View style={styles.orderCard} key={index}>
@@ -194,7 +201,7 @@ const TrackOrderScreen = ({ navigation }) => {
               </View>
             );
           })}
-        </ScrollView>
+        </ScrollView> */}
       </View>
       <BottomNav navigation={navigation} />
     </>
