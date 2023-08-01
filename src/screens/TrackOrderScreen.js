@@ -65,7 +65,7 @@ const TrackOrderScreen = ({ navigation }) => {
           <TouchableOpacity style={styles.backButtonContainer} onPress={()=>navigation.navigate("HOME")}>
             <FontAwesome name="arrow-left" size={24} color="#fff" />
           </TouchableOpacity>
-          <View style={{flexDirection:"row",alignItems:"center",justifyContent:"center"}} >
+          <View style={{flex:1,flexDirection:"row",marginLeft:10,alignItems:"center",justifyContent:"center"}} >
           <Text style={styles.head}>TRACK-ORDERS</Text>
           <MaterialIcons name="delivery-dining" size={45} color="#fff" />
           </View>
@@ -260,7 +260,6 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: colors.color1,
     marginRight: 10,
-    marginLeft: 30,
     fontWeight: 700,
   },
   cartImage: {
