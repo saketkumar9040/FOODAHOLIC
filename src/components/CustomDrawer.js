@@ -72,7 +72,7 @@ const CustomDrawer = (props) => {
   return (
     <View style={{ flex: 1, backgroundColor: "#ff4242" }}>
       <View style={styles.userDetailsContainer}>
-        <Image style={styles.image} source={{ uri: storedUserData.avatar }} />
+        <Image style={styles.image} source={{ uri: storedUserData?.avatar }} />
       <Text style={styles.name}>{storedUserData?.name?.toUpperCase()}</Text>
       </View>
       <DrawerContentScrollView {...props} contentContainerStyle={{}}>

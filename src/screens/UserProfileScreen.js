@@ -308,7 +308,7 @@ const UserProfileScreen = ({ navigation }) => {
       .auth()
       .signOut()
       .then(async() => {
-        await dispatch(autoLogin({email:null,password:null}))
+        await dispatch(autoLogin({email:null,password:null,userData:null}))
         alert("Logout successfully");
         // navigation.navigate("loginScreen",{isLoggedIn:false});
       })

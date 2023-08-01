@@ -9,7 +9,7 @@ import 'react-native-gesture-handler';
 
 export default function App() {
   // CHECKING FOR UPDATES AS APP STARTS
-   useEffect(()=>{
+   
     const checkForUpdates = async() => {
       try {
         const update = await Updates.checkForUpdateAsync()
@@ -34,6 +34,7 @@ export default function App() {
         }
       }
     };
+    useEffect(()=>{
     checkForUpdates();
    },[]);
 
