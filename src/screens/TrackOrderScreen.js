@@ -24,8 +24,8 @@ const TrackOrderScreen = ({ navigation }) => {
       .collection("UserOrders")
       .where("orderuseruid", "==", firebase.auth().currentUser.uid);
 
-    await orderRef.onSnapshot((snapshot) =>
-      setOrders(snapshot.docs.map((doc) => doc.data()))
+    await orderRef.onSnapshot(async(snapshot) =>
+     await setOrders(snapshot.docs.map((doc) => doc.data()))
     );
   };
 
@@ -71,13 +71,13 @@ const TrackOrderScreen = ({ navigation }) => {
           </View>
         </View>
         {
-          orders.length >0  && <View style={{flex:1,backgroundColor:"#ff4242",alignItems:"center",justifyContent:"center"}}>
+          !orders || orders.length === 0  && <View style={{flex:1,backgroundColor:"#ff4242",alignItems:"center",justifyContent:"center"}}>
                  <MaterialCommunityIcons name="emoticon-sad-outline" size={150} color="#fff" />
                  <Text style={{fontSize:30,color:"#fff",fontWeight:600,}}>SORRY</Text>
                  <Text style={{fontSize:20,color:"#fff",fontWeight:600,}}>YOU HAVE NO ORDERS!</Text>
           </View>
         }
-        {/* <ScrollView style={styles.containerIn}>
+        <ScrollView style={styles.containerIn}>
           {orders.reverse().map((item, index) => {
             return (
               <View style={styles.orderCard} key={index}>
@@ -201,7 +201,7 @@ const TrackOrderScreen = ({ navigation }) => {
               </View>
             );
           })}
-        </ScrollView> */}
+        </ScrollView>
       </View>
       <BottomNav navigation={navigation} />
     </>
