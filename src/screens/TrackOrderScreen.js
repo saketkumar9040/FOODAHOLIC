@@ -53,13 +53,13 @@ const TrackOrderScreen = ({ navigation }) => {
 
   return (
     <>
+      <View style={styles.container}>
       <StatusBar
         barStyle="light-content"
         hidden={false}
         backgroundColor="#ff4242"
         translucent={false}
       />
-      <View style={styles.container}>
         {/* <HomeHeadNav navigation={navigation} /> */}
         <View style={styles.headContainer}>
           <TouchableOpacity style={styles.backButtonContainer} onPress={()=>navigation.navigate("HOME")}>
@@ -71,12 +71,11 @@ const TrackOrderScreen = ({ navigation }) => {
           </View>
         </View>
         {
-          !orders || orders.length === 0  && <View style={{flex:1,backgroundColor:"#ff4242",alignItems:"center",justifyContent:"center"}}>
+          !orders || orders.length === 0  ? <View style={{flex:1,backgroundColor:"#ff4242",alignItems:"center",justifyContent:"center"}}>
                  <MaterialCommunityIcons name="emoticon-sad-outline" size={150} color="#fff" />
                  <Text style={{fontSize:30,color:"#fff",fontWeight:600,}}>SORRY</Text>
                  <Text style={{fontSize:20,color:"#fff",fontWeight:600,}}>YOU HAVE NO ORDERS!</Text>
-          </View>
-        }
+          </View> : (
         <ScrollView style={styles.containerIn}>
           {orders.reverse().map((item, index) => {
             return (
@@ -202,8 +201,10 @@ const TrackOrderScreen = ({ navigation }) => {
             );
           })}
         </ScrollView>
-      </View>
+          )
+        }
       <BottomNav navigation={navigation} />
+      </View>
     </>
   );
 };
