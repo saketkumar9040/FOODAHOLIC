@@ -13,8 +13,6 @@ import PlaceOrderScreen from "../screens/PlaceOrderScreen.js";
 import TrackOrderScreen from "../screens/TrackOrderScreen.js";
 import SuccessfulOrderScreen from "../screens/SuccessfulOrderScreen.js";
 import SearchScreen from "../screens/SearchScreen.js";
-import * as Updates from "expo-updates"; // Updates*
-import { useEffect, useState } from "react";
 import { Provider, useSelector } from "react-redux";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import CustomDrawer from "../components/CustomDrawer.js";
