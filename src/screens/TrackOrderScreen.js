@@ -6,14 +6,14 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
-  StatusBar
+  StatusBar,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { colors } from "../globals/style";
 import BottomNav from "../components/BottomNav";
 import HomeHeadNav from "../components/HomeHeadNav";
 import { firebase } from "../firebase/FirebaseConfig";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons, FontAwesome } from "@expo/vector-icons";
 
 const TrackOrderScreen = ({ navigation }) => {
   const [orders, setOrders] = useState([]);
@@ -46,156 +46,154 @@ const TrackOrderScreen = ({ navigation }) => {
       .collection("UserOrders")
       .doc(item.orderid)
       .update({
-        orderstatus:"cancelled"
+        orderstatus: "cancelled",
       });
-      getOrders();
+    getOrders();
   };
 
   return (
     <>
-        <StatusBar
-          barStyle="light-content"
-          hidden={false}
-          backgroundColor="#ff4242"
-          translucent={false}
-        />
+      <StatusBar
+        barStyle="light-content"
+        hidden={false}
+        backgroundColor="#ff4242"
+        translucent={false}
+      />
       <View style={styles.container}>
         {/* <HomeHeadNav navigation={navigation} /> */}
         <View style={styles.headContainer}>
+          <TouchableOpacity style={styles.backButtonContainer} onPress={()=>navigation.navigate("HOME")}>
+            <FontAwesome name="arrow-left" size={24} color="#fff" />
+          </TouchableOpacity>
+          <View style={{flexDirection:"row",alignItems:"center",justifyContent:"center"}} >
           <Text style={styles.head}>TRACK-ORDERS</Text>
           <MaterialIcons name="delivery-dining" size={45} color="#fff" />
+          </View>
         </View>
         <ScrollView style={styles.containerIn}>
-          {orders.reverse()
-            .map((item, index) => {
-              return (
-                <View style={styles.orderCard} key={index}>
-                  <Text style={styles.orderIndex}>{index + 1}</Text>
-                  <Text style={styles.orderText}>
-                    order id : {item.orderid}
+          {orders.reverse().map((item, index) => {
+            return (
+              <View style={styles.orderCard} key={index}>
+                <Text style={styles.orderIndex}>{index + 1}</Text>
+                <Text style={styles.orderText}>order id : {item.orderid}</Text>
+                <Text style={styles.orderText}>
+                  order date : {convertDate(item.orderdate)}
+                </Text>
+                {item.orderstatus == "ontheway" && (
+                  <Text style={styles.orderOtw}>Your Order Is On The Way</Text>
+                )}
+                {item.orderstatus == "delivered" && (
+                  <Text style={styles.orderDelivered}>
+                    Your Order was successfully Delivered
                   </Text>
-                  <Text style={styles.orderText}>
-                    order date : {convertDate(item.orderdate)}
+                )}
+                {item.orderstatus == "cancelled" && (
+                  <Text style={styles.orderCancelled}>
+                    Your Order was cancelled
                   </Text>
-                  {item.orderstatus == "ontheway" && (
-                    <Text style={styles.orderOtw}>
-                      Your Order Is On The Way
+                )}
+                {item.orderstatus == "pending" && (
+                  <Text style={styles.orderPending}>Your Order Is Pending</Text>
+                )}
+                <View style={styles.row1}>
+                  <Text style={styles.orderText1}>
+                    Delivery Agent Name & Contact
+                  </Text>
+                  {item.deliveryboyname ? (
+                    <Text style={styles.orderText3}>
+                      {item.deliveryboyname} : {item.deliveryboyphone}
                     </Text>
+                  ) : (
+                    <Text style={styles.orderText2}>Not Assigned</Text>
                   )}
-                  {item.orderstatus == "delivered" && (
-                    <Text style={styles.orderDelivered}>
-                      Your Order was successfully Delivered
-                    </Text>
-                  )}
-                  {item.orderstatus == "cancelled" && (
-                    <Text style={styles.orderCancelled}>
-                      Your Order was cancelled
-                    </Text>
-                  )}
-                  {item.orderstatus == "pending" && (
-                    <Text style={styles.orderPending}>
-                      Your Order Is Pending
-                    </Text>
-                  )}
-                  <View style={styles.row1}>
-                    <Text style={styles.orderText1}>
-                      Delivery Agent Name & Contact
-                    </Text>
-                    {item.deliveryboyname ? (
-                      <Text style={styles.orderText3}>
-                        {item.deliveryboyname} : {item.deliveryboyphone}
-                      </Text>
-                    ) : (
-                      <Text style={styles.orderText2}>Not Assigned</Text>
-                    )}
-                  </View>
-                  <FlatList
-                    showsHorizontalScrollIndicator={false}
-                    showsVerticalScrollIndicator={false}
-                    style={styles.cartList}
-                    data={item.orderdata}
-                    renderItem={({ item }) => {
-                      // console.log(item)
-                      return (
-                        <View style={styles.rowOut}>
+                </View>
+                <FlatList
+                  showsHorizontalScrollIndicator={false}
+                  showsVerticalScrollIndicator={false}
+                  style={styles.cartList}
+                  data={item.orderdata}
+                  renderItem={({ item }) => {
+                    // console.log(item)
+                    return (
+                      <View style={styles.rowOut}>
+                        <View style={styles.row}>
+                          <Image
+                            source={{ uri: item?.data?.foodImageUrl }}
+                            style={styles.cartImage}
+                          />
+                          <View style={styles.rowLeft}>
+                            <Text style={styles.quantity}>
+                              {item.foodQuantity}
+                            </Text>
+                            <Text style={styles.title}>
+                              {item.data.foodName}
+                            </Text>
+                            <Text style={styles.price1}>
+                              ₹{item.data.price}/each
+                            </Text>
+                          </View>
+                          <View style={styles.rowRight}>
+                            <Text style={styles.itemPrice}>
+                              ₹
+                              {parseInt(item.foodQuantity) *
+                                parseInt(item.data.price)}
+                              /-
+                            </Text>
+                          </View>
+                        </View>
+                        {item.addOnQuantity > 0 && (
                           <View style={styles.row}>
-                            <Image
-                              source={{ uri: item?.data?.foodImageUrl }}
-                              style={styles.cartImage}
-                            />
+                            <Image style={styles.cartImage} />
                             <View style={styles.rowLeft}>
                               <Text style={styles.quantity}>
-                                {item.foodQuantity}
+                                {item.addOnQuantity}
                               </Text>
                               <Text style={styles.title}>
-                                {item.data.foodName}
+                                {item.data.foodAddOn}
                               </Text>
                               <Text style={styles.price1}>
-                                ₹{item.data.price}/each
+                                ₹{item.data.foodAddOnPrice}/each
                               </Text>
                             </View>
                             <View style={styles.rowRight}>
                               <Text style={styles.itemPrice}>
                                 ₹
-                                {parseInt(item.foodQuantity) *
-                                  parseInt(item.data.price)}
+                                {parseInt(item.addOnQuantity) *
+                                  parseInt(item.data.foodAddOnPrice)}
                                 /-
                               </Text>
                             </View>
                           </View>
-                          {item.addOnQuantity > 0 && (
-                            <View style={styles.row}>
-                              <Image style={styles.cartImage} />
-                              <View style={styles.rowLeft}>
-                                <Text style={styles.quantity}>
-                                  {item.addOnQuantity}
-                                </Text>
-                                <Text style={styles.title}>
-                                  {item.data.foodAddOn}
-                                </Text>
-                                <Text style={styles.price1}>
-                                  ₹{item.data.foodAddOnPrice}/each
-                                </Text>
-                              </View>
-                              <View style={styles.rowRight}>
-                                <Text style={styles.itemPrice}>
-                                  ₹
-                                  {parseInt(item.addOnQuantity) *
-                                    parseInt(item.data.foodAddOnPrice)}
-                                  /-
-                                </Text>
-                              </View>
-                            </View>
-                          )}
-                        </View>
-                      );
+                        )}
+                      </View>
+                    );
+                  }}
+                />
+                <Text style={styles.total}>Total : ₹{item.ordercost}</Text>
+                {item.orderstatus == "delivered" ? (
+                  <Text style={styles.orderTextThankYou}>
+                    Thank You for Ordering With Us ☺
+                  </Text>
+                ) : null}
+                {item.orderstatus == "cancelled" ? (
+                  <Text style={styles.orderTextSorry}>
+                    Sorry for the Inconvenience caused 😔
+                  </Text>
+                ) : null}
+                {item.orderstatus !== "cancelled" &&
+                item.orderstatus !== "delivered" ? (
+                  <TouchableOpacity
+                    style={styles.cancelButton}
+                    onPress={() => {
+                      cancelOrder(item);
                     }}
-                  />
-                  <Text style={styles.total}>Total : ₹{item.ordercost}</Text>
-                  {item.orderstatus == "delivered" ? (
-                    <Text style={styles.orderTextThankYou}>
-                      Thank You for Ordering With Us ☺
-                    </Text>
-                  ) : null}
-                  {item.orderstatus == "cancelled" ? (
-                    <Text style={styles.orderTextSorry}>
-                      Sorry for the Inconvenience caused 😔
-                    </Text>
-                  ) : null}
-                  {item.orderstatus !== "cancelled" &&
-                  item.orderstatus !== "delivered" ? (
-                    <TouchableOpacity
-                      style={styles.cancelButton}
-                      onPress={() => {
-                        cancelOrder(item);
-                      }}
-                    >
-                      <Text style={styles.cancelButtonText}>Cancel Order</Text>
-                    </TouchableOpacity>
-                  ) : null}
-                </View>
-              );
-            })}
+                  >
+                    <Text style={styles.cancelButtonText}>Cancel Order</Text>
+                  </TouchableOpacity>
+                ) : null}
+              </View>
+            );
+          })}
         </ScrollView>
       </View>
       <BottomNav navigation={navigation} />
@@ -233,33 +231,37 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 900,
     alignSelf: "center",
-    textAlign:"center",
+    textAlign: "center",
     // borderRadius:80,
-    borderWidth:5,
-    borderColor:colors.bgColor,
-    paddingHorizontal:10,
-    marginTop:-24,
-    borderBottomLeftRadius:25,
-    borderBottomRightRadius:25,
+    borderWidth: 5,
+    borderColor: colors.bgColor,
+    paddingHorizontal: 10,
+    marginTop: -24,
+    borderBottomLeftRadius: 25,
+    borderBottomRightRadius: 25,
   },
   headContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    // justifyContent: "center",
     // height: "8%",
     width: "100%",
     // backgroundColor:colors.color1,
     // elevation:10,
     // backgroundColor:"blue"
-    borderBottomWidth:5,
+    // borderBottomWidth: 5,
     // borderRadius:20,
-    borderColor:"#ff4242"
+    borderColor: "#ff4242",
+  },
+  backButtonContainer: {
+    marginLeft:10,
   },
   head: {
     fontSize: 25,
     color: colors.color1,
     marginRight: 10,
-    fontWeight:700,
+    marginLeft: 30,
+    fontWeight: 700,
   },
   cartImage: {
     width: 80,
@@ -345,12 +347,12 @@ const styles = StyleSheet.create({
     fontSize: 23,
     fontWeight: 800,
     color: colors.price,
-    alignSelf:"flex-end",
+    alignSelf: "flex-end",
     marginVertical: 10,
-    backgroundColor:colors.color1,
-    padding:5,
-    elevation:10,
-    borderRadius:40,
+    backgroundColor: colors.color1,
+    padding: 5,
+    elevation: 10,
+    borderRadius: 40,
   },
   orderText3: {
     fontSize: 17,
@@ -373,12 +375,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.color1,
     alignSelf: "center",
     padding: 5,
-    margin:7,
+    margin: 7,
     color: colors.price,
     fontSize: 16,
     fontWeight: 700,
-    elevation:10,
-    borderRadius:50,
+    elevation: 10,
+    borderRadius: 50,
   },
   orderTextThankYou: {
     fontSize: 22,
@@ -401,7 +403,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginVertical: 10,
     alignSelf: "center",
-    elevation:10,
+    elevation: 10,
   },
   cancelButtonText: {
     fontSize: 20,
@@ -416,7 +418,6 @@ const styles = StyleSheet.create({
     fontWeight: 700,
     color: colors.color1,
     borderRadius: 30,
-    
   },
   orderDelivered: {
     fontSize: 18,
