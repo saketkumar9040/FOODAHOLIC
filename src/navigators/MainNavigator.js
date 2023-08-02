@@ -2,10 +2,6 @@ import { Alert, StyleSheet } from "react-native";
 import "expo-dev-client";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import WelcomeScreen from "../screens/WelcomeScreen.js";
-import LoginScreen from "../screens/LoginScreen.js";
-import SignUpScreen from "../screens/SignUpScreen.js";
-import HomeScreen from "../screens/HomeScreen.js";
 import UserProfileScreen from "../screens/UserProfileScreen.js";
 import ProductScreen from "../screens/ProductScreen.js";
 import CartScreen from "../screens/CartScreen.js";
@@ -14,104 +10,15 @@ import TrackOrderScreen from "../screens/TrackOrderScreen.js";
 import SuccessfulOrderScreen from "../screens/SuccessfulOrderScreen.js";
 import SearchScreen from "../screens/SearchScreen.js";
 import { Provider, useSelector } from "react-redux";
-// import { createDrawerNavigator } from "@react-navigation/drawer";
 import CustomDrawer from "../components/CustomDrawer.js";
 import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 import * as Updates from "expo-updates";
 import { useState , useEffect} from "react";
 import UpdatingScreen from "../screens/UpdatingScreen.js";
 import { DrawerNavigator } from "./DrawerNavigator.js";
-// const Drawer = createDrawerNavigator();
-const Stack = createNativeStackNavigator();
+import AuthNavigator from "./AuthNavigator.js";
 
-// const DrawerNavigator = () => {
-//   return (
-//     <Drawer.Navigator
-//       screenOptions={{
-//         drawerActiveBackgroundColor: "#fff",
-//         drawerActiveTintColor: "#ff4242",
-//         drawerInactiveTintColor: "#fff",
-//         drawerLabelStyle: {
-//           fontSize: 16,
-//           fontWeight: 800,
-//           marginLeft: -15,
-//         },
-//       }}
-//       drawerContent={(props) => <CustomDrawer {...props} />}
-//     >
-//       <Drawer.Screen
-//         name="HOME"
-//         component={HomeScreen}
-//         options={{
-//           headerShown: false,
-//           drawerIcon: ({ focused }) => (
-//             <FontAwesome5
-//               name="home"
-//               size={24}
-//               color={focused ? "#ff4242" : "#fff"}
-//             />
-//           ),
-//         }}
-//       />
-//       <Drawer.Screen
-//         name="PROFILE"
-//         component={UserProfileScreen}
-//         options={{
-//           headerShown: false,
-//           drawerIcon: ({ focused }) => (
-//             <FontAwesome5
-//               name="user-alt"
-//               size={24}
-//               color={focused ? "#ff4242" : "#fff"}
-//             />
-//           ),
-//         }}
-//       />
-//       <Drawer.Screen
-//         name="SEARCH"
-//         component={SearchScreen}
-//         options={{
-//           headerShown: false,
-//           drawerIcon: ({ focused }) => (
-//             <FontAwesome
-//               name="search"
-//               size={24}
-//               color={focused ? "#ff4242" : "#fff"}
-//             />
-//           ),
-//         }}
-//       />
-//       <Drawer.Screen
-//         name="GO TO CART"
-//         component={CartScreen}
-//         options={{
-//           headerShown: false,
-//           drawerIcon: ({ focused }) => (
-//             <FontAwesome
-//               name="shopping-cart"
-//               size={24}
-//               color={focused ? "#ff4242" : "#fff"}
-//             />
-//           ),
-//         }}
-//       />
-//       <Drawer.Screen
-//         name="TRACK ORDER"
-//         component={TrackOrderScreen}
-//         options={{
-//           headerShown: false,
-//           drawerIcon: ({ focused }) => (
-//             <FontAwesome5
-//               name="map-marked-alt"
-//               size={24}
-//               color={focused ? "#ff4242" : "#fff"}
-//             />
-//           ),
-//         }}
-//       />
-//     </Drawer.Navigator>
-//   );
-// };
+const Stack = createNativeStackNavigator();
 
 const MainNavigator = () => {
   
@@ -165,30 +72,11 @@ const MainNavigator = () => {
         <UpdatingScreen/>
       ) : (
         <NavigationContainer>
-          <Stack.Navigator
-            screenOptions={{ animation: "none" }}
-            initialRouteName="welcomeScreen"
-          >
             {isAuthenticated === false ? (
-              <>
-                <Stack.Screen
-                  name="welcomeScreen"
-                  component={WelcomeScreen}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="loginScreen"
-                  component={LoginScreen}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="signUpScreen"
-                  component={SignUpScreen}
-                  options={{ headerShown: false }}
-                />
-              </>
+                <AuthNavigator/>
             ) : (
-              <>
+              <Stack.Navigator>
+            
                 <Stack.Screen
                   name="homeScreen"
                   component={DrawerNavigator}
@@ -229,9 +117,9 @@ const MainNavigator = () => {
                   component={SearchScreen}
                   options={{ headerShown: false }}
                 />
-              </>
+              </Stack.Navigator>
             )}
-          </Stack.Navigator>
+        
         </NavigationContainer>
       )}
     </>
