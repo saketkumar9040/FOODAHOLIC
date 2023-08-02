@@ -17,8 +17,12 @@ import { Provider, useSelector } from "react-redux";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import CustomDrawer from "../components/CustomDrawer.js";
 import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
+import * as Updates from "expo-updates";
+import { useState , useEffect} from "react";
+import UpdatingScreen from "../screens/UpdatingScreen.js";
 
 const Drawer = createDrawerNavigator();
+const Stack = createNativeStackNavigator();
 
 const DrawerNavigator = () => {
   return (
@@ -27,11 +31,11 @@ const DrawerNavigator = () => {
         drawerActiveBackgroundColor: "#fff",
         drawerActiveTintColor: "#ff4242",
         drawerInactiveTintColor: "#fff",
-        drawerLabelStyle:{
-          fontSize:16,
-          fontWeight:800,
-          marginLeft:-15,
-        }
+        drawerLabelStyle: {
+          fontSize: 16,
+          fontWeight: 800,
+          marginLeft: -15,
+        },
       }}
       drawerContent={(props) => <CustomDrawer {...props} />}
     >
@@ -40,9 +44,13 @@ const DrawerNavigator = () => {
         component={HomeScreen}
         options={{
           headerShown: false,
-          drawerIcon: ({focused}) => (
-            <FontAwesome5 name="home" size={24} color={focused?"#ff4242":"#fff"} />
-          )
+          drawerIcon: ({ focused }) => (
+            <FontAwesome5
+              name="home"
+              size={24}
+              color={focused ? "#ff4242" : "#fff"}
+            />
+          ),
         }}
       />
       <Drawer.Screen
@@ -50,9 +58,13 @@ const DrawerNavigator = () => {
         component={UserProfileScreen}
         options={{
           headerShown: false,
-          drawerIcon: ({focused}) => (
-            <FontAwesome5 name="user-alt" size={24} color={focused?"#ff4242":"#fff"} />
-          )
+          drawerIcon: ({ focused }) => (
+            <FontAwesome5
+              name="user-alt"
+              size={24}
+              color={focused ? "#ff4242" : "#fff"}
+            />
+          ),
         }}
       />
       <Drawer.Screen
@@ -60,9 +72,13 @@ const DrawerNavigator = () => {
         component={SearchScreen}
         options={{
           headerShown: false,
-          drawerIcon: ({focused}) => (
-            <FontAwesome name="search" size={24} color={focused?"#ff4242":"#fff"} />
-          )
+          drawerIcon: ({ focused }) => (
+            <FontAwesome
+              name="search"
+              size={24}
+              color={focused ? "#ff4242" : "#fff"}
+            />
+          ),
         }}
       />
       <Drawer.Screen
@@ -70,9 +86,13 @@ const DrawerNavigator = () => {
         component={CartScreen}
         options={{
           headerShown: false,
-          drawerIcon: ({focused}) => (
-            <FontAwesome name="shopping-cart" size={24} color={focused?"#ff4242":"#fff"} />
-          )
+          drawerIcon: ({ focused }) => (
+            <FontAwesome
+              name="shopping-cart"
+              size={24}
+              color={focused ? "#ff4242" : "#fff"}
+            />
+          ),
         }}
       />
       <Drawer.Screen
@@ -80,9 +100,13 @@ const DrawerNavigator = () => {
         component={TrackOrderScreen}
         options={{
           headerShown: false,
-          drawerIcon: ({focused}) => (
-            <FontAwesome5 name="map-marked-alt" size={24} color={focused?"#ff4242":"#fff"} />
-          )
+          drawerIcon: ({ focused }) => (
+            <FontAwesome5
+              name="map-marked-alt"
+              size={24}
+              color={focused ? "#ff4242" : "#fff"}
+            />
+          ),
         }}
       />
     </Drawer.Navigator>
@@ -90,83 +114,127 @@ const DrawerNavigator = () => {
 };
 
 const MainNavigator = () => {
-  const isAuthenticated = useSelector(
-    (state) => state.auth.userData !== null
-  );
+  
+  // CHECKING FOR UPDATES AS APP STARTS ====================================================>
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  const checkForUpdates = async () => {
+    try {
+      const update = await Updates.checkForUpdateAsync();
+      if (update.isAvailable) {
+        setIsUpdating(true);
+        await Updates.fetchUpdateAsync();
+        await Updates.reloadAsync();
+        setIsUpdating(false);
+        Alert.alert(
+          "App updated Successfully🤩,Thank You for your patience🙏"
+        );
+      }
+    } catch (error) {
+      if (
+        error.message ===
+        "You cannot check for updates in development mode. To test manual updates, publish your project using `expo publish` and open the published version in this development client."
+      ) {
+        console.log(error.message);
+        return;
+      }
+      if (
+        error.message ===
+        "You cannot check for updates in development mode. To test manual updates, make a release build with `npm run ios --configuration Release` or `npm run android --variant Release`."
+      ) {
+        console.log(error.message);
+        return;
+      } else {
+        Alert.alert("Expo updates error: " + error.message);
+        console.log(error.message);
+      }
+    }
+  };
+  // CHECKING FOR UPDATES ENDS ================================================================>
+
+  useEffect(() => {
+    checkForUpdates();
+  }, []);
+
+  const isAuthenticated = useSelector((state) => state.auth.userData !== null);
   // console.log(isAuthenticated);
 
-  const Stack = createNativeStackNavigator();
-
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{ animation: "none" }}
-        initialRouteName="welcomeScreen"
-      >
-        {isAuthenticated === false ? (
-          <>
-            <Stack.Screen
-              name="welcomeScreen"
-              component={WelcomeScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="loginScreen"
-              component={LoginScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="signUpScreen"
-              component={SignUpScreen}
-              options={{ headerShown: false }}
-            />
-          </>
-        ) : (
-          <>
-            <Stack.Screen
-              name="homeScreen"
-              component={DrawerNavigator}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="userProfileScreen"
-              component={UserProfileScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="productScreen"
-              component={ProductScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="cartScreen"
-              component={CartScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="placeOrderScreen"
-              component={PlaceOrderScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="trackOrderScreen"
-              component={TrackOrderScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="successfulOrderScreen"
-              component={SuccessfulOrderScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="searchScreen"
-              component={SearchScreen}
-              options={{ headerShown: false }}
-            />
-          </>
-        )}
-      </Stack.Navigator>
-    </NavigationContainer>
+    <>
+      {isUpdating ? (
+        <UpdatingScreen/>
+      ) : (
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{ animation: "none" }}
+            initialRouteName="welcomeScreen"
+          >
+            {isAuthenticated === false ? (
+              <>
+                <Stack.Screen
+                  name="welcomeScreen"
+                  component={WelcomeScreen}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="loginScreen"
+                  component={LoginScreen}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="signUpScreen"
+                  component={SignUpScreen}
+                  options={{ headerShown: false }}
+                />
+              </>
+            ) : (
+              <>
+                <Stack.Screen
+                  name="homeScreen"
+                  component={DrawerNavigator}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="userProfileScreen"
+                  component={UserProfileScreen}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="productScreen"
+                  component={ProductScreen}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="cartScreen"
+                  component={CartScreen}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="placeOrderScreen"
+                  component={PlaceOrderScreen}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="trackOrderScreen"
+                  component={TrackOrderScreen}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="successfulOrderScreen"
+                  component={SuccessfulOrderScreen}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="searchScreen"
+                  component={SearchScreen}
+                  options={{ headerShown: false }}
+                />
+              </>
+            )}
+          </Stack.Navigator>
+        </NavigationContainer>
+      )}
+    </>
   );
 };
 
