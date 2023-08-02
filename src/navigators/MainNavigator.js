@@ -1,30 +1,36 @@
-import { Alert, StyleSheet } from "react-native";
+import { Alert, } from "react-native";
 import "expo-dev-client";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import UserProfileScreen from "../screens/UserProfileScreen.js";
-import ProductScreen from "../screens/ProductScreen.js";
-import CartScreen from "../screens/CartScreen.js";
-import PlaceOrderScreen from "../screens/PlaceOrderScreen.js";
-import TrackOrderScreen from "../screens/TrackOrderScreen.js";
-import SuccessfulOrderScreen from "../screens/SuccessfulOrderScreen.js";
-import SearchScreen from "../screens/SearchScreen.js";
-import { Provider, useSelector } from "react-redux";
-import CustomDrawer from "../components/CustomDrawer.js";
-import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
 import * as Updates from "expo-updates";
 import { useState, useEffect } from "react";
 import UpdatingScreen from "../screens/UpdatingScreen.js";
-import { DrawerNavigator } from "./DrawerNavigator.js";
 import AuthNavigator from "./AuthNavigator.js";
 import AppNavigator from "./AppNavigator.js";
+import NoInternetScreen from "../screens/NoInternetScreen.js";
+import NetInfo from "@react-native-community/netinfo"
 
 const Stack = createNativeStackNavigator();
 
 const MainNavigator = () => {
-  // CHECKING FOR UPDATES AS APP STARTS ====================================================>
-  const [isUpdating, setIsUpdating] = useState(false);
 
+  const [networkStatus,setNetworkStatus]= useState(false)
+  const [isUpdating, setIsUpdating] = useState(false);
+  
+  // CHECKING INTERNET CONNECTIVITY START ===================================>
+
+  const unsubscribe = () => NetInfo.addEventListener(state => {
+    setNetworkStatus(state.isConnected)
+    // console.log("Connection type", state.type);
+    // console.log("Is connected?", state.isConnected);
+  });
+  useEffect(()=>{
+    unsubscribe();
+  },[])
+
+  // CHECKING FOR UPDATES AS APP STARTS ====================================================>
+  
   const checkForUpdates = async () => {
     try {
       const update = await Updates.checkForUpdateAsync();
@@ -55,25 +61,20 @@ const MainNavigator = () => {
       }
     }
   };
-  // CHECKING FOR UPDATES ENDS ================================================================>
+  checkForUpdates();
 
-  useEffect(() => {
-    checkForUpdates();
-  }, []);
+  // CHECKING FOR UPDATES ENDS ================================================================>
 
   const isAuthenticated = useSelector((state) => state.auth.userData !== null);
   // console.log(isAuthenticated);
 
   return (
-    <>
-      {isUpdating ? (
-        <UpdatingScreen />
-      ) : (
         <NavigationContainer>
-          {isAuthenticated === false ? <AuthNavigator /> : <AppNavigator />}
+          {!networkStatus && <NoInternetScreen/>}
+          {isUpdating && <UpdatingScreen/>}
+          {!isAuthenticated && !isUpdating ? <AuthNavigator /> : <AppNavigator />}
         </NavigationContainer>
-      )}
-    </>
+  
   );
 };
 

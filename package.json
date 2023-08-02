@@ -36,7 +36,8 @@
     "react-native-screens": "~3.20.0",
     "react-native-swiper": "^1.6.0",
     "react-native-web": "~0.18.10",
-    "react-redux": "^8.1.1"
+    "react-redux": "^8.1.1",
+    "@react-native-community/netinfo": "9.3.7"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
