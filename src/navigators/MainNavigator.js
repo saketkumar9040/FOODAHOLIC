@@ -13,15 +13,15 @@ import { Provider, useSelector } from "react-redux";
 import CustomDrawer from "../components/CustomDrawer.js";
 import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 import * as Updates from "expo-updates";
-import { useState , useEffect} from "react";
+import { useState, useEffect } from "react";
 import UpdatingScreen from "../screens/UpdatingScreen.js";
 import { DrawerNavigator } from "./DrawerNavigator.js";
 import AuthNavigator from "./AuthNavigator.js";
+import AppNavigator from "./AppNavigator.js";
 
 const Stack = createNativeStackNavigator();
 
 const MainNavigator = () => {
-  
   // CHECKING FOR UPDATES AS APP STARTS ====================================================>
   const [isUpdating, setIsUpdating] = useState(false);
 
@@ -33,9 +33,7 @@ const MainNavigator = () => {
         await Updates.fetchUpdateAsync();
         await Updates.reloadAsync();
         setIsUpdating(false);
-        Alert.alert(
-          "App updated Successfully🤩,Thank You for your patience🙏"
-        );
+        Alert.alert("App updated Successfully🤩,Thank You for your patience🙏");
       }
     } catch (error) {
       if (
@@ -69,57 +67,10 @@ const MainNavigator = () => {
   return (
     <>
       {isUpdating ? (
-        <UpdatingScreen/>
+        <UpdatingScreen />
       ) : (
         <NavigationContainer>
-            {isAuthenticated === false ? (
-                <AuthNavigator/>
-            ) : (
-              <Stack.Navigator>
-            
-                <Stack.Screen
-                  name="homeScreen"
-                  component={DrawerNavigator}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="userProfileScreen"
-                  component={UserProfileScreen}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="productScreen"
-                  component={ProductScreen}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="cartScreen"
-                  component={CartScreen}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="placeOrderScreen"
-                  component={PlaceOrderScreen}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="trackOrderScreen"
-                  component={TrackOrderScreen}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="successfulOrderScreen"
-                  component={SuccessfulOrderScreen}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="searchScreen"
-                  component={SearchScreen}
-                  options={{ headerShown: false }}
-                />
-              </Stack.Navigator>
-            )}
-        
+          {isAuthenticated === false ? <AuthNavigator /> : <AppNavigator />}
         </NavigationContainer>
       )}
     </>
