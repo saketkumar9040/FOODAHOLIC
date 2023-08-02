@@ -71,8 +71,9 @@ const MainNavigator = () => {
   return (
         <NavigationContainer>
           {!networkStatus && <NoInternetScreen/>}
-          {isUpdating && <UpdatingScreen/>}
-          {!isAuthenticated && !isUpdating ? <AuthNavigator /> : <AppNavigator />}
+          {networkStatus && isUpdating && <UpdatingScreen/>}
+          {networkStatus &&  !isUpdating && !isAuthenticated  && <AuthNavigator /> }
+          {networkStatus &&  !isUpdating && isAuthenticated &&  <AppNavigator />}
         </NavigationContainer>
   
   );
