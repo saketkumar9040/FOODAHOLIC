@@ -8,26 +8,16 @@ import { useState, useEffect } from "react";
 import UpdatingScreen from "../screens/UpdatingScreen.js";
 import AuthNavigator from "./AuthNavigator.js";
 import AppNavigator from "./AppNavigator.js";
-import NoInternetScreen from "../screens/NoInternetScreen.js";
-import NetInfo from "@react-native-community/netinfo"
+
 
 const Stack = createNativeStackNavigator();
 
 const MainNavigator = () => {
 
-  const [networkStatus,setNetworkStatus]= useState(false)
+  
   const [isUpdating, setIsUpdating] = useState(false);
   
-  // CHECKING INTERNET CONNECTIVITY START ===================================>
 
-  const unsubscribe = () => NetInfo.addEventListener(state => {
-    setNetworkStatus(state.isConnected)
-    // console.log("Connection type", state.type);
-    // console.log("Is connected?", state.isConnected);
-  });
-  useEffect(()=>{
-    unsubscribe();
-  },[])
 
   // CHECKING FOR UPDATES AS APP STARTS ====================================================>
   
@@ -56,7 +46,7 @@ const MainNavigator = () => {
         console.log(error.message);
         return;
       } else {
-        Alert.alert("Expo updates error: " + error.message);
+        // Alert.alert("Expo updates error: " + error.message);
         console.log(error.message);
       }
     }
@@ -70,10 +60,9 @@ const MainNavigator = () => {
 
   return (
         <NavigationContainer>
-          {!networkStatus && <NoInternetScreen/>}
-          {networkStatus && isUpdating && <UpdatingScreen/>}
-          {networkStatus &&  !isUpdating && !isAuthenticated  && <AuthNavigator /> }
-          {networkStatus &&  !isUpdating && isAuthenticated &&  <AppNavigator />}
+          {isUpdating && <UpdatingScreen/>}
+          {!isUpdating && !isAuthenticated  && <AuthNavigator /> }
+          {!isUpdating && isAuthenticated &&  <AppNavigator />}
         </NavigationContainer>
   
   );

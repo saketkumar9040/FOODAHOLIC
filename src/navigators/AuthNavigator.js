@@ -7,10 +7,7 @@ const Stack = createNativeStackNavigator();
 
 const AuthNavigator = () => {
   return (
-    <Stack.Navigator
-      screenOptions={{ animation: "none" }}
-      initialRouteName="welcomeScreen"
-    >
+    <Stack.Navigator >
       <Stack.Screen
         name="welcomeScreen"
         component={WelcomeScreen}
