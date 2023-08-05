@@ -42,11 +42,10 @@ const CustomDrawer = (props) => {
   const shareAppHandler = async () => {
     try {
       const result = await Share.share({
-        title: "Foodaholic App link",
         message:
-          "Install this app to feed your HUNGER😋 ",
-        url: "https://drive.google.com/uc?export=download&id=1Ahmp711jiQe-O5P1MQr9vz3xka7lfeWI",
-      });
+          `Install FOODAHOLIC APP to feed your HUNGER😋 
+           https://drive.google.com/uc?export=download&id=1Ahmp711jiQe-O5P1MQr9vz3xka7lfeWI`
+    });
       console.log(result)
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -55,7 +54,7 @@ const CustomDrawer = (props) => {
           // shared
         }
       } else if (result.action === Share.dismissedAction) {
-        // dismissed
+        return;
       }
     } catch (error) {
       alert(error.message);
